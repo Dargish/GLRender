@@ -6,6 +6,7 @@
 #include "ecs/World.h"
 #include "ecs/Entity.h"
 #include "ecs/systems/RenderSystem.h"
+#include "ecs/components/TransformComponent.h"
 #include "ecs/components/MeshComponent.h"
 #include "core/Window.h"
 #include "graphics/Shader.h"
@@ -86,16 +87,23 @@ void Game::start()
 	
 	setupInputManager();
 	
-	Shader shader;
-	shader.load("Content/Shaders/Generic.xml");
+	Shader_Ptr shader(new Shader);
+	shader->load("Content/Shaders/Generic.xml");
 
 	World_Ptr world(new World);
 	world->setCamera(Camera_Ptr(new FreeCamera));
-	world->addSystem(EntitySystem_Ptr(new RenderSystem));
+	world->createSystem<RenderSystem>();
 
-	Entity_Ptr cubeEntity = world->createEntity();
-	MeshComponent_Ptr cubeComponent = cubeEntity->createComponent<MeshComponent>();
-	cubeComponent->mesh = Cube::Create(1.0f);
+	for (size_t i = 0; i < 8; ++i)
+	{
+		Entity_Ptr cubeEntity = world->createEntity();
+		TransformComponent_Ptr transformComponent = cubeEntity->createComponent<TransformComponent>();
+		transformComponent->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
+		transformComponent->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
+		transformComponent->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
+		MeshComponent_Ptr cubeComponent = cubeEntity->createComponent<MeshComponent>();
+		cubeComponent->mesh = Cube::Create(1.0f);
+	}
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
@@ -138,12 +146,12 @@ void Game::start()
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		shader.enable();
-		shader.setValue("world", Matrix4());
-		shader.setValue("proj", world->camera()->projMatrix());
-		shader.setValue("view", world->camera()->viewMatrix());
+		Shader::Enable(shader);
+		shader->setValue("world", Matrix4());
+		shader->setValue("proj", world->camera()->projMatrix());
+		shader->setValue("view", world->camera()->viewMatrix());
 		world->draw(deltaTime);
-		shader.disable();
+		Shader::Disable(shader);
 
 		window->pushGLStates();
 		sf::Text text((boost::format("DirectionX: %s, DirectionY %s") % world->camera()->direction().x % world->camera()->direction().y).str(), m_font);

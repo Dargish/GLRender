@@ -39,6 +39,14 @@ namespace ecs
 		iterator end();
 		const_iterator end() const;
 
+		template< class SYSTEM_TYPE>
+		EntitySystem_Ptr& createSystem()
+		{
+			EntitySystem_Ptr system(new SYSTEM_TYPE);
+			m_systems.insert(system);
+			return system;
+		}
+
 		void addSystem(const EntitySystem_Ptr& system);
 		void removeSystem(const EntitySystem_Ptr& system);
 

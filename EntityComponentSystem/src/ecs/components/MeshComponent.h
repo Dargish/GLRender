@@ -10,8 +10,10 @@ namespace ecs
 		graphics::Mesh_Ptr mesh;
 
 		MeshComponent();
-		MeshComponent(const graphics::Mesh_Ptr& m);
+		MeshComponent(const MeshComponent& other);
 		virtual ~MeshComponent();
+
+		MeshComponent& operator= (const MeshComponent& other);
 
 		virtual void serialise(Json::Value& componentArray);
 		virtual void deserialise(Json::Value& componentDict);

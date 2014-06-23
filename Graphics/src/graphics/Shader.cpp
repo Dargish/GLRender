@@ -9,6 +9,25 @@ using namespace rapidxml;
 
 namespace graphics
 {
+	Shader_Ptr Shader::s_current;
+
+	void Shader::Enable(const Shader_Ptr& shader)
+	{
+		shader->enable();
+		s_current = shader;
+	}
+
+	void Shader::Disable(const Shader_Ptr& shader)
+	{
+		shader->disable();
+		s_current.reset();
+	}
+
+	const Shader_Ptr& Shader::Current()
+	{
+		return s_current;
+	}
+
 	std::string parseShaderXml(xml_node<>* shader)
 	{
 		std::string source;

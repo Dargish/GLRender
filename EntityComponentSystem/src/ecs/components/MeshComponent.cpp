@@ -7,14 +7,20 @@ namespace ecs
 	{
 	}
 	
-	MeshComponent::MeshComponent(const graphics::Mesh_Ptr& m) :
-		mesh(m)
+	MeshComponent::MeshComponent(const MeshComponent& other) :
+		mesh(other.mesh)
 	{
 
 	}
 
 	MeshComponent::~MeshComponent()
 	{
+	}
+
+	MeshComponent& MeshComponent::operator= (const MeshComponent& other)
+	{
+		mesh = other.mesh;
+		return *this;
 	}
 
 	void MeshComponent::serialise(Json::Value& componentArray)
