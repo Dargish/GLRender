@@ -45,3 +45,10 @@ Icon
 *.lib
 *.ilk
 *.opensdf
+*.sdf
+*.aps
+*.lastbuildstate
+*.manifest
+*.pch
+*.res
+*.user
