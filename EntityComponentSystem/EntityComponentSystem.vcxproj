@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ecs\Entity.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\EntitySystem.h" />
     <ClInclude Include="src\ecs\fwd.h" />
     <ClInclude Include="src\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ecs\Entity.cpp" />
     <ClCompile Include="src\ecs\EntitySystem.cpp" />
     <ClCompile Include="src\ecs\World.cpp" />
   </ItemGroup>

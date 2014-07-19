@@ -15,6 +15,7 @@ namespace components
 		virtual ~MeshComponent();
 		MeshComponent& operator= (const MeshComponent& other);
 
+		static std::string TypeName();
 		virtual std::string typeName() const;
 		virtual serialisation::Serialisable* clone() const;
 		virtual Json::Value serialise() const;

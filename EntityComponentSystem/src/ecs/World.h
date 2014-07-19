@@ -1,32 +1,33 @@
 #pragma once
 
 #include "fwd.h"
-#include <set>
-#include <map>
-#include <vector>
+#include <serialisation/Serialiser.h>
 #include "graphics/fwd.h"
-#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
 namespace ecs
 {
-	class World : public boost::enable_shared_from_this<World>
+	class World : public serialisation::Serialisable, public boost::enable_shared_from_this<World>
 	{
 	public:
-		typedef std::map<boost::uuids::uuid, std::vector<Component_Ptr>> EntityMap;
-		typedef std::set< Entity_Ptr > EntitySet;
-		typedef EntitySet::iterator iterator;
-		typedef EntitySet::const_iterator const_iterator;
+		typedef Entity_Map::iterator iterator;
+		typedef Entity_Map::const_iterator const_iterator;
 
 		World();
+		World(const World& other);
 		~World();
+		void operator= (const World& other);
+
+		static std::string TypeName();
+		virtual std::string typeName() const;
+		virtual serialisation::Serialisable* clone() const;
+		virtual Json::Value serialise() const;
+		virtual void deserialise(const Json::Value& data);
 
 		void save(const std::string& mapName) const;
 		void load(const std::string& mapName);
-
-		void serialise(Json::Value& root) const;
-		void deserialise(const Json::Value& root);
-
+		
 		void update(float deltaTime);
 		void draw(float deltaTime);
 
@@ -34,14 +35,27 @@ namespace ecs
 		graphics::Camera_Const_Ptr camera() const;
 		void setCamera(const graphics::Camera_Ptr& camera);
 
-		Entity_Ptr createEntity();
-		void destroyEntity(const Entity_Ptr& entity);
+		EntityID createEntity();
+		bool hasEntity(const EntityID& entityID) const;
+		bool hasComponent(const EntityID& entityID, const std::string& componentType) const;
+		bool addComponent(const EntityID& entityID, const Component_Ptr& component);
+		bool getComponent(const EntityID& entityID, const std::string& componentType, Component_Ptr& component);
+		bool getComponent(const EntityID& entityID, const std::string& componentType, Component_Const_Ptr& component) const;
+		size_t getComponents(const EntityID& entityID, Component_Vector& components);
+		size_t getComponents(const EntityID& entityID, Component_Const_Vector& components) const;
+		size_t getComponents(const EntityID& entityID, const std::string& componentType, Component_Vector& components);
+		size_t getComponents(const EntityID& entityID, const std::string& componentType, Component_Const_Vector& components) const;
+		bool removeComponent(const EntityID& entityID, const Component_Ptr& component);
+		bool destroyEntity(const EntityID& entityID);
 
 		iterator begin();
 		const_iterator begin() const;
 
 		iterator end();
 		const_iterator end() const;
+
+		iterator find(const EntityID& entityID);
+		const_iterator find(const EntityID& entityID) const;
 
 		template< class SYSTEM_TYPE>
 		EntitySystem_Ptr createSystem()
@@ -55,8 +69,10 @@ namespace ecs
 		void removeSystem(const EntitySystem_Ptr& system);
 
 	private:
-		std::set<Entity_Ptr> m_entities;
-		std::set<EntitySystem_Ptr> m_systems;
+		Entity_Map m_entities;
+		Systems_Set m_systems;
+
+		boost::uuids::random_generator randomGenerator;
 
 		graphics::Camera_Ptr m_camera;
 	};

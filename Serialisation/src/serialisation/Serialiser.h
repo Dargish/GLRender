@@ -7,9 +7,11 @@ namespace serialisation
 	class Serialisable
 	{
 	public:
+
 		Serialisable();
 		virtual ~Serialisable();
 
+		static std::string TypeName();
 		virtual std::string typeName() const = 0;
 		virtual Serialisable* clone() const = 0;
 		virtual Json::Value serialise() const;

@@ -5,7 +5,6 @@
 #include <io/InputManager.h>
 #include <serialisation/Serialiser.h>
 #include <ecs/World.h>
-#include <ecs/Entity.h>
 #include <systems/RenderSystem.h>
 #include <components/TransformComponent.h>
 #include <components/MeshComponent.h>
@@ -52,7 +51,6 @@ void checkGlError()
 
 Game::Game()
 {
-	Serialiser::RegisterSerialisable<Entity>();
 	Serialiser::RegisterSerialisable<MeshComponent>();
 	Serialiser::RegisterSerialisable<TransformComponent>();
 	Serialiser::RegisterSerialisable<Cube>();
@@ -105,19 +103,21 @@ void Game::start()
 	shader->load("Content/Shaders/Generic.xml");
 
 	World_Ptr world(new World);
-	world->setCamera(Camera_Ptr(new FreeCamera));
 	world->createSystem<RenderSystem>();
+	world->setCamera(Camera_Ptr(new FreeCamera));
 
-	//for (size_t i = 0; i < 8; ++i)
-	//{
-	//	Entity_Ptr cubeEntity = world->createEntity();
-	//	TransformComponent_Ptr transformComponent = cubeEntity->createComponent<TransformComponent>();
-	//	transformComponent->transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
-	//	transformComponent->transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
-	//	transformComponent->transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
-	//	MeshComponent_Ptr cubeComponent = cubeEntity->createComponent<MeshComponent>();
-	//	cubeComponent->mesh.reset(new Cube(1.0f));
-	//}
+	/*for (size_t i = 0; i < 8; ++i)
+	{
+		EntityID cubeID = world->createEntity();
+		TransformComponent_Ptr transformComponent(new TransformComponent);
+		transformComponent->transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
+		transformComponent->transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
+		transformComponent->transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
+		MeshComponent_Ptr cubeComponent(new MeshComponent);
+		cubeComponent->mesh.reset(new Cube(1.0f));
+		world->addComponent(cubeID, transformComponent);
+		world->addComponent(cubeID, cubeComponent);
+	}*/
 	//world->save("Test");
 
 	world->load("Test");

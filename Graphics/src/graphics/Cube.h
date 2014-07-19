@@ -14,6 +14,7 @@ namespace graphics
 
 		void resize(float size);
 
+		static std::string TypeName();
 		virtual std::string typeName() const;
 		virtual serialisation::Serialisable* clone() const;
 		virtual Json::Value serialise() const;

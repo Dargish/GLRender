@@ -27,9 +27,14 @@ namespace components
 		return *this;
 	}
 
-	std::string MeshComponent::typeName() const
+	std::string MeshComponent::TypeName()
 	{
 		return "MeshComponent";
+	}
+
+	std::string MeshComponent::typeName() const
+	{
+		return MeshComponent::TypeName();
 	}
 
 	Serialisable* MeshComponent::clone() const

@@ -77,9 +77,14 @@ namespace graphics
 		dirtyIndexBuffer();
 	}
 
-	std::string Cube::typeName() const
+	std::string Cube::TypeName()
 	{
 		return "Cube";
+	}
+
+	std::string Cube::typeName() const
+	{
+		return Cube::TypeName();
 	}
 
 	Serialisable* Cube::clone() const

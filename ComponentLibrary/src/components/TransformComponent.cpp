@@ -30,9 +30,14 @@ namespace components
 		return *this;
 	}
 
-	std::string TransformComponent::typeName() const
+	std::string TransformComponent::TypeName()
 	{
 		return "TransformComponent";
+	}
+
+	std::string TransformComponent::typeName() const
+	{
+		return TransformComponent::TypeName();
 	}
 
 	Serialisable* TransformComponent::clone() const

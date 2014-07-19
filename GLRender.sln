@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLRender", "GLRender\GLRend
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Graphics\Graphics.vcxproj", "{3A24DA8F-2E50-408D-91E1-98EE30531EDB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntityComponentSystem", "EntityComponentSystem\EntityComponentSystem.vcxproj", "{5BC5A9EB-6074-46D3-83DE-7F92C467FC43}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{474B49D7-D895-4970-A58C-83364DD59A01}"
@@ -20,6 +18,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IO", "IO\IO.vcxproj", "{AE6866DA-6146-4664-9993-25549960F04D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serialisation", "Serialisation\Serialisation.vcxproj", "{F572203F-3A13-4D02-8696-8EB824DAFDFA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{3A24DA8F-2E50-408D-91E1-98EE30531EDB}.Debug|Win32.Build.0 = Debug|Win32
 		{3A24DA8F-2E50-408D-91E1-98EE30531EDB}.Release|Win32.ActiveCfg = Release|Win32
 		{3A24DA8F-2E50-408D-91E1-98EE30531EDB}.Release|Win32.Build.0 = Release|Win32
-		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Debug|Win32.Build.0 = Debug|Win32
-		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Release|Win32.ActiveCfg = Release|Win32
-		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Release|Win32.Build.0 = Release|Win32
 		{5BC5A9EB-6074-46D3-83DE-7F92C467FC43}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5BC5A9EB-6074-46D3-83DE-7F92C467FC43}.Debug|Win32.Build.0 = Debug|Win32
 		{5BC5A9EB-6074-46D3-83DE-7F92C467FC43}.Release|Win32.ActiveCfg = Release|Win32
@@ -63,6 +59,10 @@ Global
 		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Debug|Win32.Build.0 = Debug|Win32
 		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Release|Win32.ActiveCfg = Release|Win32
 		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Release|Win32.Build.0 = Release|Win32
+		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Debug|Win32.Build.0 = Debug|Win32
+		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Release|Win32.ActiveCfg = Release|Win32
+		{15988CAD-F3D7-4AB3-BDCD-68AC31C343BF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

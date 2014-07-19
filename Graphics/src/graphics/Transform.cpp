@@ -56,10 +56,15 @@ namespace graphics
 		Matrix4 scaleMtx = glm::scale(scale);
 		return positionMtx * yawMtx * pitchMtx * rollMtx * scaleMtx;
 	}
-	
-	std::string Transform::typeName() const
+
+	std::string Transform::TypeName()
 	{
 		return "Transform";
+	}
+
+	std::string Transform::typeName() const
+	{
+		return Transform::TypeName();
 	}
 
 	Serialisable* Transform::clone() const

@@ -4,48 +4,6 @@
          "components" : [
             {
                "transform" : {
-                  "position" : [ -1.0, -1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
-               },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
-               },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "typeName" : "Entity"
-      },
-      {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, -1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
-               },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
-               },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "typeName" : "Entity"
-      },
-      {
-         "components" : [
-            {
-               "transform" : {
                   "position" : [ -1.0, 1.0, -1.0 ],
                   "rotation" : [ 0.0, 0.0, 0.0 ],
                   "scale" : [ 1.0, 1.0, 1.0 ],
@@ -61,13 +19,13 @@
                "typeName" : "MeshComponent"
             }
          ],
-         "typeName" : "Entity"
+         "entityID" : "2caa0192-bb13-4cc6-a358-f175a2e5e4f4"
       },
       {
          "components" : [
             {
                "transform" : {
-                  "position" : [ 1.0, 1.0, -1.0 ],
+                  "position" : [ -1.0, -1.0, -1.0 ],
                   "rotation" : [ 0.0, 0.0, 0.0 ],
                   "scale" : [ 1.0, 1.0, 1.0 ],
                   "typeName" : "Transform"
@@ -82,49 +40,7 @@
                "typeName" : "MeshComponent"
             }
          ],
-         "typeName" : "Entity"
-      },
-      {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ -1.0, -1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
-               },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
-               },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "typeName" : "Entity"
-      },
-      {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, -1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
-               },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
-               },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "typeName" : "Entity"
+         "entityID" : "781c348a-4670-4055-acda-6e8530e0be7d"
       },
       {
          "components" : [
@@ -145,7 +61,91 @@
                "typeName" : "MeshComponent"
             }
          ],
-         "typeName" : "Entity"
+         "entityID" : "8f8498cd-e7ed-4f19-bbe3-456fd03b587b"
+      },
+      {
+         "components" : [
+            {
+               "transform" : {
+                  "position" : [ 1.0, -1.0, -1.0 ],
+                  "rotation" : [ 0.0, 0.0, 0.0 ],
+                  "scale" : [ 1.0, 1.0, 1.0 ],
+                  "typeName" : "Transform"
+               },
+               "typeName" : "TransformComponent"
+            },
+            {
+               "mesh" : {
+                  "size" : 1.0,
+                  "typeName" : "Cube"
+               },
+               "typeName" : "MeshComponent"
+            }
+         ],
+         "entityID" : "8fa369bb-f7d4-47b3-bffe-0a143a4ad5d1"
+      },
+      {
+         "components" : [
+            {
+               "transform" : {
+                  "position" : [ 1.0, -1.0, 1.0 ],
+                  "rotation" : [ 0.0, 0.0, 0.0 ],
+                  "scale" : [ 1.0, 1.0, 1.0 ],
+                  "typeName" : "Transform"
+               },
+               "typeName" : "TransformComponent"
+            },
+            {
+               "mesh" : {
+                  "size" : 1.0,
+                  "typeName" : "Cube"
+               },
+               "typeName" : "MeshComponent"
+            }
+         ],
+         "entityID" : "a4240d96-834f-4e15-b7d5-c70ce80c618e"
+      },
+      {
+         "components" : [
+            {
+               "transform" : {
+                  "position" : [ 1.0, 1.0, -1.0 ],
+                  "rotation" : [ 0.0, 0.0, 0.0 ],
+                  "scale" : [ 1.0, 1.0, 1.0 ],
+                  "typeName" : "Transform"
+               },
+               "typeName" : "TransformComponent"
+            },
+            {
+               "mesh" : {
+                  "size" : 1.0,
+                  "typeName" : "Cube"
+               },
+               "typeName" : "MeshComponent"
+            }
+         ],
+         "entityID" : "bde3bba7-ad69-4d8d-8b15-c4d6e57faa04"
+      },
+      {
+         "components" : [
+            {
+               "transform" : {
+                  "position" : [ -1.0, -1.0, 1.0 ],
+                  "rotation" : [ 0.0, 0.0, 0.0 ],
+                  "scale" : [ 1.0, 1.0, 1.0 ],
+                  "typeName" : "Transform"
+               },
+               "typeName" : "TransformComponent"
+            },
+            {
+               "mesh" : {
+                  "size" : 1.0,
+                  "typeName" : "Cube"
+               },
+               "typeName" : "MeshComponent"
+            }
+         ],
+         "entityID" : "e2f76f11-afc0-4077-b7ba-679a514cd034"
       },
       {
          "components" : [
@@ -166,7 +166,8 @@
                "typeName" : "MeshComponent"
             }
          ],
-         "typeName" : "Entity"
+         "entityID" : "e4741084-6b6e-4060-a606-c60c27283d3e"
       }
-   ]
+   ],
+   "typeName" : "World"
 }

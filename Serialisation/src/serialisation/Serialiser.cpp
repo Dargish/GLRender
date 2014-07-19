@@ -11,6 +11,11 @@ namespace serialisation
 	{
 	}
 
+	std::string Serialisable::TypeName()
+	{
+		return "Serialisable";
+	}
+
 	Json::Value Serialisable::serialise() const
 	{
 		Json::Value data;
