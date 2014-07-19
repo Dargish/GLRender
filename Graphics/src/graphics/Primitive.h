@@ -1,5 +1,4 @@
 #pragma once
-
 #include "fwd.h"
 #include "Mesh.h"
 #include "core/TypeDefs.h"
@@ -24,12 +23,19 @@ namespace graphics
 		virtual void draw(float deltaTime);
 
 	protected:
-		void rebuildBuffers();
+		void dirtyVertexBuffer();
+		void dirtyIndexBuffer();
 
 		std::vector<Vector3> m_vertices;
 		std::vector<sf::Uint32> m_indices;
 
 	private:
+		void rebuildVertexBuffer();
+		void rebuildIndexBuffer();
+
+		bool m_vertexBufferDirty;
+		bool m_indexBufferDirty;
+
 		sf::Uint32 m_bufferVertices;
 		sf::Uint32 m_bufferIndices;
 	};

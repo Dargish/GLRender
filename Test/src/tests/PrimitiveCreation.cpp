@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include <iostream>
 
+using namespace graphics;
+
 BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 {
 	sf::Context context;
@@ -14,7 +16,7 @@ BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 		throw std::runtime_error((boost::format("glewInit() failed: %s") % glewGetErrorString(err)).str());
 	}
 	{
-		graphics::Cube_Ptr cube = graphics::Cube::Create(2.0f);
+		graphics::Cube_Ptr cube(new Cube(2.0f));
 		std::vector<Vector3>& verts = cube->vertices();
 		BOOST_REQUIRE_EQUAL(verts.size(), 8);
 		BOOST_REQUIRE_EQUAL(verts[0].x, 1.0f);

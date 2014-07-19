@@ -1,5 +1,4 @@
 #pragma once
-
 #include "fwd.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector3.hpp>

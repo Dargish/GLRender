@@ -51,8 +51,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core/src;E:\thirdparty\glm-0.9.4.4;../Graphics/src/;../EntityComponentSystem/src/;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src/;../IO/src/;../Graphics/src/;../EntityComponentSystem/src/;../SystemLibrary/src/;../ComponentLibrary/src/;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -70,8 +70,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core/src;E:\thirdparty\glm-0.9.4.4;../Graphics/src/;../EntityComponentSystem/src/;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src/;../IO/src/;../Graphics/src/;../EntityComponentSystem/src/;../SystemLibrary/src/;../ComponentLibrary/src/;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -84,18 +84,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\FreeCamera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ComponentLibrary\ComponentLibrary.vcxproj">
+      <Project>{2d44666b-c86e-4ffa-ae06-dbd5a289c9b6}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EntityComponentSystem\EntityComponentSystem.vcxproj">
       <Project>{5bc5a9eb-6074-46d3-83de-7f92c467fc43}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{3a24da8f-2e50-408d-91e1-98ee30531edb}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\IO\IO.vcxproj">
+      <Project>{ae6866da-6146-4664-9993-25549960f04d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialisation\Serialisation.vcxproj">
+      <Project>{f572203f-3a13-4d02-8696-8eb824dafdfa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemLibrary\SystemLibrary.vcxproj">
+      <Project>{7baf9664-6cb4-4f34-952b-519355f93fbf}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\FreeCamera.h" />
     <ClInclude Include="src\Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

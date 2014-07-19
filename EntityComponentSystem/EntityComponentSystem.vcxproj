@@ -11,26 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ecs\components\EntityComponent.h" />
-    <ClInclude Include="src\ecs\components\MeshComponent.h" />
-    <ClInclude Include="src\ecs\components\TransformComponent.h" />
     <ClInclude Include="src\ecs\Entity.h" />
+    <ClInclude Include="src\ecs\Component.h" />
+    <ClInclude Include="src\ecs\EntitySystem.h" />
     <ClInclude Include="src\ecs\fwd.h" />
-    <ClInclude Include="src\ecs\systems\EntitySystem.h" />
-    <ClInclude Include="src\ecs\systems\RenderSystem.h" />
     <ClInclude Include="src\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ecs\components\MeshComponent.cpp" />
-    <ClCompile Include="src\ecs\components\TransformComponent.cpp" />
     <ClCompile Include="src\ecs\Entity.cpp" />
-    <ClCompile Include="src\ecs\systems\EntitySystem.cpp" />
-    <ClCompile Include="src\ecs\systems\RenderSystem.cpp" />
+    <ClCompile Include="src\ecs\EntitySystem.cpp" />
     <ClCompile Include="src\ecs\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{3a24da8f-2e50-408d-91e1-98ee30531edb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialisation\Serialisation.vcxproj">
+      <Project>{f572203f-3a13-4d02-8696-8eb824dafdfa}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -69,8 +66,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core/src;E:\thirdparty\glm-0.9.4.4;../Graphics/src;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS ;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src;../Graphics/src;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,8 +88,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core/src;E:\thirdparty\glm-0.9.4.4;../Graphics/src;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS ;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src;../Graphics/src;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

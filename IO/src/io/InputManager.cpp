@@ -1,5 +1,7 @@
 #include "InputManager.h"
-#include "../Window.h"
+#include <graphics/Window.h>
+
+using namespace graphics;
 
 namespace io
 {
@@ -297,6 +299,8 @@ namespace io
 	}
 
 
+	InputManager_Ptr InputManager::s_instance;
+
 	InputManager_Ptr InputManager::Instance()
 	{
 		if (!s_instance.get())
@@ -305,8 +309,6 @@ namespace io
 		}
 		return s_instance;
 	}
-
-	InputManager_Ptr InputManager::s_instance;
 
 	InputManager::InputManager() : m_lockMouse(false), m_inputState(new InputState)
 	{

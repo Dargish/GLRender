@@ -11,25 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\Material.h" />
     <ClInclude Include="src\graphics\Camera.h" />
     <ClInclude Include="src\graphics\Cube.h" />
-    <ClInclude Include="src\graphics\FreeCamera.h" />
     <ClInclude Include="src\graphics\fwd.h" />
     <ClInclude Include="src\graphics\Mesh.h" />
     <ClInclude Include="src\graphics\Primitive.h" />
     <ClInclude Include="src\graphics\Shader.h" />
+    <ClInclude Include="src\graphics\Transform.h" />
+    <ClInclude Include="src\graphics\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\Material.cpp" />
     <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\graphics\Cube.cpp" />
-    <ClCompile Include="src\graphics\FreeCamera.cpp" />
     <ClCompile Include="src\graphics\Mesh.cpp" />
     <ClCompile Include="src\graphics\Primitive.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
+    <ClCompile Include="src\graphics\Transform.cpp" />
+    <ClCompile Include="src\graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    <ProjectReference Include="..\Serialisation\Serialisation.vcxproj">
+      <Project>{f572203f-3a13-4d02-8696-8eb824dafdfa}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -69,7 +73,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\thirdparty\rapidxml-1.13;../Core/src;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core/src/;../Serialisation/src/;E:\thirdparty\rapidxml-1.13;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,7 +93,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\thirdparty\rapidxml-1.13;../Core/src;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core/src/;../Serialisation/src/;E:\thirdparty\rapidxml-1.13;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

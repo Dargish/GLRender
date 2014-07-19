@@ -1,16 +1,13 @@
 #pragma once
-
 #include "fwd.h"
+#include "serialisation/Serialiser.h"
 
 namespace graphics
 {
-	class Mesh
+	class Mesh : public serialisation::Serialisable
 	{
 	public:
 		virtual ~Mesh();
-
-		virtual void serialise(Json::Value& jsonArray) = 0;
-		virtual void deserialise(Json::Value& jsonDict) = 0;
 
 		virtual void draw(float deltaTime) = 0;
 	};

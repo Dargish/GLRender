@@ -1,24 +1,29 @@
 #include "Game.h"
 #include <GL/glew.h>
 #include <boost/format.hpp>
-#include "core/TypeDefs.h"
-#include "core/io/InputManager.h"
-#include "ecs/World.h"
-#include "ecs/Entity.h"
-#include "ecs/systems/RenderSystem.h"
-#include "ecs/components/TransformComponent.h"
-#include "ecs/components/MeshComponent.h"
-#include "core/Window.h"
-#include "graphics/Shader.h"
-#include "graphics/Camera.h"
-#include "graphics/FreeCamera.h"
-#include "graphics/Cube.h"
+#include <core/TypeDefs.h>
+#include <io/InputManager.h>
+#include <serialisation/Serialiser.h>
+#include <ecs/World.h>
+#include <ecs/Entity.h>
+#include <systems/RenderSystem.h>
+#include <components/TransformComponent.h>
+#include <components/MeshComponent.h>
+#include <graphics/Window.h>
+#include <graphics/Shader.h>
+#include <graphics/Transform.h>
+#include <graphics/Camera.h>
+#include <graphics/Cube.h>
+#include "FreeCamera.h"
 
 #define FRAMETIME_LIMIT 16666 // in usec (60fps)
 
 using namespace io;
 using namespace ecs;
 using namespace graphics;
+using namespace components;
+using namespace systems;
+using namespace serialisation;
 
 void checkGlError()
 {
@@ -46,6 +51,15 @@ void checkGlError()
 }
 
 Game::Game()
+{
+	Serialiser::RegisterSerialisable<Entity>();
+	Serialiser::RegisterSerialisable<MeshComponent>();
+	Serialiser::RegisterSerialisable<TransformComponent>();
+	Serialiser::RegisterSerialisable<Cube>();
+	Serialiser::RegisterSerialisable<Transform>();
+}
+
+void Game::registerSerialisables()
 {
 
 }
@@ -94,16 +108,20 @@ void Game::start()
 	world->setCamera(Camera_Ptr(new FreeCamera));
 	world->createSystem<RenderSystem>();
 
-	for (size_t i = 0; i < 8; ++i)
-	{
-		Entity_Ptr cubeEntity = world->createEntity();
-		TransformComponent_Ptr transformComponent = cubeEntity->createComponent<TransformComponent>();
-		transformComponent->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
-		transformComponent->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
-		transformComponent->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
-		MeshComponent_Ptr cubeComponent = cubeEntity->createComponent<MeshComponent>();
-		cubeComponent->mesh = Cube::Create(1.0f);
-	}
+	//for (size_t i = 0; i < 8; ++i)
+	//{
+	//	Entity_Ptr cubeEntity = world->createEntity();
+	//	TransformComponent_Ptr transformComponent = cubeEntity->createComponent<TransformComponent>();
+	//	transformComponent->transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
+	//	transformComponent->transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
+	//	transformComponent->transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
+	//	MeshComponent_Ptr cubeComponent = cubeEntity->createComponent<MeshComponent>();
+	//	cubeComponent->mesh.reset(new Cube(1.0f));
+	//}
+	//world->save("Test");
+
+	world->load("Test");
+
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{

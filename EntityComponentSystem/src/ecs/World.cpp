@@ -1,9 +1,12 @@
 #include "World.h"
 #include "Entity.h"
-#include "systems/EntitySystem.h"
-#include "graphics/Camera.h"
+#include "EntitySystem.h"
+#include <graphics/Camera.h>
+#include <serialisation/Serialiser.h>
 #include <json/json.h>
 #include <fstream>
+
+using namespace serialisation;
 
 namespace ecs
 {
@@ -21,7 +24,7 @@ namespace ecs
 		Json::Value root;
 		serialise(root);
 		std::ofstream myfile;
-		myfile.open("Maps/" + mapName + ".map");
+		myfile.open("Content/Maps/" + mapName + ".map");
 		myfile << writer.write(root);
 		myfile.close();
 	}
@@ -30,7 +33,7 @@ namespace ecs
 	{
 		Json::Value root;
 		Json::Reader reader;
-		std::ifstream myfile("Maps/" + mapName + ".map");
+		std::ifstream myfile("Content/Maps/" + mapName + ".map");
 		if (myfile.is_open())
 		{
 			std::string mapFileString;
@@ -61,14 +64,19 @@ namespace ecs
 		const_iterator it = begin();
 		for (; it != end(); ++it)
 		{
-			(*it)->serialise(entityArray);
+			entityArray.append((*it)->serialise());
 		}
 		root["entities"] = entityArray;
 	}
 
 	void World::deserialise(const Json::Value& root)
 	{
-		// ToDo: Deserialise entities, iterate root["entities"]
+		Json::Value entityArray = root["entities"];
+		Json::Value::iterator it = entityArray.begin();
+		for (; it != entityArray.end(); ++it)
+		{
+			m_entities.insert(Entity_Ptr(Serialiser::Deserialise<Entity>(*it)));
+		}
 	}
 
 	void World::update(float deltaTime)

@@ -3,7 +3,9 @@
 
 namespace graphics
 {
-	Primitive::Primitive()
+	Primitive::Primitive() :
+		m_vertexBufferDirty(true),
+		m_indexBufferDirty(true)
 	{
 	}
 
@@ -34,6 +36,14 @@ namespace graphics
 
 	void Primitive::draw(float deltaTime)
 	{
+		if (m_vertexBufferDirty)
+		{
+			rebuildVertexBuffer();
+		}
+		if (m_indexBufferDirty)
+		{
+			rebuildIndexBuffer();
+		}
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufferVertices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferIndices);
 		glEnableVertexAttribArray(0);
@@ -45,13 +55,26 @@ namespace graphics
 		glDisableVertexAttribArray(0);
 	}
 
-	void Primitive::rebuildBuffers()
+	void Primitive::dirtyVertexBuffer()
+	{
+		m_vertexBufferDirty = true;
+	}
+
+	void Primitive::dirtyIndexBuffer()
+	{
+		m_indexBufferDirty = true;
+	}
+
+	void Primitive::rebuildVertexBuffer()
 	{
 		glGenBuffers(1, &m_bufferVertices);
 		glBindBuffer(GL_ARRAY_BUFFER, m_bufferVertices);
 		glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(Vector3), &m_vertices.front(), GL_STATIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 
+	void Primitive::rebuildIndexBuffer()
+	{
 		glGenBuffers(1, &m_bufferIndices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_bufferIndices);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(sf::Uint32), &m_indices.front(), GL_STATIC_DRAW);

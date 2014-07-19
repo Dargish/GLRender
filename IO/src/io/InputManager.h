@@ -1,5 +1,5 @@
 #pragma once
-#include "../fwd.h"
+#include "fwd.h"
 #include <SFML/Window.hpp>
 #include <vector>
 #include <map>

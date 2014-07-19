@@ -1,4 +1,5 @@
 #pragma once
+#include "fwd.h"
 #include "Primitive.h"
 
 namespace graphics
@@ -6,17 +7,22 @@ namespace graphics
 	class Cube : public Primitive
 	{
 	public:
-		static Cube_Ptr Create(float size = 1.0f);
-
-		Cube();
+		Cube(float size = 1.0f);
+		Cube(const Cube& other);
 		virtual ~Cube();
+		Cube& operator=(const Cube& other);
 
 		void resize(float size);
 
-		virtual void serialise(Json::Value& jsonArray);
-		virtual void deserialise(Json::Value& jsonDict);
+		virtual std::string typeName() const;
+		virtual serialisation::Serialisable* clone() const;
+		virtual Json::Value serialise() const;
+		virtual void deserialise(const Json::Value& data);
 
 	private:
+		void createVertices();
+		void createIndices();
+
 		float m_size;
 	};
 }

@@ -1,8 +1,11 @@
 #pragma once
 
-#include <set>
 #include "fwd.h"
+#include <set>
+#include <map>
+#include <vector>
 #include "graphics/fwd.h"
+#include <boost/uuid/uuid.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
 namespace ecs
@@ -10,6 +13,7 @@ namespace ecs
 	class World : public boost::enable_shared_from_this<World>
 	{
 	public:
+		typedef std::map<boost::uuids::uuid, std::vector<Component_Ptr>> EntityMap;
 		typedef std::set< Entity_Ptr > EntitySet;
 		typedef EntitySet::iterator iterator;
 		typedef EntitySet::const_iterator const_iterator;
@@ -40,7 +44,7 @@ namespace ecs
 		const_iterator end() const;
 
 		template< class SYSTEM_TYPE>
-		EntitySystem_Ptr& createSystem()
+		EntitySystem_Ptr createSystem()
 		{
 			EntitySystem_Ptr system(new SYSTEM_TYPE);
 			m_systems.insert(system);

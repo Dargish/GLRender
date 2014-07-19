@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../fwd.h"
+#include "fwd.h"
 
 namespace ecs
 {

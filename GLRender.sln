@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLRender", "GLRender\GLRender.vcxproj", "{EEC81B18-1585-41D9-85EE-24361BB3A90D}"
 EndProject
@@ -12,6 +12,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntityComponentSystem", "EntityComponentSystem\EntityComponentSystem.vcxproj", "{5BC5A9EB-6074-46D3-83DE-7F92C467FC43}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{474B49D7-D895-4970-A58C-83364DD59A01}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComponentLibrary", "ComponentLibrary\ComponentLibrary.vcxproj", "{2D44666B-C86E-4FFA-AE06-DBD5A289C9B6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SystemLibrary", "SystemLibrary\SystemLibrary.vcxproj", "{7BAF9664-6CB4-4F34-952B-519355F93FBF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IO", "IO\IO.vcxproj", "{AE6866DA-6146-4664-9993-25549960F04D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Serialisation", "Serialisation\Serialisation.vcxproj", "{F572203F-3A13-4D02-8696-8EB824DAFDFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,22 @@ Global
 		{474B49D7-D895-4970-A58C-83364DD59A01}.Debug|Win32.Build.0 = Debug|Win32
 		{474B49D7-D895-4970-A58C-83364DD59A01}.Release|Win32.ActiveCfg = Release|Win32
 		{474B49D7-D895-4970-A58C-83364DD59A01}.Release|Win32.Build.0 = Release|Win32
+		{2D44666B-C86E-4FFA-AE06-DBD5A289C9B6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D44666B-C86E-4FFA-AE06-DBD5A289C9B6}.Debug|Win32.Build.0 = Debug|Win32
+		{2D44666B-C86E-4FFA-AE06-DBD5A289C9B6}.Release|Win32.ActiveCfg = Release|Win32
+		{2D44666B-C86E-4FFA-AE06-DBD5A289C9B6}.Release|Win32.Build.0 = Release|Win32
+		{7BAF9664-6CB4-4F34-952B-519355F93FBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7BAF9664-6CB4-4F34-952B-519355F93FBF}.Debug|Win32.Build.0 = Debug|Win32
+		{7BAF9664-6CB4-4F34-952B-519355F93FBF}.Release|Win32.ActiveCfg = Release|Win32
+		{7BAF9664-6CB4-4F34-952B-519355F93FBF}.Release|Win32.Build.0 = Release|Win32
+		{AE6866DA-6146-4664-9993-25549960F04D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE6866DA-6146-4664-9993-25549960F04D}.Debug|Win32.Build.0 = Debug|Win32
+		{AE6866DA-6146-4664-9993-25549960F04D}.Release|Win32.ActiveCfg = Release|Win32
+		{AE6866DA-6146-4664-9993-25549960F04D}.Release|Win32.Build.0 = Release|Win32
+		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Debug|Win32.Build.0 = Debug|Win32
+		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Release|Win32.ActiveCfg = Release|Win32
+		{F572203F-3A13-4D02-8696-8EB824DAFDFA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,26 +1,45 @@
 #include "Cube.h"
+#include <json/json.h>
+
+using namespace serialisation;
 
 namespace graphics
 {
-	Cube_Ptr Cube::Create(float size /*= 1.0f*/)
+	Cube::Cube(float size /*= 1.0f*/) :
+		m_size(size)
 	{
-		Cube_Ptr cube(new Cube);
-		cube->resize(size);
-		return cube;
+		createVertices();
+		createIndices();
 	}
 
-	Cube::Cube() :
-		m_size(0.0f)
+	Cube::Cube(const Cube& other) :
+		m_size(other.m_size)
 	{
+		createVertices();
+		createIndices();
 	}
 
 	Cube::~Cube()
 	{
 	}
 
+	Cube& Cube::operator= (const Cube& other)		
+	{
+		resize(other.m_size);
+		return *this;
+	}
+
 	void Cube::resize(float size)
 	{
-		m_size = size;
+		if (size != m_size)
+		{
+			m_size = size;
+			createVertices();
+		}
+	}
+
+	void Cube::createVertices()
+	{
 		if (m_vertices.size() != 8)
 		{
 			m_vertices.resize(8);
@@ -30,6 +49,11 @@ namespace graphics
 		{
 			m_vertices[i] = Vector3(i & 1 ? -halfSize : halfSize, i & 2 ? -halfSize : halfSize, i & 4 ? -halfSize : halfSize);
 		}
+		dirtyVertexBuffer();
+	}
+
+	void Cube::createIndices()
+	{
 		if (m_indices.size() != 16)
 		{
 			m_indices.resize(16);
@@ -50,16 +74,28 @@ namespace graphics
 		m_indices[13] = 7;
 		m_indices[14] = 2;
 		m_indices[15] = 6;
-		rebuildBuffers();
+		dirtyIndexBuffer();
 	}
 
-	void Cube::serialise(Json::Value& jsonArray)
+	std::string Cube::typeName() const
 	{
-
+		return "Cube";
 	}
 
-	void Cube::deserialise(Json::Value& jsonDict)
+	Serialisable* Cube::clone() const
 	{
+		return new Cube(*this);
+	}
 
+	Json::Value Cube::serialise() const
+	{
+		Json::Value data = Serialisable::serialise();
+		data["size"] = m_size;
+		return data;
+	}
+
+	void Cube::deserialise(const Json::Value& data)
+	{
+		resize((float)data["size"].asDouble());
 	}
 }

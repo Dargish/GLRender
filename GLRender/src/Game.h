@@ -12,6 +12,7 @@ public:
 	void start();
 
 private:
+	void registerSerialisables();
 	sf::RenderWindow_Ptr createWindow();
 	void initGlew();
 	void setupInputManager();

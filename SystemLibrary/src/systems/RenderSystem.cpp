@@ -1,15 +1,18 @@
 #include "RenderSystem.h"
-#include "../World.h"
-#include "../Entity.h"
-#include "../components/TransformComponent.h"
-#include "../components/MeshComponent.h"
+#include "ecs/World.h"
+#include "ecs/Entity.h"
+#include "components/TransformComponent.h"
+#include "components/MeshComponent.h"
 #include "graphics/Mesh.h"
 #include "graphics/Shader.h"
+#include "graphics/Transform.h"
 #include <vector>
 
 using namespace graphics;
+using namespace ecs;
+using namespace components;
 
-namespace ecs
+namespace systems
 {
 	RenderSystem::~RenderSystem()
 	{
@@ -32,7 +35,7 @@ namespace ecs
 				Shader_Ptr shader = Shader::Current();
 				if (shader.get())
 				{
-					shader->setValue("world", transformComponent->transform());
+					shader->setValue("world", transformComponent->transform->world());
 				}
 			}
 			std::vector<MeshComponent_Ptr>::iterator it = meshComponents.begin();
