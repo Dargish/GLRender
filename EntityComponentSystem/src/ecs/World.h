@@ -83,6 +83,10 @@ namespace ecs
 		void removeSystem(const EntitySystem_Ptr& system);
 
 	private:
+		void componentAdded(const EntityID& entityID);
+		void componentRemoved(const EntityID& entityID);
+		void entityDestroyed(const EntityID& entityID);
+
 		EntityMap m_entities;
 		Systems_Set m_systems;
 

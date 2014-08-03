@@ -85,11 +85,7 @@ namespace ecs
 			Json::Value entityData = *it;
 			EntityID entityID = boost::lexical_cast<EntityID>(entityData["entityID"].asCString());
 			m_entities[entityID] = ComponentContainer_Ptr(Serialiser::Deserialise<ComponentContainer>(entityData["components"]));
-			Systems_Set::iterator sit = m_systems.begin();
-			for (; sit != m_systems.end(); ++sit)
-			{
-				(*sit)->componentAdded(shared_from_this(), entityID);
-			}
+			componentAdded(entityID);
 		}
 	}
 
@@ -147,7 +143,8 @@ namespace ecs
 		else
 		{
 			Json::Value data = JsonFile::Load(EntityPath(entityName));
-			ComponentContainer_Ptr(Serialiser::Deserialise<ComponentContainer>(data));
+			m_entities[entityID] = ComponentContainer_Ptr(Serialiser::Deserialise<ComponentContainer>(data));
+			componentAdded(entityID);
 		}
 		return entityID;
 	}
@@ -189,11 +186,7 @@ namespace ecs
 		if (found != end())
 		{
 			found->second->push_back(component);
-			Systems_Set::iterator it = m_systems.begin();
-			for (; it != m_systems.end(); ++it)
-			{
-				(*it)->componentAdded(shared_from_this(), entityID);
-			}
+			componentAdded(entityID);
 			return true;
 		}
 		return false;
@@ -240,11 +233,7 @@ namespace ecs
 				if ((*it) == component)
 				{
 					found->second->erase(it);
-					Systems_Set::iterator it = m_systems.begin();
-					for (; it != m_systems.end(); ++it)
-					{
-						(*it)->componentAdded(shared_from_this(), entityID);
-					}
+					componentRemoved(entityID);
 					return true;
 				}
 			}
@@ -295,5 +284,32 @@ namespace ecs
 	void World::removeSystem(const EntitySystem_Ptr& system)
 	{
 		m_systems.erase(system);
+	}
+
+	void World::componentAdded(const EntityID& entityID)
+	{
+		Systems_Set::iterator sit = m_systems.begin();
+		for (; sit != m_systems.end(); ++sit)
+		{
+			(*sit)->componentAdded(shared_from_this(), entityID);
+		}
+	}
+
+	void World::componentRemoved(const EntityID& entityID)
+	{
+		Systems_Set::iterator sit = m_systems.begin();
+		for (; sit != m_systems.end(); ++sit)
+		{
+			(*sit)->componentRemoved(shared_from_this(), entityID);
+		}
+	}
+
+	void World::entityDestroyed(const EntityID& entityID)
+	{
+		Systems_Set::iterator sit = m_systems.begin();
+		for (; sit != m_systems.end(); ++sit)
+		{
+			(*sit)->entityDestroyed(entityID);
+		}
 	}
 }
