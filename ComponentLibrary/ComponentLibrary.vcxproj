@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\MaterialComponent.h" />
     <ClInclude Include="src\components\MeshComponent.h" />
     <ClInclude Include="src\components\TransformComponent.h" />
     <ClInclude Include="src\components\fwd.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\MaterialComponent.cpp" />
     <ClCompile Include="src\components\MeshComponent.cpp" />
     <ClCompile Include="src\components\TransformComponent.cpp" />
   </ItemGroup>

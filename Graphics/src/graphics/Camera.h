@@ -1,6 +1,5 @@
 #pragma once
 #include "fwd.h"
-#include "core/TypeDefs.h"
 
 namespace graphics
 {

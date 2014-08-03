@@ -1,14 +1,7 @@
 #pragma once
 #include "fwd.h"
 #include <SFML/Graphics/Transform.hpp>
-#include "core/TypeDefs.h"
 #include "serialisation/Serialiser.h"
-
-// ToDo: Move this somewhere sensible
-namespace Json
-{
-	class Value;
-}
 
 namespace graphics
 {

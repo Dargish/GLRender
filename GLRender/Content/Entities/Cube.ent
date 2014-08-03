@@ -1,0 +1,29 @@
+{
+   "array" : [
+      {
+         "transform" : {
+            "position" : [ 1.0, 1.0, -1.0 ],
+            "rotation" : [ 0.0, 0.0, 0.0 ],
+            "scale" : [ 1.0, 1.0, 1.0 ],
+            "typeName" : "Transform"
+         },
+         "typeName" : "TransformComponent"
+      },
+      {
+         "mesh" : {
+            "size" : 1.0,
+            "typeName" : "Cube"
+         },
+         "typeName" : "MeshComponent"
+      },
+      {
+         "material" : {
+            "fromFile" : true,
+            "name" : "Blue",
+            "typeName" : "Material"
+         },
+         "typeName" : "MaterialComponent"
+      }
+   ],
+   "typeName" : "ComponentContainer"
+}

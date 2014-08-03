@@ -18,6 +18,9 @@
     <ClCompile Include="src\io\InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{3a24da8f-2e50-408d-91e1-98ee30531edb}</Project>
     </ProjectReference>

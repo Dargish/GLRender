@@ -32,6 +32,9 @@
     <ClCompile Include="src\graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Serialisation\Serialisation.vcxproj">
       <Project>{f572203f-3a13-4d02-8696-8eb824dafdfa}</Project>
     </ProjectReference>

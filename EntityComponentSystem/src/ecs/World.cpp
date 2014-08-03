@@ -3,21 +3,37 @@
 #include "EntitySystem.h"
 #include <graphics/Camera.h>
 #include <json/json.h>
-#include <fstream>
+#include <core/JsonFile.h>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/lexical_cast.hpp>
 
+using namespace core;
 using namespace serialisation;
 
 namespace ecs
 {
+	EntityID StrToEntityID(const std::string& str)
+	{
+		return boost::lexical_cast<EntityID>(str);
+	}
+	
+	std::string World::MapPath(const std::string& mapName)
+	{
+		return "Content/Maps/" + mapName + ".map";
+	}
+
+	std::string World::EntityPath(const std::string& entityName)
+	{
+		return "Content/Entities/" + entityName + ".ent";
+	}
+
 	World::World()
 	{
 	}
 
 	World::World(const World& other)
 	{
-		// Todo: Implement
+		throw std::runtime_error("Worlds cannot be copied");
 	}
 
 	World::~World()
@@ -26,12 +42,17 @@ namespace ecs
 
 	void World::operator= (const World& other)
 	{
-		// Todo: Implement
+		throw std::runtime_error("Worlds cannot be copied");
+	}
+
+	std::string World::TypeName()
+	{
+		return "World";
 	}
 
 	std::string World::typeName() const
 	{
-		return "World";
+		return World::TypeName();
 	}
 
 	Serialisable* World::clone() const
@@ -48,13 +69,7 @@ namespace ecs
 		{
 			Json::Value entityData = Json::Value();
 			entityData["entityID"] = boost::lexical_cast<std::string>( it->first );
-			Json::Value componentArray = Json::Value(Json::arrayValue);
-			Component_Vector::const_iterator cit = it->second.begin();
-			for (; cit != it->second.end(); ++cit)
-			{
-				componentArray.append((*cit)->serialise());
-			}
-			entityData["components"] = componentArray;
+			entityData["components"] = it->second->serialise();
 			entityArray.append(entityData);
 		}
 		data["entities"] = entityArray;
@@ -69,14 +84,7 @@ namespace ecs
 		{
 			Json::Value entityData = *it;
 			EntityID entityID = boost::lexical_cast<EntityID>(entityData["entityID"].asCString());
-			Component_Vector componentVector;
-			Json::Value componentArray = entityData["components"];
-			Json::Value::iterator it = componentArray.begin();
-			for (; it != componentArray.end(); ++it)
-			{
-				componentVector.push_back(Component_Ptr(Serialiser::Deserialise<Component>(*it)));
-			}
-			m_entities[entityID] = componentVector;
+			m_entities[entityID] = ComponentContainer_Ptr(Serialiser::Deserialise<ComponentContainer>(entityData["components"]));
 			Systems_Set::iterator sit = m_systems.begin();
 			for (; sit != m_systems.end(); ++sit)
 			{
@@ -85,43 +93,14 @@ namespace ecs
 		}
 	}
 
-	void World::save(const std::string& mapName) const
-	{
-		Json::StyledWriter writer;
-		Json::Value data = serialise();
-		std::ofstream myfile;
-		myfile.open("Content/Maps/" + mapName + ".map");
-		myfile << writer.write(data);
-		myfile.close();
-	}
-
 	void World::load(const std::string& mapName)
 	{
-		Json::Value data;
-		Json::Reader reader;
-		std::ifstream myfile("Content/Maps/" + mapName + ".map");
-		if (myfile.is_open())
-		{
-			std::string mapFileString;
-			std::string line;
-			while (std::getline(myfile, line))
-			{
-				mapFileString += line;
-			}
-			myfile.close();
-			if (reader.parse(mapFileString, data))
-			{
-				deserialise(data);
-			}
-			else
-			{
-				std::cerr << "Error loading map" << std::endl;
-			}
-		}
-		else
-		{
-			std::cerr << "Couldn't open map file " << mapName << std::endl;
-		}
+		deserialise(JsonFile::Load(MapPath(mapName)));
+	}
+
+	void World::save(const std::string& mapName) const
+	{
+		JsonFile::Save(MapPath(mapName), serialise());
 	}
 
 	void World::update(float deltaTime)
@@ -158,11 +137,28 @@ namespace ecs
 		m_camera = camera;
 	}
 
-	EntityID World::createEntity()
+	EntityID World::createEntity(const std::string& entityName /*= ""*/)
 	{
 		EntityID entityID = randomGenerator();
-		m_entities[entityID];
+		if (entityName.empty())
+		{
+			m_entities[entityID] = ComponentContainer_Ptr(new ComponentContainer);
+		}
+		else
+		{
+			Json::Value data = JsonFile::Load(EntityPath(entityName));
+			ComponentContainer_Ptr(Serialiser::Deserialise<ComponentContainer>(data));
+		}
 		return entityID;
+	}
+
+	void World::saveEntity(const EntityID& entityID, const std::string& entityName)
+	{
+		const_iterator found = find(entityID);
+		if (found != end())
+		{
+			JsonFile::Save(EntityPath(entityName), found->second->serialise());
+		}
 	}
 
 	bool World::hasEntity(const EntityID& entityID) const
@@ -175,8 +171,8 @@ namespace ecs
 		const_iterator found = find(entityID);
 		if (found != end())
 		{
-			Component_Vector::const_iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
+			ComponentContainer::const_iterator it = found->second->begin();
+			for (it; it != found->second->end(); ++it)
 			{
 				if ((*it)->typeName() == componentType)
 				{
@@ -192,7 +188,7 @@ namespace ecs
 		iterator found = find(entityID);
 		if (found != end())
 		{
-			found->second.push_back(component);
+			found->second->push_back(component);
 			Systems_Set::iterator it = m_systems.begin();
 			for (; it != m_systems.end(); ++it)
 			{
@@ -203,117 +199,47 @@ namespace ecs
 		return false;
 	}
 
-	bool World::getComponent(const EntityID& entityID, const std::string& componentType, Component_Ptr& component)
+	Component_Vector World::getComponents(const EntityID& entityID)
 	{
+		Component_Vector components;
 		iterator found = find(entityID);
 		if (found != end())
 		{
-			Component_Vector::iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
-			{
-				if ((*it)->typeName() == componentType)
-				{
-					component = *it;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	bool World::getComponent(const EntityID& entityID, const std::string& componentType, Component_Const_Ptr& component) const
-	{
-		const_iterator found = find(entityID);
-		if (found != end())
-		{
-			Component_Vector::const_iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
-			{
-				if ((*it)->typeName() == componentType)
-				{
-					component = *it;
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	size_t World::getComponents(const EntityID& entityID, Component_Vector& components)
-	{
-		iterator found = find(entityID);
-		if (found != end())
-		{
-			components = found->second;
-			return components.size();
-		}
-		return 0;
-	}
-
-	size_t World::getComponents(const EntityID& entityID, Component_Const_Vector& components) const
-	{
-		const_iterator found = find(entityID);
-		if (found != end())
-		{
-			Component_Vector::const_iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
+			ComponentContainer::iterator it = found->second->begin();
+			for (it; it != found->second->end(); ++it)
 			{
 				components.push_back(*it);
 			}
-			return components.size();
 		}
-		return 0;
+		return components;
 	}
 
-	size_t World::getComponents(const EntityID& entityID, const std::string& componentType, Component_Vector& components)
+	Component_Const_Vector World::getComponents(const EntityID& entityID) const
 	{
-		size_t amountFound = 0;
-		iterator found = find(entityID);
-		if (found != end())
-		{
-			Component_Vector::iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
-			{
-				if ((*it)->typeName() == componentType)
-				{
-					components.push_back(*it);
-					++amountFound;
-				}
-			}
-		}
-		return amountFound;
-	}
-
-	size_t World::getComponents(const EntityID& entityID, const std::string& componentType, Component_Const_Vector& components) const
-	{
-		size_t amountFound = 0;
+		Component_Const_Vector components;
 		const_iterator found = find(entityID);
 		if (found != end())
 		{
-			Component_Vector::const_iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
+			ComponentContainer::const_iterator it = found->second->begin();
+			for (it; it != found->second->end(); ++it)
 			{
-				if ((*it)->typeName() == componentType)
-				{
-					components.push_back(*it);
-					++amountFound;
-				}
+				components.push_back(*it);
 			}
 		}
-		return amountFound;
+		return components;
 	}
-
+	
 	bool World::removeComponent(const EntityID& entityID, const Component_Ptr& component)
 	{
 		iterator found = find(entityID);
 		if (found != end())
 		{
-			Component_Vector::iterator it = found->second.begin();
-			for (it; it != found->second.end(); ++it)
+			ComponentContainer::iterator it = found->second->begin();
+			for (it; it != found->second->end(); ++it)
 			{
 				if ((*it) == component)
 				{
-					found->second.erase(it);
+					found->second->erase(it);
 					Systems_Set::iterator it = m_systems.begin();
 					for (; it != m_systems.end(); ++it)
 					{

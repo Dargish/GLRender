@@ -1,7 +1,6 @@
 #include <boost/test/unit_test.hpp>
 #include "components/TransformComponent.h"
 #include <json/json.h>
-#include "core/TypeDefs.h"
 #include "graphics/Transform.h"
 #include "serialisation/Serialiser.h"
 

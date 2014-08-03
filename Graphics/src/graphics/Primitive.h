@@ -1,7 +1,6 @@
 #pragma once
 #include "fwd.h"
 #include "Mesh.h"
-#include "core/TypeDefs.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector3.hpp>
 #include <vector>

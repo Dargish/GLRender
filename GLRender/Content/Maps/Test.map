@@ -1,172 +1,268 @@
 {
    "entities" : [
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ -1.0, 1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, 1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "2caa0192-bb13-4cc6-a358-f175a2e5e4f4"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Blue",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "2bd83bc7-e04b-4fdd-a2a1-dbefe4fd4b1c"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ -1.0, -1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, 1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "781c348a-4670-4055-acda-6e8530e0be7d"
+               {
+                  "material" : {
+                     "fromFile" : false,
+                     "name" : "",
+                     "shader" : "Generic",
+                     "typeName" : "Material",
+                     "values" : [
+                        {
+                           "name" : "color",
+                           "typeName" : "Vector3Value",
+                           "value" : "1,0,1"
+                        }
+                     ]
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "2f8e2555-7fa5-4552-b9b6-7eabcd7e1d59"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ -1.0, 1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, -1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "8f8498cd-e7ed-4f19-bbe3-456fd03b587b"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "5e943777-41b9-49a0-a306-ac26d39197cb"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, -1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, 1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "8fa369bb-f7d4-47b3-bffe-0a143a4ad5d1"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "6f82c31c-55ef-4610-8a0c-964880a73617"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, -1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, -1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "a4240d96-834f-4e15-b7d5-c70ce80c618e"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "b5480582-3ba2-4337-a428-b18876c97fe3"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, 1.0, -1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, -1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "bde3bba7-ad69-4d8d-8b15-c4d6e57faa04"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Green",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "cd776a2e-3fed-4d6f-8517-7276b4360375"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ -1.0, -1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, -1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "e2f76f11-afc0-4077-b7ba-679a514cd034"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Green",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "ceeac6eb-47e7-46a5-8b4c-c6262843299b"
       },
       {
-         "components" : [
-            {
-               "transform" : {
-                  "position" : [ 1.0, 1.0, 1.0 ],
-                  "rotation" : [ 0.0, 0.0, 0.0 ],
-                  "scale" : [ 1.0, 1.0, 1.0 ],
-                  "typeName" : "Transform"
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, 1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
                },
-               "typeName" : "TransformComponent"
-            },
-            {
-               "mesh" : {
-                  "size" : 1.0,
-                  "typeName" : "Cube"
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
                },
-               "typeName" : "MeshComponent"
-            }
-         ],
-         "entityID" : "e4741084-6b6e-4060-a606-c60c27283d3e"
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "de279c16-b4c8-4693-a308-08de6232ff8d"
       }
    ],
    "typeName" : "World"

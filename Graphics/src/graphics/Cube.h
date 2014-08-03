@@ -12,13 +12,13 @@ namespace graphics
 		virtual ~Cube();
 		Cube& operator=(const Cube& other);
 
-		void resize(float size);
-
 		static std::string TypeName();
 		virtual std::string typeName() const;
 		virtual serialisation::Serialisable* clone() const;
 		virtual Json::Value serialise() const;
 		virtual void deserialise(const Json::Value& data);
+
+		void resize(float size);
 
 	private:
 		void createVertices();

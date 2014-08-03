@@ -1,0 +1,12 @@
+{
+   "name" : "Green",
+   "shader" : "Generic",
+   "typeName" : "Material",
+   "values" : [
+      {
+         "name" : "color",
+         "typeName" : "Vector3Value",
+         "value" : "0,1,0"
+      }
+   ]
+}

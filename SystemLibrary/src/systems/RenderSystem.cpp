@@ -2,9 +2,12 @@
 #include "ecs/World.h"
 #include "components/TransformComponent.h"
 #include "components/MeshComponent.h"
+#include "components/MaterialComponent.h"
 #include "graphics/Mesh.h"
+#include "graphics/Material.h"
 #include "graphics/Shader.h"
 #include "graphics/Transform.h"
+#include "graphics/Camera.h"
 #include <vector>
 
 using namespace graphics;
@@ -27,16 +30,24 @@ namespace systems
 		{
 			return;
 		}
+		if (!world->hasComponent(entityID, MaterialComponent::TypeName()))
+		{
+			return;
+		}
 		m_interestingEntities.insert(entityID);
 	}
 
 	void RenderSystem::componentRemoved(const World_Ptr& world, const EntityID& entityID)
 	{
-		if (world->hasComponent(entityID, MeshComponent::TypeName()))
+		if (!world->hasComponent(entityID, MeshComponent::TypeName()))
 		{
 			m_interestingEntities.erase(entityID);
 		}
 		if (!world->hasComponent(entityID, TransformComponent::TypeName()))
+		{
+			m_interestingEntities.erase(entityID);
+		}
+		if (!world->hasComponent(entityID, MaterialComponent::TypeName()))
 		{
 			m_interestingEntities.erase(entityID);
 		}
@@ -49,26 +60,49 @@ namespace systems
 
 	void RenderSystem::_draw(const World_Ptr& world, float deltaTime)
 	{
-		Component_Ptr transformComponent;
-		Component_Vector meshComponents;
-		EntityID_Set::iterator it = m_interestingEntities.begin();
-		for (; it != m_interestingEntities.end(); ++it)
+		m_renderCache.clear();
 		{
-			meshComponents.clear();
-			world->getComponents(*it, MeshComponent::TypeName(), meshComponents);
-			world->getComponent(*it, TransformComponent::TypeName(), transformComponent);
+			EntityID_Set::iterator it = m_interestingEntities.begin();
+			for (; it != m_interestingEntities.end(); ++it)
+			{
+				std::vector<MeshComponent_Ptr> meshComponents = world->components<MeshComponent>(*it);
+				TransformComponent_Ptr transformComponent = world->component<TransformComponent>(*it);
+				MaterialComponent_Ptr materialComponent = world->component<MaterialComponent>(*it);
 
-			TransformComponent_Ptr typedTransformComponent = boost::dynamic_pointer_cast<TransformComponent>(transformComponent);
-			Shader_Ptr shader = Shader::Current();
-			if (shader.get())
-			{
-				shader->setValue("world", typedTransformComponent->transform->world());
+				RenderCache renderCache;
+				renderCache.material = materialComponent->material;
+				renderCache.transform = transformComponent->transform;
+
+				std::vector<MeshComponent_Ptr>::iterator it = meshComponents.begin();
+				for (; it != meshComponents.end(); ++it)
+				{
+					renderCache.meshes.push_back((*it)->mesh);
+				}
+
+				Shader_Ptr shader = renderCache.material->shader();
+				m_renderCache[shader].push_back(renderCache);
 			}
-			Component_Vector::iterator it = meshComponents.begin();
-			for (; it != meshComponents.end(); ++it)
+		}
+		{
+			RenderCacheMap::iterator it = m_renderCache.begin();
+			for (; it != m_renderCache.end(); ++it)
 			{
-				MeshComponent_Ptr typedMeshComponent = boost::dynamic_pointer_cast<MeshComponent>(*it);
-				typedMeshComponent->mesh->draw(deltaTime);
+				Shader_Ptr shader = it->first;
+				Shader::Enable(shader);
+				shader->setValue("proj", world->camera()->projMatrix());
+				shader->setValue("view", world->camera()->viewMatrix());
+				RenderCacheVector::iterator rit = it->second.begin();
+				for (; rit != it->second.end(); ++rit)
+				{
+					shader->setValue("world", rit->transform->world());
+					rit->material->applyToShader();
+					MeshVector::iterator mit = rit->meshes.begin();
+					for (; mit != rit->meshes.end(); ++mit)
+					{
+						(*mit)->draw(deltaTime);
+					}
+				}
+				Shader::Disable(shader);
 			}
 		}
 	}

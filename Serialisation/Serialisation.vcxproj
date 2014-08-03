@@ -17,6 +17,11 @@
   <ItemGroup>
     <ClCompile Include="src\serialisation\Serialiser.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F572203F-3A13-4D02-8696-8EB824DAFDFA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

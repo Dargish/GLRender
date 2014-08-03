@@ -92,6 +92,9 @@
     <ProjectReference Include="..\ComponentLibrary\ComponentLibrary.vcxproj">
       <Project>{2d44666b-c86e-4ffa-ae06-dbd5a289c9b6}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EntityComponentSystem\EntityComponentSystem.vcxproj">
       <Project>{5bc5a9eb-6074-46d3-83de-7f92c467fc43}</Project>
     </ProjectReference>

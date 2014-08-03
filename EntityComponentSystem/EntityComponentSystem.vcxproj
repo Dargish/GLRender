@@ -11,16 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ecs\ComponentContainer.h" />
     <ClInclude Include="src\ecs\Component.h" />
     <ClInclude Include="src\ecs\EntitySystem.h" />
     <ClInclude Include="src\ecs\fwd.h" />
     <ClInclude Include="src\ecs\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ecs\ComponentContainer.cpp" />
     <ClCompile Include="src\ecs\EntitySystem.cpp" />
     <ClCompile Include="src\ecs\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{15988cad-f3d7-4ab3-bdcd-68ac31c343bf}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{3a24da8f-2e50-408d-91e1-98ee30531edb}</Project>
     </ProjectReference>
