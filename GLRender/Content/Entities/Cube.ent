@@ -19,7 +19,7 @@
       {
          "material" : {
             "fromFile" : true,
-            "name" : "Blue",
+            "name" : "Default",
             "typeName" : "Material"
          },
          "typeName" : "MaterialComponent"
