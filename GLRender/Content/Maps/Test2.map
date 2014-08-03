@@ -1,0 +1,261 @@
+{
+   "entities" : [
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, -1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Green",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "19eababd-125e-4957-9c0b-9c5ec13eabb8"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, -1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Green",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "35ec46ae-b8a7-4a0e-96ec-0e6c38e26d1f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, 1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Blue",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "37752549-6306-4833-837a-9dafcd0a74ad"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, 1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "77d5e2c7-94af-4bdc-907b-566405f18377"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, -1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "89e63ae1-aefc-44d0-9ec1-43ae37406a8f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, 1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "a0790561-697b-4e66-b73c-821369b13b8f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -1.0, -1.0, -1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Red",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "cbfdf86d-04f6-4fb1-9fa9-fd81fe98b41f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 1.0, 1.0, 1.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Default",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "f4c5bdfb-b61f-495c-bd1d-0d880237f0f3"
+      }
+   ],
+   "typeName" : "World"
+}

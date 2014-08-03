@@ -111,56 +111,30 @@ void Game::start()
 	world->createSystem<RenderSystem>();
 	world->setCamera(Camera_Ptr(new FreeCamera));
 
-	//for (size_t i = 0; i < 8; ++i)
-	//{
-	//	EntityID cubeID = world->createEntity();
-	//	TransformComponent_Ptr transformComponent(new TransformComponent);
-	//	transformComponent->transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
-	//	transformComponent->transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
-	//	transformComponent->transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
-	//	MeshComponent_Ptr cubeComponent(new MeshComponent);
-	//	cubeComponent->mesh.reset(new Cube(1.0f));
-	//	MaterialComponent_Ptr MaterialComponent(new MaterialComponent);
-	//	MaterialComponent->material.reset(new Material);
-	//	if ((i & 1) == 0)
-	//	{
-	//		MaterialComponent->material->load("Red");
-	//	}
-	//	else if ((i & 2) == 0)
-	//	{
-	//		MaterialComponent->material->load("Green");
-	//	}
-	//	else if ((i & 4) == 0)
-	//	{
-	//		MaterialComponent->material->load("Blue");
-	//	}
-	//	else
-	//	{
-	//		MaterialComponent->material->setShader(Shader::Load("Generic"));
-	//	}
-	//	world->addComponent(cubeID, transformComponent);
-	//	world->addComponent(cubeID, cubeComponent);
-	//	world->addComponent(cubeID, MaterialComponent);
-	//}
+	/*for (size_t i = 0; i < 8; ++i)
+	{
+		EntityID cubeID = world->createEntity("Cube");
+		Transform_Ptr transform = world->component<TransformComponent>(cubeID)->transform;
+		transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
+		transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
+		transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
+		Material_Ptr material = world->component<MaterialComponent>(cubeID)->material;
+		if ((i & 1) == 0)
+		{
+			material->load("Red");
+		}
+		else if ((i & 2) == 0)
+		{
+			material->load("Green");
+		}
+		else if ((i & 4) == 0)
+		{
+			material->load("Blue");
+		}
+	}
 
-	//world->save("Test");
-	world->load("Test");
-
-	world->saveEntity(StrToEntityID("2bd83bc7-e04b-4fdd-a2a1-dbefe4fd4b1c"), "Cube");
-
-	EntityID entityID = StrToEntityID("2bd83bc7-e04b-4fdd-a2a1-dbefe4fd4b1c");
-
-	MaterialComponent_Ptr material = world->component<MaterialComponent>(entityID);
-	material->material->setValue("color", Vector3(1, 1, 1));
-
-	//Component_Ptr materialComponent;
-	//world->getComponent(StrToEntityID("18945b89-d78d-459d-bd13-ae469705e207"), MaterialComponent::TypeName(), materialComponent);
-	//MaterialComponent_Ptr typedMaterialComponent = boost::dynamic_pointer_cast<MaterialComponent>(materialComponent);
-	//typedMaterialComponent->material->load("Blue");
-	//typedMaterialComponent->material->setValue("color", Vector3(1, 0, 0));
-
-	//world->save("Test");
-
+	world->save("Test2");*/
+	world->load("Test2");
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
