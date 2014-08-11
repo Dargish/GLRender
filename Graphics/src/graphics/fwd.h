@@ -5,11 +5,15 @@ namespace graphics
 {
 	DECL_CLASS(Camera);
 	DECL_CLASS(Cube);
+	DECL_CLASS(GLBuffer);
+	DECL_CLASS(IndexBuffer);
 	DECL_CLASS(Material);
 	DECL_CLASS(Mesh);
 	DECL_CLASS(Primitive);
 	DECL_CLASS(ShaderValue);
 	DECL_CLASS(Shader);
 	DECL_CLASS(Transform);
+	DECL_CLASS(Vertex);
+	DECL_CLASS(VertexBuffer);
 	DECL_CLASS(Window);
 }

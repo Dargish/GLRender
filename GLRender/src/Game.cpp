@@ -91,6 +91,8 @@ void Game::initGlew()
 	{
 		throw std::runtime_error((boost::format("glewInit() failed: %s") % glewGetErrorString(err)).str());
 	}
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Game::setupInputManager()
@@ -136,6 +138,9 @@ void Game::start()
 	world->save("Test2");*/
 	world->load("Test2");
 
+	EntityID entityID = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
+	world->component<MaterialComponent>(entityID)->material->setShader(Shader::Load("ShowNormal"));
+
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
 		throw std::runtime_error("Failed to load font");
@@ -177,7 +182,6 @@ void Game::start()
 
 		// Draw
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
 
 		world->draw(deltaTime);
 

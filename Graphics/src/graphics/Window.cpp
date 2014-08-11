@@ -21,7 +21,7 @@ namespace graphics
 	{
 	}
 
-	void Window::init(sf::VideoMode mode, const std::string& title, sf::Uint32 style, const sf::ContextSettings& settings)
+	void Window::init(sf::VideoMode mode, const std::string& title, uint style, const sf::ContextSettings& settings)
 	{
 		m_window.reset(new sf::RenderWindow(mode, title, style, settings));
 	}
@@ -31,7 +31,7 @@ namespace graphics
 		return m_window;
 	}
 
-	void Window::Init(sf::VideoMode mode, const std::string& title, sf::Uint32 style, const sf::ContextSettings& settings)
+	void Window::Init(sf::VideoMode mode, const std::string& title, uint style, const sf::ContextSettings& settings)
 	{
 		Instance()->init(mode, title, style, settings);
 	}

@@ -1,6 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/format.hpp>
 #include "graphics/Cube.h"
+#include "graphics/VertexBuffer.h"
 #include <GL/glew.h>
 #include <iostream>
 
@@ -17,57 +18,58 @@ BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 	}
 	{
 		graphics::Cube_Ptr cube(new Cube(2.0f));
-		std::vector<Vector3>& verts = cube->vertices();
+		VertexPositionBuffer_Ptr vertexBuffer = boost::dynamic_pointer_cast<VertexPositionBuffer>(cube->vertexBuffer());
+		VertexPositionBuffer::BufferType& verts = vertexBuffer->data();
 		BOOST_REQUIRE_EQUAL(verts.size(), 8);
-		BOOST_REQUIRE_EQUAL(verts[0].x, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[0].y, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[0].z, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].x, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].y, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].z, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].x, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].y, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].z, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].x, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].y, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].z, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].x, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].y, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].z, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].x, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].y, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].z, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].x, 1.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].y, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].z, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].x, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].y, -1.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].z, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.x, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.y, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.z, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.x, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.y, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.z, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.x, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.y, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.z, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.x, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.y, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.z, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.x, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.y, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.z, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.x, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.y, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.z, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.x, 1.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.y, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.z, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.x, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.y, -1.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.z, -1.0f);
 		cube->resize(4.0f);
-		BOOST_REQUIRE_EQUAL(verts[0].x, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[0].y, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[0].z, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].x, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].y, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[1].z, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].x, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].y, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[2].z, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].x, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].y, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[3].z, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].x, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].y, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[4].z, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].x, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].y, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[5].z, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].x, 2.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].y, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[6].z, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].x, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].y, -2.0f);
-		BOOST_REQUIRE_EQUAL(verts[7].z, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.x, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.y, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[0].position.z, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.x, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.y, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[1].position.z, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.x, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.y, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[2].position.z, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.x, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.y, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[3].position.z, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.x, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.y, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[4].position.z, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.x, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.y, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[5].position.z, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.x, 2.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.y, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[6].position.z, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.x, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.y, -2.0f);
+		BOOST_REQUIRE_EQUAL(verts[7].position.z, -2.0f);
 
 	}
 }

@@ -13,29 +13,16 @@ namespace graphics
 		Primitive();
 		virtual ~Primitive();
 
-		std::vector<Vector3>& vertices();
-		const std::vector<Vector3>& vertices() const;
+		VertexBuffer_Ptr vertexBuffer();
+		VertexBuffer_Const_Ptr vertexBuffer() const;
 
-		std::vector<sf::Uint32>& indices();
-		const std::vector<sf::Uint32>& indices() const;
+		IndexBuffer_Ptr indexBuffer();
+		IndexBuffer_Const_Ptr indexBuffer() const;
 
 		virtual void draw(float deltaTime);
 
 	protected:
-		void dirtyVertexBuffer();
-		void dirtyIndexBuffer();
-
-		std::vector<Vector3> m_vertices;
-		std::vector<sf::Uint32> m_indices;
-
-	private:
-		void rebuildVertexBuffer();
-		void rebuildIndexBuffer();
-
-		bool m_vertexBufferDirty;
-		bool m_indexBufferDirty;
-
-		sf::Uint32 m_bufferVertices;
-		sf::Uint32 m_bufferIndices;
+		VertexBuffer_Ptr m_vertexBuffer;
+		IndexBuffer_Ptr m_indexBuffer;
 	};
 }

@@ -338,10 +338,6 @@ namespace graphics
 		{
 			glUniform1f(loc, value);
 		}
-		else
-		{
-			throw std::runtime_error((boost::format("Failed to get uniform location of '%s'") % name).str());
-		}
 	}
 
 	void Shader::setValue(const std::string& name, const Vector3& value)
@@ -350,10 +346,6 @@ namespace graphics
 		if (loc > -1)
 		{
 			glUniform3fv(loc, 1, glm::value_ptr(value));
-		}
-		else
-		{
-			throw std::runtime_error((boost::format("Failed to get uniform location of '%s'") % name).str());
 		}
 	}
 
@@ -364,10 +356,6 @@ namespace graphics
 		{
 			glUniformMatrix4fv(loc, 1, false, glm::value_ptr(value));
 		}
-		else
-		{
-			throw std::runtime_error((boost::format("Failed to get uniform location of '%s'") % name).str());
-		}
 	}
 	
 	const ShaderValueMap& Shader::defaultValues() const
@@ -375,7 +363,7 @@ namespace graphics
 		return m_defaultValues;
 	}
 
-	sf::Uint32 Shader::program() const
+	uint Shader::program() const
 	{
 		return m_program;
 	}
@@ -410,8 +398,8 @@ namespace graphics
 			return;
 		}
 		m_program = glCreateProgram();
-		sf::Uint32 vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		sf::Uint32 fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		uint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		uint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 		const char* vv = m_vertexSource.c_str();
 		const char* ff = m_fragmentSource.c_str();
@@ -440,7 +428,7 @@ namespace graphics
 		glDisable(GL_FRAGMENT_PROGRAM_ARB);
 	}
 
-	void Shader::compileSubShader(sf::Uint32 subShader)
+	void Shader::compileSubShader(uint subShader)
 	{
 		glCompileShader(subShader);
 		sf::Int32 result = GL_FALSE;

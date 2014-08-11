@@ -11,11 +11,11 @@ namespace graphics
 		static Window_Ptr Instance();
 		~Window();
 
-		void init(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default, const sf::ContextSettings& settings = sf::ContextSettings());
+		void init(sf::VideoMode mode, const std::string& title, uint style = sf::Style::Default, const sf::ContextSettings& settings = sf::ContextSettings());
 
 		sf::RenderWindow_Ptr& getWindow();
 
-		static void Init(sf::VideoMode mode, const std::string& title, sf::Uint32 style = sf::Style::Default, const sf::ContextSettings& settings = sf::ContextSettings());
+		static void Init(sf::VideoMode mode, const std::string& title, uint style = sf::Style::Default, const sf::ContextSettings& settings = sf::ContextSettings());
 
 		static sf::RenderWindow_Ptr& GetWindow();
 

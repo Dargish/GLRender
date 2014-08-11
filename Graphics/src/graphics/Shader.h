@@ -95,7 +95,7 @@ namespace graphics
 		void setValue(const std::string& name, const Matrix4& value);
 
 		const ShaderValueMap& defaultValues() const;
-		sf::Uint32 program() const;
+		uint program() const;
 
 	private:
 		typedef std::map<std::string, Shader_Ptr> ShaderCache;
@@ -110,12 +110,12 @@ namespace graphics
 
 		std::string parseShaderXml(rapidxml::xml_node<>* shader);
 
-		void compileSubShader(sf::Uint32 subShader);
+		void compileSubShader(uint subShader);
 
 		std::string m_name;
 		std::string m_vertexSource;
 		std::string m_fragmentSource;
-		sf::Uint32 m_program;
+		uint m_program;
 		ShaderValueMap m_defaultValues;
 
 		static Shader_Ptr s_current;
