@@ -44,12 +44,12 @@ namespace graphics
 		virtual ~TypedVertexBuffer();
 
 		BufferType& data();
-
 		const BufferType& data() const;
 
 		virtual void bind();
-
 		virtual void unbind() const;
+
+		virtual bool empty() const;
 
 	private:
 		BufferType m_data;
@@ -93,5 +93,11 @@ namespace graphics
 	{
 		VertexType::Disable();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	template< class VERTEX_TYPE >
+	bool TypedVertexBuffer<VERTEX_TYPE>::empty() const
+	{
+		return m_data.empty();
 	}
 }

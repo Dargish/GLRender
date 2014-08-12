@@ -35,6 +35,10 @@ namespace graphics
 
 	void Primitive::draw(float deltaTime)
 	{
+		if (m_vertexBuffer->empty() || m_indexBuffer->empty())
+		{
+			return;
+		}
 		m_vertexBuffer->bind();
 		m_indexBuffer->bind();
 		glDrawElements(GL_TRIANGLES, m_indexBuffer->data().size(), GL_UNSIGNED_INT, 0);

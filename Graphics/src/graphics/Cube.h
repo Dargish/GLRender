@@ -7,7 +7,7 @@ namespace graphics
 	class Cube : public Primitive
 	{
 	public:
-		Cube(float size = 1.0f);
+		Cube(float size = 1.0f, bool smooth = false);
 		Cube(const Cube& other);
 		virtual ~Cube();
 		Cube& operator=(const Cube& other);
@@ -19,11 +19,17 @@ namespace graphics
 		virtual void deserialise(const Json::Value& data);
 
 		void resize(float size);
+		void setSmooth(bool smooth);
 
 	private:
 		void createVertices();
+		void createSmoothVertices();
+		void createFlatVertices();
 		void createIndices();
+		void createSmoothIndices();
+		void createFlatIndices();
 
 		float m_size;
+		bool m_smooth;
 	};
 }

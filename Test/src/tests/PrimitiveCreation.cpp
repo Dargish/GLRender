@@ -18,8 +18,8 @@ BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 	}
 	{
 		graphics::Cube_Ptr cube(new Cube(2.0f));
-		VertexPositionBuffer_Ptr vertexBuffer = boost::dynamic_pointer_cast<VertexPositionBuffer>(cube->vertexBuffer());
-		VertexPositionBuffer::BufferType& verts = vertexBuffer->data();
+		VertexPositionNormalBuffer_Ptr vBuffer = boost::dynamic_pointer_cast<VertexPositionNormalBuffer>(cube->vertexBuffer());
+		VertexPositionNormalBuffer::BufferType& verts = vBuffer->data();
 		BOOST_REQUIRE_EQUAL(verts.size(), 8);
 		BOOST_REQUIRE_EQUAL(verts[0].position.x, 1.0f);
 		BOOST_REQUIRE_EQUAL(verts[0].position.y, 1.0f);

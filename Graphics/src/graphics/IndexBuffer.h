@@ -14,8 +14,9 @@ namespace graphics
 		const BufferType& data() const;
 
 		virtual void bind();
-
 		virtual void unbind() const;
+
+		virtual bool empty() const;
 
 	private:
 		BufferType m_data;

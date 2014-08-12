@@ -18,6 +18,11 @@ namespace graphics
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
+	bool IndexBuffer::empty() const
+	{
+		return m_data.empty();
+	}
+
 	IndexBuffer::BufferType& IndexBuffer::data()
 	{
 		return m_data;

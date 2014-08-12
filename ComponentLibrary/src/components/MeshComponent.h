@@ -10,6 +10,19 @@ namespace components
 	public:
 		graphics::Mesh_Ptr mesh;
 
+		// Helper function to convert the mesh type
+		template< class T >
+		boost::shared_ptr< T > meshAs()
+		{
+			return boost::dynamic_pointer_cast<T>(mesh);
+		}
+
+		template< class T >
+		boost::shared_ptr< const T > meshAs() const
+		{
+			return boost::dynamic_pointer_cast<const T>(mesh);
+		}
+
 		MeshComponent();
 		MeshComponent(const MeshComponent& other);
 		virtual ~MeshComponent();

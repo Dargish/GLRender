@@ -140,6 +140,7 @@ void Game::start()
 
 	EntityID entityID = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
 	world->component<MaterialComponent>(entityID)->material->setShader(Shader::Load("ShowNormal"));
+	world->component<MeshComponent>(entityID)->meshAs<Cube>()->setSmooth(true);
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
