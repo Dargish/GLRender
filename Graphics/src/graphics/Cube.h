@@ -22,12 +22,7 @@ namespace graphics
 		void setSmooth(bool smooth);
 
 	private:
-		void createVertices();
-		void createSmoothVertices();
-		void createFlatVertices();
-		void createIndices();
-		void createSmoothIndices();
-		void createFlatIndices();
+		void createMesh();
 
 		float m_size;
 		bool m_smooth;

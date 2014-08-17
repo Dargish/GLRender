@@ -10,6 +10,8 @@ namespace graphics
 		virtual ~GLBuffer();
 
 		uint buffer();
+		virtual uint generateBuffer();
+		virtual void deleteBuffer();
 
 		void dirty();
 		void clean();
@@ -17,7 +19,6 @@ namespace graphics
 
 		virtual void bind() = 0;
 		virtual void unbind() const = 0;
-
 		virtual bool empty() const = 0;
 
 	private:

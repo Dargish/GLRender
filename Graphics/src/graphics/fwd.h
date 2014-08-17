@@ -12,6 +12,9 @@ namespace graphics
 	DECL_CLASS(Primitive);
 	DECL_CLASS(ShaderValue);
 	DECL_CLASS(Shader);
+	DECL_CLASS(Texture);
+	DECL_CLASS(TextureBuffer);
+	DECL_CLASS(TextureData);
 	DECL_CLASS(Transform);
 	DECL_CLASS(Vertex);
 	DECL_CLASS(VertexBuffer);

@@ -16,6 +16,7 @@
 #include <graphics/Transform.h>
 #include <graphics/Camera.h>
 #include <graphics/Cube.h>
+#include <graphics/Texture.h>
 #include "FreeCamera.h"
 
 #define FRAMETIME_LIMIT 16666 // in usec (60fps)
@@ -138,9 +139,18 @@ void Game::start()
 	world->save("Test2");*/
 	world->load("Test2");
 
-	EntityID entityID = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
-	world->component<MaterialComponent>(entityID)->material->setShader(Shader::Load("ShowNormal"));
-	world->component<MeshComponent>(entityID)->meshAs<Cube>()->setSmooth(true);
+	EntityID entityID1 = StrToEntityID("35ec46ae-b8a7-4a0e-96ec-0e6c38e26d1f");
+	world->component<MaterialComponent>(entityID1)->material->setShader(Shader::Load("GenericTextured"));
+
+	EntityID entityID2 = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
+	world->component<MaterialComponent>(entityID2)->material->setShader(Shader::Load("ShowNormal"));
+	world->component<MeshComponent>(entityID2)->meshAs<Cube>()->setSmooth(true);
+
+	Texture_Ptr texture(new Texture("UVTest.png"));
+	texture->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+	texture->setMagFilter(GL_LINEAR);
+	texture->setAnisotropicLevel(TextureBuffer::MaxAnisotropicLevel());
+	texture->bind();
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{

@@ -28,6 +28,16 @@ namespace graphics
 		static void Disable();
 	};
 
+	struct VertexPositionUVNormal
+	{
+		Vector3 position;
+		Vector2 uv;
+		Vector3 normal;
+
+		static void Enable();
+		static void Disable();
+	};
+
 	class VertexBuffer : public GLBuffer
 	{
 	public:
@@ -57,6 +67,7 @@ namespace graphics
 
 	DECL_BUFFER_TYPE(VertexPosition);
 	DECL_BUFFER_TYPE(VertexPositionNormal);
+	DECL_BUFFER_TYPE(VertexPositionUVNormal);
 
 	template< class VERTEX_TYPE >
 	TypedVertexBuffer<VERTEX_TYPE>::~TypedVertexBuffer()

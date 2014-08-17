@@ -435,6 +435,18 @@ namespace graphics
 		glGetShaderiv(subShader, GL_COMPILE_STATUS, &result);
 		if (result == GL_FALSE)
 		{
+			GLint logLength = 0;
+			glGetShaderiv(subShader, GL_INFO_LOG_LENGTH, &logLength);
+			std::string log;
+			log.resize(logLength);
+			glGetShaderInfoLog(subShader, logLength, &logLength, (GLchar*)log.c_str());
+
+			GLint srcLength = 0;
+			glGetShaderiv(subShader, GL_SHADER_SOURCE_LENGTH, &srcLength);
+			std::string src;
+			src.resize(srcLength);
+			glGetShaderSource(subShader, srcLength, &srcLength, (GLchar*)src.c_str());
+			std::cerr << src << std::endl << log << std::endl;
 			throw std::runtime_error("Error compiling subshader");
 		}
 	}

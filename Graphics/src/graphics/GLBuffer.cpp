@@ -17,9 +17,22 @@ namespace graphics
 	{
 		if (m_buffer == 0)
 		{
-			glGenBuffers(1, &m_buffer);
+			m_buffer = generateBuffer();
 		}
 		return m_buffer;
+	}
+
+	uint GLBuffer::generateBuffer()
+	{
+		uint buf = 0;
+		glGenBuffers(1, &buf);
+		return buf;
+	}
+
+	void GLBuffer::deleteBuffer()
+	{
+		glDeleteBuffers(1, &m_buffer);
+		m_buffer = 0;
 	}
 
 	void GLBuffer::dirty()
