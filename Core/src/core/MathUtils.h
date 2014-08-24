@@ -1,6 +1,7 @@
 #include <math.h>
 #include <algorithm>
 
+#define EPSILON 0.000003f
 #define QUARTER_PI 0.78539816339f
 #define HALF_PI 1.57079632679f
 #define PI 3.14159265359f
@@ -24,7 +25,7 @@ inline float wrapAngle(float x)
 	return x;
 }
 
-inline float constrainAngle(float x, float max = HALF_PI, float min = -HALF_PI)
+inline float constrainAngle(float x, float max = HALF_PI - EPSILON, float min = EPSILON - HALF_PI)
 {
 	x = std::min(x, max);
 	x = std::max(x, min);
