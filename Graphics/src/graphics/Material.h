@@ -29,6 +29,7 @@ namespace graphics
 
 		void setValue(const std::string& name, float value);
 		void setValue(const std::string& name, const Vector3& value);
+		void setTexture(const std::string& name, const std::string& filePath);
 
 		void applyToShader();
 

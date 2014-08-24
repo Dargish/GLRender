@@ -17,6 +17,7 @@
 #include <graphics/Camera.h>
 #include <graphics/Cube.h>
 #include <graphics/Texture.h>
+#include <graphics/TextureFile.h>
 #include "FreeCamera.h"
 
 #define FRAMETIME_LIMIT 16666 // in usec (60fps)
@@ -27,31 +28,6 @@ using namespace graphics;
 using namespace components;
 using namespace systems;
 using namespace serialisation;
-
-void checkGlError()
-{
-	GLenum err = glGetError();
-	switch (err)
-	{
-	case GL_INVALID_ENUM:
-		throw std::runtime_error("An unacceptable value is specified for an enumerated argument.The offending command is ignored and has no other side effect than to set the error flag.");
-	case GL_INVALID_VALUE:
-		throw std::runtime_error("A numeric argument is out of range.The offending command is ignored and has no other side effect than to set the error flag.");
-	case GL_INVALID_OPERATION:
-		throw std::runtime_error("The specified operation is not allowed in the current state.The offending command is ignored and has no other side effect than to set the error flag.");
-	case GL_INVALID_FRAMEBUFFER_OPERATION:
-		throw std::runtime_error("The framebuffer object is not complete.The offending command is ignored and has no other side effect than to set the error flag.");
-	case GL_OUT_OF_MEMORY:
-		throw std::runtime_error("There is not enough memory left to execute the command.The state of the GL is undefined, except for the state of the error flags, after this error is recorded.");
-	case GL_STACK_UNDERFLOW:
-		throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to underflow.");
-	case GL_STACK_OVERFLOW:
-		throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to overflow.");
-	case GL_NO_ERROR:
-	default:
-		return;
-	}
-}
 
 Game::Game()
 {
@@ -68,6 +44,7 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<Material>();
 	Serialiser::RegisterSerialisable<FloatValue>();
 	Serialiser::RegisterSerialisable<Vector3Value>();
+	Serialiser::RegisterSerialisable<TextureValue>();
 	Serialiser::RegisterSerialisable<ComponentContainer>();
 }
 
@@ -140,17 +117,18 @@ void Game::start()
 	world->load("Test2");
 
 	EntityID entityID1 = StrToEntityID("35ec46ae-b8a7-4a0e-96ec-0e6c38e26d1f");
-	world->component<MaterialComponent>(entityID1)->material->setShader(Shader::Load("GenericTextured"));
+	world->component<MaterialComponent>(entityID1)->material->load("Textured");
+	//world->component<MaterialComponent>(entityID1)->material->setTexture("tex0", "test.png");
 
 	EntityID entityID2 = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
 	world->component<MaterialComponent>(entityID2)->material->setShader(Shader::Load("ShowNormal"));
 	world->component<MeshComponent>(entityID2)->meshAs<Cube>()->setSmooth(true);
 
-	Texture_Ptr texture(new Texture("UVTest.png"));
-	texture->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
-	texture->setMagFilter(GL_LINEAR);
-	texture->setAnisotropicLevel(TextureBuffer::MaxAnisotropicLevel());
-	texture->bind();
+	//Texture_Ptr texture = TextureFile::Load("UVTest.png");
+	//texture->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+	//texture->setMagFilter(GL_LINEAR);
+	//texture->setAnisotropicLevel(TextureBuffer::MaxAnisotropicLevel());
+	//texture->bind();
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
@@ -205,8 +183,6 @@ void Game::start()
 		window->popGLStates();
 
 		window->display();
-
-		checkGlError();
 
 		// Sleep for excess time
 		sf::Int64 frameTime = m_clock.getElapsedTime().asMicroseconds();

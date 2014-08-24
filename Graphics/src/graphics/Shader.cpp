@@ -1,4 +1,6 @@
-#include "Shader.h"
+﻿#include "Shader.h"
+#include "Texture.h"
+#include "TextureFile.h"
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <rapidxml.hpp>
@@ -136,6 +138,7 @@ namespace graphics
 	{
 
 	}
+
 	Vector3Value::Vector3Value(const std::string& name, const Vector3& value) :
 		ShaderValue(name),
 		m_value(value)
@@ -220,8 +223,107 @@ namespace graphics
 
 
 	/*
+	* TextureValue
+	*/
+
+	TextureValue::TextureValue()
+	{
+
+	}
+
+	TextureValue::TextureValue(const std::string& name, const TextureFile_Ptr& value) :
+		ShaderValue(name),
+		m_value(value)
+	{
+
+	}
+
+	TextureValue::TextureValue(const TextureValue& other) :
+		ShaderValue(other.m_name),
+		m_value(other.m_value)
+	{
+
+	}
+
+	TextureValue::~TextureValue()
+	{
+
+	}
+
+	TextureValue& TextureValue::operator=(const TextureValue& other)
+	{
+		m_name = other.m_name;
+		m_value = other.m_value;
+		return *this;
+	}
+
+	std::string TextureValue::TypeName()
+	{
+		return "TextureValue";
+	}
+
+	std::string TextureValue::typeName() const
+	{
+		return TextureValue::TypeName();
+	}
+
+	serialisation::Serialisable* TextureValue::clone() const
+	{
+		return new TextureValue(*this);
+	}
+
+	Json::Value TextureValue::serialise() const
+	{
+		Json::Value data = ShaderValue::serialise();
+		data["value"] = m_value->filePath();
+		return data;
+	}
+
+	void TextureValue::deserialise(const Json::Value& data)
+	{
+		ShaderValue::deserialise(data);
+		fromString(data["value"].asString());
+	}
+
+	void TextureValue::applyToShader(const Shader_Ptr& shader) const
+	{
+		shader->setValue(m_name, m_value);
+	}
+
+	void TextureValue::fromString(const std::string& str)
+	{
+		m_value = TextureFile::Load(str);
+	}
+
+
+	/*
 	*	Shader
 	*/
+	void Shader::CheckGLError()
+	{
+		GLenum err = glGetError();
+		switch (err)
+		{
+		case GL_INVALID_ENUM:
+			throw std::runtime_error("An unacceptable value is specified for an enumerated argument.The offending command is ignored and has no other side effect than to set the error flag.");
+		case GL_INVALID_VALUE:
+			throw std::runtime_error("A numeric argument is out of range.The offending command is ignored and has no other side effect than to set the error flag.");
+		case GL_INVALID_OPERATION:
+			throw std::runtime_error("The specified operation is not allowed in the current state.The offending command is ignored and has no other side effect than to set the error flag.");
+		case GL_INVALID_FRAMEBUFFER_OPERATION:
+			throw std::runtime_error("The framebuffer object is not complete.The offending command is ignored and has no other side effect than to set the error flag.");
+		case GL_OUT_OF_MEMORY:
+			throw std::runtime_error("There is not enough memory left to execute the command.The state of the GL is undefined, except for the state of the error flags, after this error is recorded.");
+		case GL_STACK_UNDERFLOW:
+			throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to underflow.");
+		case GL_STACK_OVERFLOW:
+			throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to overflow.");
+		case GL_NO_ERROR:
+		default:
+			return;
+		}
+	}
+
 	std::string Shader::ShaderPath(const std::string& shaderName)
 	{
 		return "Content/Shaders/" + shaderName + ".xml";
@@ -308,6 +410,7 @@ namespace graphics
 					ShaderValue_Ptr defaultValue(new FloatValue);
 					defaultValue->fromString(defStr);
 					m_defaultValues[name] = defaultValue;
+					defStr = " = " + type + "(" + defStr + ")";
 				}
 				else if (type == "vec3")
 				{
@@ -315,8 +418,16 @@ namespace graphics
 					defaultValue->setName(name);
 					defaultValue->fromString(defStr);
 					m_defaultValues[name] = defaultValue;
+					defStr = " = " + type + "(" + defStr + ")";
 				}
-				defStr = " = " + type + "(" + defStr + ")";
+				else if (type == "sampler2D")
+				{
+					ShaderValue_Ptr defaultValue(new TextureValue);
+					defaultValue->setName(name);
+					defaultValue->fromString(defStr);
+					m_defaultValues[name] = defaultValue;
+					defStr = "";
+				}
 			}
 			source += "uniform " + type + " " + name + defStr + ";\n";
 		}
@@ -355,6 +466,18 @@ namespace graphics
 		if (loc > -1)
 		{
 			glUniformMatrix4fv(loc, 1, false, glm::value_ptr(value));
+		}
+	}
+
+	void Shader::setValue(const std::string& name, const Texture_Ptr& value)
+	{
+		sf::Int32 loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			int textureUnit = nextTextureUnit();
+			ActivateTexture activateTexture(textureUnit);
+			value->bind();
+			glUniform1i(loc, textureUnit);
 		}
 	}
 	
@@ -448,6 +571,28 @@ namespace graphics
 			glGetShaderSource(subShader, srcLength, &srcLength, (GLchar*)src.c_str());
 			std::cerr << src << std::endl << log << std::endl;
 			throw std::runtime_error("Error compiling subshader");
+		}
+	}
+
+	int Shader::nextTextureUnit()
+	{
+		if (m_textureUnits.empty())
+		{
+			fillTextureUnits();
+		}
+		int next = m_textureUnits.front();
+		m_textureUnits.pop_front();
+		m_textureUnits.push_back(next);
+		return next;
+	}
+
+	void Shader::fillTextureUnits()
+	{
+		int maxTextureUnits;
+		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
+		for (int unit = 0; unit < maxTextureUnits; ++unit)
+		{
+			m_textureUnits.push_back(unit);
 		}
 	}
 }

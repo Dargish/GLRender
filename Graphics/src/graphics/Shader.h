@@ -1,6 +1,7 @@
 #pragma once
 #include "fwd.h"
 #include <map>
+#include <deque>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Vector3.hpp>
 #include "serialisation/Serialiser.h"
@@ -76,9 +77,34 @@ namespace graphics
 		Vector3 m_value;
 	};
 
+	class TextureValue : public ShaderValue
+	{
+	public:
+		TextureValue();
+		TextureValue(const std::string& name, const TextureFile_Ptr& value);
+		TextureValue(const TextureValue& other);
+		virtual ~TextureValue();
+		TextureValue& operator=(const TextureValue& other);
+
+		static std::string TypeName();
+		virtual std::string typeName() const;
+		virtual serialisation::Serialisable* clone() const;
+		virtual Json::Value serialise() const;
+		virtual void deserialise(const Json::Value& data);
+
+		virtual void applyToShader(const Shader_Ptr& shader) const;
+
+		virtual void fromString(const std::string& str);
+
+	private:
+		TextureFile_Ptr m_value;
+	};
+
 	class Shader
 	{
 	public:
+		static void CheckGLError();
+
 		static std::string ShaderPath(const std::string& shaderName);
 
 		static Shader_Ptr& Load(const std::string& name);
@@ -93,6 +119,7 @@ namespace graphics
 		void setValue(const std::string& name, float value);
 		void setValue(const std::string& name, const Vector3& value);
 		void setValue(const std::string& name, const Matrix4& value);
+		void setValue(const std::string& name, const Texture_Ptr& value);
 
 		const ShaderValueMap& defaultValues() const;
 		uint program() const;
@@ -112,11 +139,15 @@ namespace graphics
 
 		void compileSubShader(uint subShader);
 
+		int nextTextureUnit();
+		void fillTextureUnits();
+
 		std::string m_name;
 		std::string m_vertexSource;
 		std::string m_fragmentSource;
 		uint m_program;
 		ShaderValueMap m_defaultValues;
+		std::deque<int> m_textureUnits;
 
 		static Shader_Ptr s_current;
 		static ShaderCache s_shaderCache;

@@ -15,6 +15,7 @@ namespace graphics
 	DECL_CLASS(Texture);
 	DECL_CLASS(TextureBuffer);
 	DECL_CLASS(TextureData);
+	DECL_CLASS(TextureFile);
 	DECL_CLASS(Transform);
 	DECL_CLASS(Vertex);
 	DECL_CLASS(VertexBuffer);

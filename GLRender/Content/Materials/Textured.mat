@@ -1,0 +1,7 @@
+{
+   "name" : "Textured",
+   "shader" : "GenericTextured",
+   "typeName" : "Material",
+   "values" : [
+   ]
+}

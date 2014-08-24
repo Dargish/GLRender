@@ -1,22 +1,21 @@
 #include "Texture.h"
-#include <SFML\Graphics\Image.hpp>
 
 namespace graphics
 {
-	std::string Texture::TexturePath(const std::string& textureName)
+	ActivateTexture::ActivateTexture(int textureUnit)
 	{
-		return "Content/Textures/" + textureName;
+		glGetIntegerv(GL_ACTIVE_TEXTURE, &m_oldTextureUnit);
+		glActiveTexture(GL_TEXTURE0 + textureUnit);
+	}
+
+	ActivateTexture::~ActivateTexture()
+	{
+		glActiveTexture(m_oldTextureUnit);
 	}
 
 	Texture::Texture() :
 		m_width(0), m_height(0), m_nChannels(0), m_textureType(TextureType::kInvalid)
 	{
-	}
-
-	Texture::Texture(const std::string& filePath) :
-		m_width(0), m_height(0), m_nChannels(0), m_textureType(TextureType::kInvalid)
-	{
-		load(filePath);
 	}
 
 	Texture::Texture(int width, int height, int nChannels, const TextureType::Enum& textureType /*= TextureType::kColor*/) :
@@ -27,26 +26,6 @@ namespace graphics
 
 	Texture::~Texture()
 	{
-	}
-
-	void Texture::load(const std::string& filePath)
-	{
-		sf::Image image;
-		if (image.loadFromFile(TexturePath(filePath)))
-		{
-			m_width = image.getSize().x;
-			m_height = image.getSize().y;
-			m_nChannels = 4;
-			m_textureType = TextureType::kColor;
-			resetData();
-			const uchar* imagePixels = image.getPixelsPtr();
-			UCharTextureData::Data& thisPixels = boost::dynamic_pointer_cast<UCharTextureData>(m_data)->data();
-			//for (size_t i = 0; i < thisPixels.size(); ++i)
-			//{
-			//	thisPixels[i] = imagePixels[i];
-			//}
-			std::copy(imagePixels, imagePixels + m_data->size(), &thisPixels.front());
-		}
 	}
 
 	const Texture::TextureType::Enum& Texture::textureType() const

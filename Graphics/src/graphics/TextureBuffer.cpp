@@ -1,4 +1,5 @@
 #include "TextureBuffer.h"
+#include "Shader.h"
 
 namespace graphics
 {
@@ -10,7 +11,7 @@ namespace graphics
 	}
 
 	TextureBuffer::TextureBuffer() :
-		m_minFilter(GL_NEAREST), m_magFilter(GL_NEAREST), m_anisotropicLevel(0), m_mipMapped(true)
+		m_minFilter(GL_NEAREST), m_magFilter(GL_NEAREST), m_anisotropicLevel(1.0f), m_mipMapped(true)
 	{
 	}
 
@@ -45,14 +46,17 @@ namespace graphics
 			int height = this->height();
 			GLenum type = this->type();
 			GLvoid* data = this->data();
+			Shader::CheckGLError();
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data);
 			if (mipMapped())
 			{
 				glGenerateMipmap(GL_TEXTURE_2D);
 			}
+			Shader::CheckGLError();
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter());
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter());
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel());
+			Shader::CheckGLError();
 		}
 	}
 
@@ -135,7 +139,7 @@ namespace graphics
 
 	void TextureBuffer::setAnisotropicLevel(GLfloat anisotropicLevel)
 	{
-		m_anisotropicLevel = std::min(MaxAnisotropicLevel(), anisotropicLevel);
+		m_anisotropicLevel = std::max(1.0f, std::min(MaxAnisotropicLevel(), anisotropicLevel));
 		dirty(); // Todo: setting filters shouldn't require data to be copied to gpu again
 	}
 

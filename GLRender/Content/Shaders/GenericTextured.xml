@@ -17,12 +17,13 @@
 	</vertexshader>
 	<fragmentshader>
 		<uniform type="vec3" default="1,0,1">color</uniform>
-    <uniform type="sampler2D">tex0</uniform>
+    <uniform type="sampler2D" default="UVTest.png">tex0</uniform>
+    <uniform type="sampler2D" default="test.png">tex1</uniform>
     <input type="vec2">f_uv</input>
     <input type="vec3">f_normal</input>
 		<output type="vec4">fragColor</output>
 		<source>
-      fragColor = texture(tex0, f_uv).rgba;
+      fragColor = texture(tex0, f_uv).rgba * texture(tex1, f_uv).rgba;
     </source>
 	</fragmentshader>
 </shader>

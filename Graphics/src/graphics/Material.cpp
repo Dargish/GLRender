@@ -1,4 +1,5 @@
 #include "Material.h"
+#include "TextureFile.h"
 #include <json/json.h>
 
 using namespace serialisation;
@@ -63,6 +64,7 @@ namespace graphics
 
 	void Material::deserialise(const Json::Value& data)
 	{
+		m_values.clear();
 		FileSerialisable::deserialise(data);
 		if (!m_fromFile)
 		{
@@ -110,6 +112,12 @@ namespace graphics
 	{
 		m_fromFile = false;
 		m_values[name] = ShaderValue_Ptr(new Vector3Value(name, value));
+	}
+
+	void Material::setTexture(const std::string& name, const std::string& filePath)
+	{
+		m_fromFile = false;
+		m_values[name] = ShaderValue_Ptr(new TextureValue(name, TextureFile::Load(filePath)));
 	}
 
 	void Material::applyToShader()

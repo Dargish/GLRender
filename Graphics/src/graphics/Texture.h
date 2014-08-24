@@ -1,6 +1,7 @@
 #pragma once
 #include "fwd.h"
 #include "TextureBuffer.h"
+#include <map>
 #include <vector>
 
 namespace graphics
@@ -71,6 +72,17 @@ namespace graphics
 	typedef boost::shared_ptr<const FloatTextureData> FloatTextureData_Const_Ptr;
 
 
+	class ActivateTexture
+	{
+	public:
+		ActivateTexture(int textureUnit);
+		~ActivateTexture();
+
+	private:
+		int m_oldTextureUnit;
+	};
+
+
 	class Texture : public TextureBuffer
 	{
 	public:
@@ -84,14 +96,9 @@ namespace graphics
 			};
 		};
 
-		static std::string TexturePath(const std::string& textureName);
-
 		Texture();
-		Texture(const std::string& filePath);
 		Texture(int width, int height, int nChannels, const TextureType::Enum& textureType = TextureType::kColor);
 		virtual ~Texture();
-
-		void load(const std::string& filePath);
 
 		const TextureType::Enum& textureType() const;
 
@@ -105,9 +112,8 @@ namespace graphics
 
 		virtual GLenum type() const;
 
-	private:
+	protected:
 		void resetData();
-
 		int m_width;
 		int m_height;
 		int m_nChannels;
