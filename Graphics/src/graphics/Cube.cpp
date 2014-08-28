@@ -1,7 +1,5 @@
 #include "Cube.h"
 #include <json/json.h>
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
 
 using namespace serialisation;
 
@@ -44,14 +42,11 @@ namespace graphics
 		createMesh();
 	}
 
-	void createFace(
+	void Cube::createFace(
 		VertexPositionUVNormalBuffer::BufferType& vBuffer,
 		IndexBuffer::BufferType& iBuffer,
-		const Vector3& normal
-		)
+		const Vector3& normal )
 	{
-		float m_size = 0.5f; // Remove
-
 		size_t indexOffset = vBuffer.size();
 
 		Vector3 up(0.0f, 1.0f, 0.0f);

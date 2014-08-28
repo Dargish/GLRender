@@ -305,19 +305,33 @@ namespace graphics
 		switch (err)
 		{
 		case GL_INVALID_ENUM:
+			std::cerr << "GL_INVALID_ENUM" << std::endl;
 			throw std::runtime_error("An unacceptable value is specified for an enumerated argument.The offending command is ignored and has no other side effect than to set the error flag.");
+			break;
 		case GL_INVALID_VALUE:
+			std::cerr << "GL_INVALID_VALUE" << std::endl;
 			throw std::runtime_error("A numeric argument is out of range.The offending command is ignored and has no other side effect than to set the error flag.");
+			break;
 		case GL_INVALID_OPERATION:
+			std::cerr << "GL_INVALID_OPERATION" << std::endl;
 			throw std::runtime_error("The specified operation is not allowed in the current state.The offending command is ignored and has no other side effect than to set the error flag.");
+			break;
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
+			std::cerr << "GL_INVALID_FRAMEBUFFER_OPERATION" << std::endl;
 			throw std::runtime_error("The framebuffer object is not complete.The offending command is ignored and has no other side effect than to set the error flag.");
+			break;
 		case GL_OUT_OF_MEMORY:
+			std::cerr << "GL_OUT_OF_MEMORY" << std::endl;
 			throw std::runtime_error("There is not enough memory left to execute the command.The state of the GL is undefined, except for the state of the error flags, after this error is recorded.");
+			break;
 		case GL_STACK_UNDERFLOW:
+			std::cerr << "GL_STACK_UNDERFLOW" << std::endl;
 			throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to underflow.");
+			break;
 		case GL_STACK_OVERFLOW:
+			std::cerr << "GL_STACK_OVERFLOW" << std::endl;
 			throw std::runtime_error("An attempt has been made to perform an operation that would cause an internal stack to overflow.");
+			break;
 		case GL_NO_ERROR:
 		default:
 			return;
@@ -433,9 +447,17 @@ namespace graphics
 		}
 		for (xml_node<>* output = shader->first_node("output"); output; output = output->next_sibling("output"))
 		{
+			std::string line = "out";
 			std::string name(output->value());
 			std::string type(output->first_attribute("type")->value());
-			source += "out " + type + " " + name + ";\n";
+			line = line + " " + type + " " + name + ";\n";
+			xml_attribute<>* location = output->first_attribute("location");
+			if (location)
+			{
+				std::string locValue(location->value());
+				line = "layout (location = " + locValue + ") " + line;
+			}
+			source += line;
 		}
 		std::string main(shader->first_node("source")->value());
 		source += "void main(void)\n{\n" + main + "\n}\n";
@@ -469,12 +491,15 @@ namespace graphics
 		}
 	}
 
-	void Shader::setValue(const std::string& name, const Texture_Ptr& value)
+	void Shader::setValue(const std::string& name, const Texture_Ptr& value, int textureUnit /*= -1*/ )
 	{
 		sf::Int32 loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
-			int textureUnit = nextTextureUnit();
+			if (textureUnit < 0)
+			{
+				textureUnit = nextTextureUnit();
+			}
 			ActivateTexture activateTexture(textureUnit);
 			value->bind();
 			glUniform1i(loc, textureUnit);

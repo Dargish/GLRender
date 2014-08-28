@@ -13,7 +13,7 @@ namespace graphics
 
 		virtual size_t size() const = 0;
 		virtual void resize(size_t size) = 0;
-		virtual GLvoid* dataPtr() const = 0;
+		virtual void* dataPtr() const = 0;
 	};
 
 
@@ -45,9 +45,9 @@ namespace graphics
 			m_data.resize(size, DATATYPE(0));
 		}
 
-		virtual GLvoid* dataPtr() const
+		virtual void* dataPtr() const
 		{
-			return (GLvoid*)&m_data.front();
+			return (void*)&m_data.front();
 		}
 
 		Data& data()
@@ -108,9 +108,9 @@ namespace graphics
 		virtual int nChannels() const;
 		virtual int width() const;
 		virtual int height() const;
-		virtual GLvoid* data() const;
+		virtual void* data() const;
 
-		virtual GLenum type() const;
+		virtual uint type() const;
 
 	protected:
 		void resetData();

@@ -8,6 +8,8 @@
 #include "graphics/Shader.h"
 #include "graphics/Transform.h"
 #include "graphics/Camera.h"
+#include "graphics/FrameBuffer.h"
+#include "graphics/Texture.h"
 #include <vector>
 
 using namespace graphics;
@@ -16,8 +18,22 @@ using namespace components;
 
 namespace systems
 {
+	RenderSystem::RenderSystem() :
+		m_frameBuffer(new FrameBuffer)
+	{
+		m_deferredTestShader = Shader::Load("DeferredTest");
+	}
+
 	RenderSystem::~RenderSystem()
 	{
+	}
+
+	void RenderSystem::resetFrameBufferSize(const Point2& size)
+	{
+		Texture_Ptr color(new Texture(size.x, size.y, 3));
+		Texture_Ptr normal(new Texture(size.x, size.y, 3));
+		m_frameBuffer->addTextureTarget("g_color", color);
+		m_frameBuffer->addTextureTarget("g_normal", normal);
 	}
 
 	void RenderSystem::componentAdded(const World_Ptr& world, const EntityID& entityID)
@@ -83,6 +99,7 @@ namespace systems
 				m_renderCache[shader].push_back(renderCache);
 			}
 		}
+		m_frameBuffer->bind();
 		{
 			RenderCacheMap::iterator it = m_renderCache.begin();
 			for (; it != m_renderCache.end(); ++it)
@@ -105,5 +122,7 @@ namespace systems
 				Shader::Disable(shader);
 			}
 		}
+		m_frameBuffer->unbind();
+		m_frameBuffer->drawToScreen(m_deferredTestShader);
 	}
 }

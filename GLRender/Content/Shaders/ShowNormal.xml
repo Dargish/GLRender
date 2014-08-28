@@ -16,7 +16,7 @@
 		<input type="vec3">f_normal</input>
 		<output type="vec4">fragColor</output>
 		<source>
-			fragColor = vec4(f_normal,1);
+			fragColor = vec4(normalize(f_normal),1);
 		</source>
 	</fragmentshader>
 </shader>

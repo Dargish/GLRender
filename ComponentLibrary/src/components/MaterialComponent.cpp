@@ -7,7 +7,8 @@ using namespace serialisation;
 
 namespace components
 {
-	MaterialComponent::MaterialComponent()
+	MaterialComponent::MaterialComponent() :
+		material(new Material)
 	{
 
 	}

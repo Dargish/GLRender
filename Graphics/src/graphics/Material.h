@@ -9,7 +9,6 @@ namespace graphics
 	class Material : public serialisation::FileSerialisable
 	{
 	public:
-
 		Material();
 		Material(const Material& other);
 		~Material();

@@ -7,11 +7,13 @@
 
 namespace systems
 {
-
 	class RenderSystem : public ecs::EntitySystem
 	{
 	public:
+		RenderSystem();
 		virtual ~RenderSystem();
+
+		void resetFrameBufferSize(const Point2& size);
 
 		virtual void componentAdded(const ecs::World_Ptr& world, const ecs::EntityID& entityID);
 		virtual void componentRemoved(const ecs::World_Ptr& world, const ecs::EntityID& entityID);
@@ -32,5 +34,7 @@ namespace systems
 		typedef std::map<graphics::Shader_Ptr, RenderCacheVector> RenderCacheMap;
 
 		RenderCacheMap m_renderCache;
+		graphics::FrameBuffer_Ptr m_frameBuffer;
+		graphics::Shader_Ptr m_deferredTestShader;
 	};
 }

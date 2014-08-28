@@ -1,5 +1,6 @@
 #include "TextureBuffer.h"
 #include "Shader.h"
+#include <GL/glew.h>
 
 namespace graphics
 {
@@ -17,6 +18,7 @@ namespace graphics
 
 	TextureBuffer::~TextureBuffer()
 	{
+		deleteBuffer();
 	}
 
 	uint TextureBuffer::generateBuffer()
@@ -57,6 +59,7 @@ namespace graphics
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter());
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel());
 			Shader::CheckGLError();
+			clean();
 		}
 	}
 
@@ -72,7 +75,20 @@ namespace graphics
 
 	GLenum TextureBuffer::internalFormat() const
 	{
-		return format();
+		// By default infer from nChannels
+		if (nChannels() == 1)
+		{
+			return GL_R;
+		}
+		else if (nChannels() == 3)
+		{
+			return GL_SRGB;
+		}
+		else if (nChannels() == 4)
+		{
+			return GL_SRGB_ALPHA;
+		}
+		return GL_NONE;
 	}
 
 	GLenum TextureBuffer::format() const

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<shader version="400">
+	<vertexshader>
+		<input type="vec3" location="0">position</input>
+    <input type="vec2" location="1">uv</input>
+    <output type="vec2">f_uv</output>
+		<source>
+      f_uv = vec2(uv.x, 1.0 - uv.y);
+      gl_Position = vec4(position, 1);
+    </source>
+	</vertexshader>
+	<fragmentshader>
+    <uniform type="sampler2D">g_color</uniform>
+    <uniform type="sampler2D">g_normal</uniform>
+    <input type="vec2">f_uv</input>
+		<output type="vec4">fragColor</output>
+		<source>
+      vec3 color = texture(g_color, f_uv).rgb;
+      vec3 normal = texture(g_normal, f_uv).rgb;
+      normal = normalize(normal);
+      vec3 diffuseDir = normalize(vec3(-1,-1,-1));
+      float diffuseFactor = dot(normal, -diffuseDir);
+      float ambientFactor = 0.1;
+      float lightFactor = diffuseFactor + ambientFactor;
+      vec3 preGamma = color * lightFactor;
+      vec3 postGamma = pow(preGamma, vec3(1/2.2));
+      fragColor = vec4(postGamma, 1);
+    </source>
+	</fragmentshader>
+</shader>

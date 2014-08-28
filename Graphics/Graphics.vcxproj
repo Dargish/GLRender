@@ -19,6 +19,7 @@
     <ClInclude Include="src\graphics\Cube.h" />
     <ClInclude Include="src\graphics\fwd.h" />
     <ClInclude Include="src\graphics\Mesh.h" />
+    <ClInclude Include="src\graphics\Plane.h" />
     <ClInclude Include="src\graphics\Primitive.h" />
     <ClInclude Include="src\graphics\Shader.h" />
     <ClInclude Include="src\graphics\Texture.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\graphics\Cube.cpp" />
     <ClCompile Include="src\graphics\Mesh.cpp" />
+    <ClCompile Include="src\graphics\Plane.cpp" />
     <ClCompile Include="src\graphics\Primitive.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\graphics\Texture.cpp" />

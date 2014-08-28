@@ -72,9 +72,9 @@ namespace ecs
 		const_iterator find(const EntityID& entityID) const;
 
 		template< class SYSTEM_TYPE>
-		EntitySystem_Ptr createSystem()
+		boost::shared_ptr<SYSTEM_TYPE> createSystem()
 		{
-			EntitySystem_Ptr system(new SYSTEM_TYPE);
+			boost::shared_ptr<SYSTEM_TYPE> system(new SYSTEM_TYPE);
 			m_systems.insert(system);
 			return system;
 		}

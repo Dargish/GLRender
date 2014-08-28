@@ -16,6 +16,7 @@
 #include <graphics/Transform.h>
 #include <graphics/Camera.h>
 #include <graphics/Cube.h>
+#include <graphics/Plane.h>
 #include <graphics/Texture.h>
 #include <graphics/TextureFile.h>
 #include "FreeCamera.h"
@@ -40,6 +41,7 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<MeshComponent>();
 	Serialiser::RegisterSerialisable<TransformComponent>();
 	Serialiser::RegisterSerialisable<Cube>();
+	Serialiser::RegisterSerialisable<Plane>();
 	Serialiser::RegisterSerialisable<Transform>();
 	Serialiser::RegisterSerialisable<Material>();
 	Serialiser::RegisterSerialisable<FloatValue>();
@@ -88,47 +90,51 @@ void Game::start()
 	setupInputManager();
 
 	World_Ptr world(new World);
-	world->createSystem<RenderSystem>();
+	RenderSystem_Ptr renderSystem = world->createSystem<RenderSystem>();
 	world->setCamera(Camera_Ptr(new FreeCamera));
 
-	/*for (size_t i = 0; i < 8; ++i)
-	{
-		EntityID cubeID = world->createEntity("Cube");
-		Transform_Ptr transform = world->component<TransformComponent>(cubeID)->transform;
-		transform->position.x = (i & 1) == 0 ? -1.0f : 1.0f;
-		transform->position.y = (i & 2) == 0 ? -1.0f : 1.0f;
-		transform->position.z = (i & 4) == 0 ? -1.0f : 1.0f;
-		Material_Ptr material = world->component<MaterialComponent>(cubeID)->material;
-		if ((i & 1) == 0)
-		{
-			material->load("Red");
-		}
-		else if ((i & 2) == 0)
-		{
-			material->load("Green");
-		}
-		else if ((i & 4) == 0)
-		{
-			material->load("Blue");
-		}
-	}
+	//for (size_t i = 0; i < 8; ++i)
+	//{
+	//	EntityID cubeID = world->createEntity("Cube");
+	//	Transform_Ptr transform = world->component<TransformComponent>(cubeID)->transform;
+	//	transform->position.x = (i & 1) == 0 ? -3.0f : 3.0f;
+	//	transform->position.y = (i & 2) == 0 ? -3.0f : 3.0f;
+	//	transform->position.z = (i & 4) == 0 ? -3.0f : 3.0f;
+	//	Material_Ptr material = world->component<MaterialComponent>(cubeID)->material;
+	//	if ((i & 1) == 0)
+	//	{
+	//		material->load("Red");
+	//	}
+	//	else if ((i & 2) == 0)
+	//	{
+	//		material->load("Green");
+	//	}
+	//	else if ((i & 4) == 0)
+	//	{
+	//		material->load("Blue");
+	//	}
+	//}
 
-	world->save("Test2");*/
+	//world->save("Test2");
+	//world->load("Test2");
+
+	//EntityID entityID1 = StrToEntityID("28852923-dc75-4b0e-9fd0-f6ab9deb02cd");
+	//world->component<MaterialComponent>(entityID1)->material->load("Textured");
+
+	//EntityID entityID2 = StrToEntityID("6094aacb-0394-49b1-a46f-27e282ac64b6");
+	//world->component<MaterialComponent>(entityID2)->material->setShader(Shader::Load("ShowNormal"));
+	//world->component<MeshComponent>(entityID2)->meshAs<Cube>()->setSmooth(true);
+
+	//EntityID planeID = world->createEntity();
+	//world->addComponent(planeID, TransformComponent_Ptr(new TransformComponent()));
+	//MeshComponent_Ptr meshComponent(new MeshComponent());
+	//meshComponent->mesh.reset(new Plane());
+	//world->addComponent(planeID, meshComponent);
+	//MaterialComponent_Ptr materialComponent(new MaterialComponent());
+	//materialComponent->material->load("Textured");
+	//world->addComponent(planeID, materialComponent);
+
 	world->load("Test2");
-
-	EntityID entityID1 = StrToEntityID("35ec46ae-b8a7-4a0e-96ec-0e6c38e26d1f");
-	world->component<MaterialComponent>(entityID1)->material->load("Textured");
-	//world->component<MaterialComponent>(entityID1)->material->setTexture("tex0", "test.png");
-
-	EntityID entityID2 = StrToEntityID("19eababd-125e-4957-9c0b-9c5ec13eabb8");
-	world->component<MaterialComponent>(entityID2)->material->setShader(Shader::Load("ShowNormal"));
-	world->component<MeshComponent>(entityID2)->meshAs<Cube>()->setSmooth(true);
-
-	//Texture_Ptr texture = TextureFile::Load("UVTest.png");
-	//texture->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
-	//texture->setMagFilter(GL_LINEAR);
-	//texture->setAnisotropicLevel(TextureBuffer::MaxAnisotropicLevel());
-	//texture->bind();
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
@@ -136,6 +142,7 @@ void Game::start()
 	}
 
 	sf::Vector2u windowSize = window->getSize();
+	renderSystem->resetFrameBufferSize(Point2(windowSize.x, windowSize.y));
 	glViewport(0, 0, windowSize.x, windowSize.y);
 	world->camera()->updateProjectionMatrix(windowSize.x, windowSize.y);
 	m_clock.restart();

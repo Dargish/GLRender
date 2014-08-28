@@ -1,6 +1,8 @@
 #pragma once
 #include "fwd.h"
 #include "Primitive.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 namespace graphics
 {
@@ -23,6 +25,10 @@ namespace graphics
 
 	private:
 		void createMesh();
+		void createFace(
+			VertexPositionUVNormalBuffer::BufferType& vBuffer,
+			IndexBuffer::BufferType& iBuffer,
+			const Vector3& normal);
 
 		float m_size;
 		bool m_smooth;
