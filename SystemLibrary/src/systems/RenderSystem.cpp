@@ -1,11 +1,13 @@
 #include "RenderSystem.h"
+#include <GL/glew.h>
 #include "ecs/World.h"
 #include "components/TransformComponent.h"
 #include "components/MeshComponent.h"
 #include "components/MaterialComponent.h"
+#include "components/LightComponent.h"
+#include "graphics/Light.h"
 #include "graphics/Mesh.h"
 #include "graphics/Material.h"
-#include "graphics/Shader.h"
 #include "graphics/Transform.h"
 #include "graphics/Camera.h"
 #include "graphics/FrameBuffer.h"
@@ -21,7 +23,6 @@ namespace systems
 	RenderSystem::RenderSystem() :
 		m_frameBuffer(new FrameBuffer)
 	{
-		m_deferredTestShader = Shader::Load("DeferredTest");
 	}
 
 	RenderSystem::~RenderSystem()
@@ -30,43 +31,39 @@ namespace systems
 
 	void RenderSystem::resetFrameBufferSize(const Point2& size)
 	{
-		Texture_Ptr color(new Texture(size.x, size.y, 3));
-		Texture_Ptr normal(new Texture(size.x, size.y, 3));
-		m_frameBuffer->addTextureTarget("g_color", color);
+		RGBABuffer_Ptr diffuse(new RGBABuffer(size.x, size.y));
+		RGBABuffer_Ptr normal(new RGBABuffer(size.x, size.y));
+		m_frameBuffer->addTextureTarget("g_diffuse", diffuse);
 		m_frameBuffer->addTextureTarget("g_normal", normal);
 	}
 
 	void RenderSystem::componentAdded(const World_Ptr& world, const EntityID& entityID)
 	{
-		if (!world->hasComponent(entityID, MeshComponent::TypeName()))
+		if (world->hasComponent(entityID, MeshComponent::TypeName()) &&
+			world->hasComponent(entityID, TransformComponent::TypeName()) &&
+			world->hasComponent(entityID, MaterialComponent::TypeName()))
 		{
-			return;
+			m_interestingEntities.insert(entityID);
 		}
-		if (!world->hasComponent(entityID, TransformComponent::TypeName()))
+		if (world->hasComponent(entityID, LightComponent::TypeName()))
 		{
-			return;
+			m_interestingEntities.insert(entityID);
 		}
-		if (!world->hasComponent(entityID, MaterialComponent::TypeName()))
-		{
-			return;
-		}
-		m_interestingEntities.insert(entityID);
 	}
 
 	void RenderSystem::componentRemoved(const World_Ptr& world, const EntityID& entityID)
 	{
-		if (!world->hasComponent(entityID, MeshComponent::TypeName()))
+		if (world->hasComponent(entityID, MeshComponent::TypeName()) &&
+			world->hasComponent(entityID, TransformComponent::TypeName()) &&
+			world->hasComponent(entityID, MaterialComponent::TypeName()))
 		{
-			m_interestingEntities.erase(entityID);
+			return;
 		}
-		if (!world->hasComponent(entityID, TransformComponent::TypeName()))
+		if (world->hasComponent(entityID, LightComponent::TypeName()))
 		{
-			m_interestingEntities.erase(entityID);
+			return;
 		}
-		if (!world->hasComponent(entityID, MaterialComponent::TypeName()))
-		{
-			m_interestingEntities.erase(entityID);
-		}
+		m_interestingEntities.erase(entityID);
 	}
 
 	void RenderSystem::entityDestroyed(const EntityID& entityID)
@@ -76,6 +73,7 @@ namespace systems
 
 	void RenderSystem::_draw(const World_Ptr& world, float deltaTime)
 	{
+		m_lightCache.clear();
 		m_renderCache.clear();
 		{
 			EntityID_Set::iterator it = m_interestingEntities.begin();
@@ -85,21 +83,36 @@ namespace systems
 				TransformComponent_Ptr transformComponent = world->component<TransformComponent>(*it);
 				MaterialComponent_Ptr materialComponent = world->component<MaterialComponent>(*it);
 
-				RenderCache renderCache;
-				renderCache.material = materialComponent->material;
-				renderCache.transform = transformComponent->transform;
-
-				std::vector<MeshComponent_Ptr>::iterator it = meshComponents.begin();
-				for (; it != meshComponents.end(); ++it)
+				if (!meshComponents.empty() && transformComponent && materialComponent)
 				{
-					renderCache.meshes.push_back((*it)->mesh);
-				}
+					RenderCache renderCache;
+					renderCache.material = materialComponent->material;
+					renderCache.transform = transformComponent->transform;
 
-				Shader_Ptr shader = renderCache.material->shader();
-				m_renderCache[shader].push_back(renderCache);
+					std::vector<MeshComponent_Ptr>::iterator it = meshComponents.begin();
+					for (; it != meshComponents.end(); ++it)
+					{
+						renderCache.meshes.push_back((*it)->mesh);
+					}
+
+					Shader_Ptr shader = renderCache.material->shader();
+					m_renderCache[shader].push_back(renderCache);
+				}
+				else
+				{
+					LightComponent_Ptr lightComponent = world->component<LightComponent>(*it);
+					if (lightComponent)
+					{
+						m_lightCache.push_back(lightComponent->light);
+					}
+				}
 			}
 		}
 		m_frameBuffer->bind();
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(true);
+		glDisable(GL_BLEND);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		{
 			RenderCacheMap::iterator it = m_renderCache.begin();
 			for (; it != m_renderCache.end(); ++it)
@@ -122,7 +135,16 @@ namespace systems
 				Shader::Disable(shader);
 			}
 		}
+		m_frameBuffer->bindForRead();
+		glDisable(GL_DEPTH_TEST);
+		glDepthMask(false);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		for (LightCache::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
+		{
+			(*it)->light(m_frameBuffer, world->camera(), deltaTime);
+		}
 		m_frameBuffer->unbind();
-		m_frameBuffer->drawToScreen(m_deferredTestShader);
 	}
 }

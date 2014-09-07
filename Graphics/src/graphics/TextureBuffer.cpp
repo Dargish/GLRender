@@ -11,8 +11,8 @@ namespace graphics
 		return largest;
 	}
 
-	TextureBuffer::TextureBuffer() :
-		m_minFilter(GL_NEAREST), m_magFilter(GL_NEAREST), m_anisotropicLevel(1.0f), m_mipMapped(true)
+	TextureBuffer::TextureBuffer(int width, int height, int nChannels) :
+		m_width(width), m_height(height), m_nChannels(nChannels), m_minFilter(GL_NEAREST), m_magFilter(GL_NEAREST), m_anisotropicLevel(1.0f), m_mipMapped(true)
 	{
 	}
 
@@ -122,6 +122,21 @@ namespace graphics
 		}
 	}
 
+	int TextureBuffer::width() const
+	{
+		return m_width;
+	}
+
+	int TextureBuffer::height() const
+	{
+		return m_height;
+	}
+
+	int TextureBuffer::nChannels() const
+	{
+		return m_nChannels;
+	}
+
 	GLenum TextureBuffer::minFilter() const
 	{
 		return m_minFilter;
@@ -140,6 +155,21 @@ namespace graphics
 	bool TextureBuffer::mipMapped() const
 	{
 		return m_mipMapped;
+	}
+
+	void TextureBuffer::setWidth(int width)
+	{
+		m_width = width;
+	}
+
+	void TextureBuffer::setHeight(int height)
+	{
+		m_height = height;
+	}
+
+	void TextureBuffer::setNChannels(int nChannels)
+	{
+		m_nChannels = nChannels;
 	}
 
 	void TextureBuffer::setMinFilter(GLenum minFilter)

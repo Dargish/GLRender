@@ -6,6 +6,39 @@
 
 namespace graphics
 {
+	RGBABuffer::RGBABuffer(int width, int height) :
+		TextureBuffer(width, height, 4)
+	{
+		m_data.resize(width * height * 4);
+		setMipMapped(false);
+	}
+
+	RGBABuffer::~RGBABuffer()
+	{
+
+	}
+
+	void* RGBABuffer::data() const
+	{
+		return (void*)&m_data.front();
+	}
+
+	uint RGBABuffer::internalFormat() const
+	{
+		return GL_RGBA16F;
+	}
+
+	uint RGBABuffer::format() const
+	{
+		return GL_RGBA;
+	}
+
+	uint RGBABuffer::type() const
+	{
+		return GL_SHORT;
+	}
+
+
 	FrameBuffer::FrameBuffer() :
 		m_depthTexture(0)
 	{
@@ -32,30 +65,24 @@ namespace graphics
 		}
 	}
 
-	void FrameBuffer::addTextureTarget(const std::string& target, const Texture_Ptr& texture)
+	void FrameBuffer::addTextureTarget(const std::string& target, const RGBABuffer_Ptr& buffer)
 	{
-		addTextureTarget(TextureTarget(target, texture));
-	}
-
-	void FrameBuffer::addTextureTarget(const TextureTarget& textureTarget)
-	{
-		m_textureTargets.push_back(textureTarget);
+		m_textureTargets[target] = buffer;
 		dirty();
 	}
 
-	void FrameBuffer::drawToScreen(const Shader_Ptr& shader)
+	void FrameBuffer::bindForRead()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		unbind();
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, buffer());
-		Shader::Enable(shader);
+	}
+
+	void FrameBuffer::bindTargets(const Shader_Ptr& shader)
+	{
 		for (TextureTargets::iterator it = m_textureTargets.begin(); it != m_textureTargets.end(); ++it)
 		{
 			shader->setValue(it->first, it->second);
 		}
-		Plane plane;
-		plane.draw(0.0f);
-		Shader::Disable(shader);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 	}
 
 	void FrameBuffer::resetFrameBuffer()

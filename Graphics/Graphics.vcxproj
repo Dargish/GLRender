@@ -11,9 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\DirectionalLight.h" />
     <ClInclude Include="src\graphics\FrameBuffer.h" />
     <ClInclude Include="src\graphics\IndexBuffer.h" />
     <ClInclude Include="src\graphics\GLBuffer.h" />
+    <ClInclude Include="src\graphics\Light.h" />
     <ClInclude Include="src\graphics\Material.h" />
     <ClInclude Include="src\graphics\Camera.h" />
     <ClInclude Include="src\graphics\Cube.h" />
@@ -30,9 +32,11 @@
     <ClInclude Include="src\graphics\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\DirectionalLight.cpp" />
     <ClCompile Include="src\graphics\FrameBuffer.cpp" />
     <ClCompile Include="src\graphics\IndexBuffer.cpp" />
     <ClCompile Include="src\graphics\GLBuffer.cpp" />
+    <ClCompile Include="src\graphics\Light.cpp" />
     <ClCompile Include="src\graphics\Material.cpp" />
     <ClCompile Include="src\graphics\Camera.cpp" />
     <ClCompile Include="src\graphics\Cube.cpp" />

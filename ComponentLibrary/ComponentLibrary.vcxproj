@@ -15,11 +15,13 @@
     <ClInclude Include="src\components\MeshComponent.h" />
     <ClInclude Include="src\components\TransformComponent.h" />
     <ClInclude Include="src\components\fwd.h" />
+    <ClInclude Include="src\components\LightComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\MaterialComponent.cpp" />
     <ClCompile Include="src\components\MeshComponent.cpp" />
     <ClCompile Include="src\components\TransformComponent.cpp" />
+    <ClCompile Include="src\components\LightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EntityComponentSystem\EntityComponentSystem.vcxproj">

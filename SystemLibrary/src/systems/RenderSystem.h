@@ -33,8 +33,10 @@ namespace systems
 		typedef std::vector<RenderCache> RenderCacheVector;
 		typedef std::map<graphics::Shader_Ptr, RenderCacheVector> RenderCacheMap;
 
+		typedef std::vector<graphics::Light_Ptr> LightCache;
+
+		LightCache m_lightCache;
 		RenderCacheMap m_renderCache;
 		graphics::FrameBuffer_Ptr m_frameBuffer;
-		graphics::Shader_Ptr m_deferredTestShader;
 	};
 }

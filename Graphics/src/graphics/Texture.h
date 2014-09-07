@@ -100,23 +100,16 @@ namespace graphics
 		Texture(int width, int height, int nChannels, const TextureType::Enum& textureType = TextureType::kColor);
 		virtual ~Texture();
 
+		virtual void* data() const;
+		virtual uint type() const;
+
 		const TextureType::Enum& textureType() const;
 
 		TextureData_Ptr textureData();
 		TextureData_Const_Ptr textureData() const;
 
-		virtual int nChannels() const;
-		virtual int width() const;
-		virtual int height() const;
-		virtual void* data() const;
-
-		virtual uint type() const;
-
 	protected:
 		void resetData();
-		int m_width;
-		int m_height;
-		int m_nChannels;
 		TextureType::Enum m_textureType;
 
 		TextureData_Ptr m_data;

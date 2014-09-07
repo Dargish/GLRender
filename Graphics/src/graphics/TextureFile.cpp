@@ -31,9 +31,9 @@ namespace graphics
 		sf::Image image;
 		if (image.loadFromFile(TexturePath(m_filePath)))
 		{
-			m_width = image.getSize().x;
-			m_height = image.getSize().y;
-			m_nChannels = 4;
+			setWidth(image.getSize().x);
+			setHeight(image.getSize().y);
+			setNChannels(4);
 			m_textureType = TextureType::kColor;
 			resetData();
 			const uchar* imagePixels = image.getPixelsPtr();

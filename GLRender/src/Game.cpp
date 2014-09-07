@@ -10,8 +10,10 @@
 #include <components/TransformComponent.h>
 #include <components/MeshComponent.h>
 #include <components/MaterialComponent.h>
+#include <components/LightComponent.h>
 #include <graphics/Window.h>
 #include <graphics/Shader.h>
+#include <graphics/DirectionalLight.h>
 #include <graphics/Material.h>
 #include <graphics/Transform.h>
 #include <graphics/Camera.h>
@@ -40,6 +42,8 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<MaterialComponent>();
 	Serialiser::RegisterSerialisable<MeshComponent>();
 	Serialiser::RegisterSerialisable<TransformComponent>();
+	Serialiser::RegisterSerialisable<LightComponent>();
+	Serialiser::RegisterSerialisable<DirectionalLight>();
 	Serialiser::RegisterSerialisable<Cube>();
 	Serialiser::RegisterSerialisable<Plane>();
 	Serialiser::RegisterSerialisable<Transform>();
@@ -136,6 +140,16 @@ void Game::start()
 
 	world->load("Test2");
 
+	EntityID light1ID = world->createEntity();
+	LightComponent_Ptr lightComponent1(new LightComponent);
+	lightComponent1->light.reset(new DirectionalLight(Vector3(-1, -1, -1), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
+	world->addComponent(light1ID, lightComponent1);
+
+	EntityID light2ID = world->createEntity();
+	LightComponent_Ptr lightComponent2(new LightComponent);
+	lightComponent2->light.reset(new DirectionalLight(Vector3(1, -1, -1), Vector3(0.025f, 0.025f, 1.0f), 1.0f));
+	world->addComponent(light2ID, lightComponent2);
+
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
 		throw std::runtime_error("Failed to load font");
@@ -175,9 +189,6 @@ void Game::start()
 			break;
 		}
 		world->update(deltaTime);
-
-		// Draw
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		world->draw(deltaTime);
 

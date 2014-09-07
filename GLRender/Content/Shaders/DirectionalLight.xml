@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<shader version="400">
+	<vertexshader>
+		<input type="vec3" location="0">position</input>
+    <input type="vec2" location="1">uv</input>
+    <output type="vec2">f_uv</output>
+		<source>
+      f_uv = vec2(uv.x, 1.0 - uv.y);
+      gl_Position = vec4(position, 1);
+    </source>
+	</vertexshader>
+	<fragmentshader>
+    <input type="vec2">f_uv</input>
+    <uniform type="sampler2D">g_diffuse</uniform>
+    <uniform type="sampler2D">g_normal</uniform>
+    <uniform type="vec3">eyeVec</uniform>
+    <uniform type="vec3">direction</uniform>
+    <uniform type="vec3">color</uniform>
+    <uniform type="float">intensity</uniform>
+		<output type="vec4">fragColor</output>
+		<source>
+      vec3 diffuse = texture(g_diffuse, f_uv).rgb;
+      vec3 normal = texture(g_normal, f_uv).rgb;
+      normal = normalize(normal);
+
+      vec3 diffuseFactor = color * clamp(dot(normal, -direction), 0.0, 1.0) * intensity;
+      diffuse *= diffuseFactor;
+
+      vec3 preGamma = diffuse;
+      vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
+      fragColor = vec4(postGamma, 1);
+
+      //fragColor = vec4(normal, 1);
+      //fragColor = vec4((normal + 1.0) / 2.0, 1);
+      //fragColor = vec4(lightDirection, 1);
+      //fragColor = vec4(lightIntensity, lightIntensity, lightIntensity, 1);
+    </source>
+	</fragmentshader>
+</shader>

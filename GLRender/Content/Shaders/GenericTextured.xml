@@ -19,11 +19,11 @@
     <uniform type="sampler2D" default="UVTest.png">tex0</uniform>
     <input type="vec2">f_uv</input>
     <input type="vec3">f_normal</input>
-		<output type="vec3" location="0">g_color</output>
-    <output type="vec3" location="1">g_normal</output>
+		<output type="vec4" location="0">g_color</output>
+    <output type="vec4" location="1">g_normal</output>
 		<source>
-      g_color = texture(tex0, f_uv).rgb;
-      g_normal = f_normal;
+      g_color = vec4(texture(tex0, f_uv).rgb, 1);
+      g_normal = vec4(f_normal, 0);
     </source>
 	</fragmentshader>
 </shader>
