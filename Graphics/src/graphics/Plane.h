@@ -1,9 +1,10 @@
 #pragma once
-#include "Primitive.h"
+#include "fwd.h"
+#include "Mesh.h"
 
 namespace graphics
 {
-	class Plane : public Primitive
+	class Plane : public Mesh
 	{
 	public:
 		Plane(float size = 1.0f);
@@ -17,7 +18,9 @@ namespace graphics
 		virtual Json::Value serialise() const;
 		virtual void deserialise(const Json::Value& data);
 
-		void resize(float size);
+		float size() const;
+
+		void setSize(float size);
 
 	private:
 		void createMesh();

@@ -14,13 +14,14 @@ namespace graphics
 	DECL_CLASS(Material);
 	DECL_CLASS(Mesh);
 	DECL_CLASS(Plane);
-	DECL_CLASS(Primitive);
 	DECL_CLASS(ShaderValue);
 	DECL_CLASS(Shader);
+	DECL_CLASS(Sphere);
 	DECL_CLASS(Texture);
 	DECL_CLASS(TextureBuffer);
 	DECL_CLASS(TextureData);
 	DECL_CLASS(TextureFile);
+	DECL_CLASS(Torus);
 	DECL_CLASS(Transform);
 	DECL_CLASS(Vertex);
 	DECL_CLASS(VertexBuffer);

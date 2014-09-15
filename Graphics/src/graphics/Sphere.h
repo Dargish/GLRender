@@ -4,13 +4,13 @@
 
 namespace graphics
 {
-	class Cube : public Mesh
+	class Sphere : public Mesh
 	{
 	public:
-		Cube(float size = 1.0f, bool smooth = false);
-		Cube(const Cube& other);
-		virtual ~Cube();
-		Cube& operator=(const Cube& other);
+		Sphere(float size = 1.0f, uint rings = 16, uint segments = 32);
+		Sphere(const Sphere& other);
+		virtual ~Sphere();
+		Sphere& operator=(const Sphere& other);
 
 		static std::string TypeName();
 		virtual std::string typeName() const;
@@ -21,13 +21,18 @@ namespace graphics
 		virtual void createMesh();
 
 		float size() const;
-		bool smooth() const;
+		uint segments() const;
+		uint rings() const;
 
 		void setSize(float size);
-		void setSmooth(bool smooth);
+		void setSegments(uint segments);
+		void setRings(uint rings);
 
 	private:
+		uint indexOf(uint ring, uint segment) const;
+
 		float m_size;
-		bool m_smooth;
+		uint m_rings;
+		uint m_segments;
 	};
 }

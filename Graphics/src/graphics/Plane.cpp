@@ -57,7 +57,12 @@ namespace graphics
 		createMesh();
 	}
 
-	void Plane::resize(float size)
+	float Plane::size() const
+	{
+		return m_size;
+	}
+
+	void Plane::setSize(float size)
 	{
 		if (size != m_size)
 		{

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\Sphere.h" />
     <ClInclude Include="src\graphics\DirectionalLight.h" />
     <ClInclude Include="src\graphics\FrameBuffer.h" />
     <ClInclude Include="src\graphics\IndexBuffer.h" />
@@ -22,7 +23,6 @@
     <ClInclude Include="src\graphics\fwd.h" />
     <ClInclude Include="src\graphics\Mesh.h" />
     <ClInclude Include="src\graphics\Plane.h" />
-    <ClInclude Include="src\graphics\Primitive.h" />
     <ClInclude Include="src\graphics\Shader.h" />
     <ClInclude Include="src\graphics\Texture.h" />
     <ClInclude Include="src\graphics\TextureBuffer.h" />
@@ -30,8 +30,10 @@
     <ClInclude Include="src\graphics\Transform.h" />
     <ClInclude Include="src\graphics\VertexBuffer.h" />
     <ClInclude Include="src\graphics\Window.h" />
+    <ClInclude Include="src\graphics\Torus.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\Sphere.cpp" />
     <ClCompile Include="src\graphics\DirectionalLight.cpp" />
     <ClCompile Include="src\graphics\FrameBuffer.cpp" />
     <ClCompile Include="src\graphics\IndexBuffer.cpp" />
@@ -42,7 +44,6 @@
     <ClCompile Include="src\graphics\Cube.cpp" />
     <ClCompile Include="src\graphics\Mesh.cpp" />
     <ClCompile Include="src\graphics\Plane.cpp" />
-    <ClCompile Include="src\graphics\Primitive.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
     <ClCompile Include="src\graphics\Texture.cpp" />
     <ClCompile Include="src\graphics\TextureBuffer.cpp" />
@@ -50,6 +51,7 @@
     <ClCompile Include="src\graphics\Transform.cpp" />
     <ClCompile Include="src\graphics\VertexBuffer.cpp" />
     <ClCompile Include="src\graphics\Window.cpp" />
+    <ClCompile Include="src\graphics\Torus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.vcxproj">

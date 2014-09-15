@@ -1,8 +1,8 @@
 #pragma once
 #include "fwd.h"
 #include "GLBuffer.h"
-#include <vector>
 #include <GL/glew.h>
+#include <vector>
 
 #define DECL_BUFFER_TYPE(NAME) \
 typedef TypedVertexBuffer< NAME > NAME ## Buffer; \

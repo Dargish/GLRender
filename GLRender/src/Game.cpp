@@ -19,6 +19,8 @@
 #include <graphics/Camera.h>
 #include <graphics/Cube.h>
 #include <graphics/Plane.h>
+#include <graphics/Sphere.h>
+#include <graphics/Torus.h>
 #include <graphics/Texture.h>
 #include <graphics/TextureFile.h>
 #include "FreeCamera.h"
@@ -46,6 +48,8 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<DirectionalLight>();
 	Serialiser::RegisterSerialisable<Cube>();
 	Serialiser::RegisterSerialisable<Plane>();
+	Serialiser::RegisterSerialisable<Sphere>();
+	Serialiser::RegisterSerialisable<Torus>();
 	Serialiser::RegisterSerialisable<Transform>();
 	Serialiser::RegisterSerialisable<Material>();
 	Serialiser::RegisterSerialisable<FloatValue>();
@@ -138,17 +142,41 @@ void Game::start()
 	//materialComponent->material->load("Textured");
 	//world->addComponent(planeID, materialComponent);
 
-	world->load("Test2");
+	//world->load("Test2");
 
-	EntityID light1ID = world->createEntity();
-	LightComponent_Ptr lightComponent1(new LightComponent);
-	lightComponent1->light.reset(new DirectionalLight(Vector3(-1, -1, -1), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
-	world->addComponent(light1ID, lightComponent1);
+	EntityID cubeID = world->createEntity("Cube");
+	world->component<MaterialComponent>(cubeID)->material->load("Textured");
+	world->component<TransformComponent>(cubeID)->transform->position.x = -2.5f;
 
-	EntityID light2ID = world->createEntity();
-	LightComponent_Ptr lightComponent2(new LightComponent);
-	lightComponent2->light.reset(new DirectionalLight(Vector3(1, -1, -1), Vector3(0.025f, 0.025f, 1.0f), 1.0f));
-	world->addComponent(light2ID, lightComponent2);
+	EntityID sphereID = world->createEntity("Sphere");
+	world->component<MaterialComponent>(sphereID)->material->load("Textured");
+
+	EntityID torusID = world->createEntity("Torus");
+	world->component<MeshComponent>(torusID)->meshAs<Torus>()->setSegments(48);
+	world->component<MaterialComponent>(torusID)->material->load("Textured");
+	world->component<TransformComponent>(torusID)->transform->position.x = 2.5f;
+	world->component<TransformComponent>(torusID)->transform->scale.y = 4.0f;
+
+	{
+		EntityID lightID = world->createEntity();
+		LightComponent_Ptr lightComponent(new LightComponent);
+		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
+		world->addComponent(lightID, lightComponent);
+	}
+
+	{
+		EntityID lightID = world->createEntity();
+		LightComponent_Ptr lightComponent(new LightComponent);
+		lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(0.025f, 0.025f, 1.0f), 1.0f));
+		world->addComponent(lightID, lightComponent);
+	}
+
+	{
+		EntityID lightID = world->createEntity();
+		LightComponent_Ptr lightComponent(new LightComponent);
+		lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(0.025f, 2.0f, 0.025f), 1.0f));
+		world->addComponent(lightID, lightComponent);
+	}
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
@@ -160,6 +188,8 @@ void Game::start()
 	glViewport(0, 0, windowSize.x, windowSize.y);
 	world->camera()->updateProjectionMatrix(windowSize.x, windowSize.y);
 	m_clock.restart();
+	float frameTimeF = 0.0f;
+	int fps = 0;
 	while (window->isOpen())
 	{
 		// Calculate frame time
@@ -193,7 +223,8 @@ void Game::start()
 		world->draw(deltaTime);
 
 		window->pushGLStates();
-		sf::Text text((boost::format("DirectionX: %s, DirectionY %s") % world->camera()->direction().x % world->camera()->direction().y).str(), m_font);
+		frameTimeF = float(m_clock.getElapsedTime().asMicroseconds()) / 1000.0f;
+		sf::Text text((boost::format("FrameTime: %.04fms, FPS: %dfps, Target: %dfps") % frameTimeF % fps % ( 1000000 / FRAMETIME_LIMIT )).str(), m_font);
 		text.setPosition(0.5f, 0.5f);
 		text.setColor(sf::Color::Red);
 		text.setCharacterSize(16);
@@ -208,6 +239,7 @@ void Game::start()
 		{
 			sf::sleep(sf::microseconds(FRAMETIME_LIMIT - frameTime));
 		}
+		fps = int(1000000.0f / (float(m_clock.getElapsedTime().asMicroseconds())));
 	}
 }
 

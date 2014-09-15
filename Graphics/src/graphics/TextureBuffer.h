@@ -47,7 +47,7 @@ namespace graphics
 		int m_nChannels;
 		uint m_minFilter;
 		uint m_magFilter;
-		uint m_anisotropicLevel;
+		float m_anisotropicLevel;
 		bool m_mipMapped;
 	};
 }

@@ -1,4 +1,6 @@
 #include "Cube.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 #include <json/json.h>
 
 using namespace serialisation;
@@ -8,13 +10,11 @@ namespace graphics
 	Cube::Cube(float size /*= 1.0f*/, bool smooth /*= false*/ ) :
 		m_size(size), m_smooth(smooth)
 	{
-		createMesh();
 	}
 
 	Cube::Cube(const Cube& other) :
-		m_size(other.m_size)
+		m_size(other.m_size), m_smooth(other.m_smooth)
 	{
-		createMesh();
 	}
 
 	Cube::~Cube()
@@ -23,29 +23,45 @@ namespace graphics
 
 	Cube& Cube::operator= (const Cube& other)		
 	{
-		resize(other.m_size);
+		m_size = other.m_size;
+		m_smooth = other.m_smooth;
+		dirty();
 		return *this;
 	}
 
-	void Cube::resize(float size)
+	float Cube::size() const
+	{
+		return m_size;
+	}
+
+	bool Cube::smooth() const
+	{
+		return m_smooth;
+	}
+
+	void Cube::setSize(float size)
 	{
 		if (size != m_size)
 		{
 			m_size = size;
-			createMesh();
+			dirty();
 		}
 	}
 
 	void Cube::setSmooth(bool smooth)
 	{
-		m_smooth = smooth;
-		createMesh();
+		if (smooth != m_smooth)
+		{
+			m_smooth = smooth;
+			dirty();
+		}
 	}
 
-	void Cube::createFace(
+	void createFace(
 		VertexPositionUVNormalBuffer::BufferType& vBuffer,
 		IndexBuffer::BufferType& iBuffer,
-		const Vector3& normal )
+		const Vector3& normal,
+		float size )
 	{
 		size_t indexOffset = vBuffer.size();
 
@@ -56,9 +72,9 @@ namespace graphics
 		}
 		Vector3 side = glm::cross(normal, up);
 
-		Vector3 front = normal * m_size;
-		up *= m_size;
-		side *= m_size;
+		Vector3 front = normal * size;
+		up *= size;
+		side *= size;
 
 		// Vertex 0:
 		VertexPositionUVNormal v0;
@@ -109,12 +125,12 @@ namespace graphics
 		IndexBuffer::BufferType& iBuffer = m_indexBuffer->data();
 		iBuffer.clear();
 
-		createFace(vBuffer, iBuffer, Vector3(-1, 0, 0));
-		createFace(vBuffer, iBuffer, Vector3(1, 0, 0));
-		createFace(vBuffer, iBuffer, Vector3(0, -1, 0));
-		createFace(vBuffer, iBuffer, Vector3(0, 1, 0));
-		createFace(vBuffer, iBuffer, Vector3(0, 0, -1));
-		createFace(vBuffer, iBuffer, Vector3(0, 0, 1));
+		createFace(vBuffer, iBuffer, Vector3(-1, 0, 0), m_size);
+		createFace(vBuffer, iBuffer, Vector3(1, 0, 0), m_size);
+		createFace(vBuffer, iBuffer, Vector3(0, -1, 0), m_size);
+		createFace(vBuffer, iBuffer, Vector3(0, 1, 0), m_size);
+		createFace(vBuffer, iBuffer, Vector3(0, 0, -1), m_size);
+		createFace(vBuffer, iBuffer, Vector3(0, 0, 1), m_size);
 
 		if (m_smooth)
 		{
@@ -156,6 +172,6 @@ namespace graphics
 	{
 		m_size = (float)data["size"].asDouble();
 		m_smooth = data["smooth"].asBool();
-		createMesh();
+		dirty();
 	}
 }

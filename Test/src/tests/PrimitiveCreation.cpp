@@ -4,6 +4,7 @@
 #include "graphics/VertexBuffer.h"
 #include <GL/glew.h>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 using namespace graphics;
 
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 		BOOST_REQUIRE_EQUAL(verts[7].position.x, -1.0f);
 		BOOST_REQUIRE_EQUAL(verts[7].position.y, -1.0f);
 		BOOST_REQUIRE_EQUAL(verts[7].position.z, -1.0f);
-		cube->resize(4.0f);
+		cube->setSize(4.0f);
 		BOOST_REQUIRE_EQUAL(verts[0].position.x, 2.0f);
 		BOOST_REQUIRE_EQUAL(verts[0].position.y, 2.0f);
 		BOOST_REQUIRE_EQUAL(verts[0].position.z, 2.0f);
