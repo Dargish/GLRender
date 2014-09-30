@@ -1,6 +1,9 @@
 #pragma once
 #include <graphics/Camera.h>
 
+#define ROTATE_SPEED 0.01f
+#define MOVEMENT_SPEED 100.0f
+
 class FreeCamera : public graphics::Camera
 {
 public:

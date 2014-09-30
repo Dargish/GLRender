@@ -8,13 +8,11 @@ namespace graphics
 	Plane::Plane(float size /*= 1.0f*/) :
 		m_size(size)
 	{
-		createMesh();
 	}
 
 	Plane::Plane(const Plane& other) :
 		m_size(other.m_size)
 	{
-		createMesh();
 	}
 
 	Plane::~Plane()
@@ -25,7 +23,7 @@ namespace graphics
 	Plane& Plane::operator=(const Plane& other)
 	{
 		m_size = other.m_size;
-		createMesh();
+		dirty();
 		return *this;
 	}
 
@@ -54,7 +52,7 @@ namespace graphics
 	void Plane::deserialise(const Json::Value& data)
 	{
 		m_size = (float)data["size"].asDouble();
-		createMesh();
+		dirty();
 	}
 
 	float Plane::size() const
@@ -67,7 +65,7 @@ namespace graphics
 		if (size != m_size)
 		{
 			m_size = size;
-			createMesh();
+			dirty();
 		}
 	}
 

@@ -21,6 +21,10 @@ FreeCamera::FreeCamera() :
 	{
 		InputManager::AddInput("Accelerate", sf::Keyboard::LShift);
 	}
+	if (!InputManager::HasMappedInput("Decelerate"))
+	{
+		InputManager::AddInput("Decelerate", sf::Keyboard::LControl);
+	}
 	if (!InputManager::HasMappedInput("Forward"))
 	{
 		InputManager::AddInput("Forward", sf::Keyboard::W);
@@ -77,6 +81,7 @@ void FreeCamera::processInput( float deltaTime )
 {
 	Vector3 movement( 0.0f, 0.0f, 0.0f );
 	float movementSpeed = InputManager::IsDown("Accelerate") ? MOVEMENT_SPEED * 5.0f : MOVEMENT_SPEED;
+	movementSpeed = InputManager::IsDown("Decelerate") ? MOVEMENT_SPEED * 0.2f : MOVEMENT_SPEED;
 	if (InputManager::IsDown("Forward"))
 	{
 		movement += m_direction * movementSpeed * deltaTime;

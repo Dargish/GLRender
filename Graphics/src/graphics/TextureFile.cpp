@@ -1,4 +1,5 @@
 #include "TextureFile.h"
+#include <GL/glew.h>
 #include <SFML\Graphics\Image.hpp>
 
 namespace graphics
@@ -34,6 +35,9 @@ namespace graphics
 			setWidth(image.getSize().x);
 			setHeight(image.getSize().y);
 			setNChannels(4);
+			setMipMapped(true);
+			setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+			setMagFilter(GL_LINEAR);
 			m_textureType = TextureType::kColor;
 			resetData();
 			const uchar* imagePixels = image.getPixelsPtr();

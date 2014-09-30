@@ -1,0 +1,37 @@
+{
+   "array" : [
+      {
+         "transform" : {
+            "position" : [ 0.0, 0.0, 0.0 ],
+            "rotation" : [ 90.0, 0.0, 0.0 ],
+            "scale" : [ 0.01, 0.01, 0.01 ],
+            "typeName" : "Transform"
+         },
+         "typeName" : "TransformComponent"
+      },
+      {
+         "mesh" : {
+            "filePath" : "spider.obj",
+            "typeName" : "Model"
+         },
+         "typeName" : "MeshComponent"
+      },
+      {
+         "material" : {
+            "fromFile" : false,
+            "name" : "Textured",
+            "shader" : "GenericTextured",
+            "typeName" : "Material",
+            "values" : [
+               {
+                  "name" : "tex0",
+                  "typeName" : "TextureValue",
+                  "value" : "SpiderTex.jpg"
+               }
+            ]
+         },
+         "typeName" : "MaterialComponent"
+      }
+   ],
+   "typeName" : "ComponentContainer"
+}

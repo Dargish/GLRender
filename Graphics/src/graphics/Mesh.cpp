@@ -39,6 +39,7 @@ namespace graphics
 		if (m_isDirty)
 		{
 			createMesh();
+			m_isDirty = false;
 		}
 		if (m_vertexBuffer->empty() || m_indexBuffer->empty())
 		{

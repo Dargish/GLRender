@@ -7,8 +7,6 @@
 #define PI 3.14159265359f
 #define PI2 6.28318530718f
 #define PITCH_LIMIT 1.57f
-#define ROTATE_SPEED 0.01f
-#define MOVEMENT_SPEED 100.0f
 #define ZOOM_SPEED 1.0f
 #define PAN_SPEED 0.5f
 

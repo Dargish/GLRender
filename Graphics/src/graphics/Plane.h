@@ -18,13 +18,12 @@ namespace graphics
 		virtual Json::Value serialise() const;
 		virtual void deserialise(const Json::Value& data);
 
-		float size() const;
+		virtual void createMesh();
 
+		float size() const;
 		void setSize(float size);
 
 	private:
-		void createMesh();
-
 		float m_size;
 	};
 }

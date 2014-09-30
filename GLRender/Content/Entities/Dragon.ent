@@ -1,0 +1,29 @@
+{
+   "array" : [
+      {
+         "transform" : {
+            "position" : [ 0.0, -0.5, 0.0 ],
+            "rotation" : [ 90.0, 0.0, 0.0 ],
+            "scale" : [ 0.15, 0.15, 0.15 ],
+            "typeName" : "Transform"
+         },
+         "typeName" : "TransformComponent"
+      },
+      {
+         "mesh" : {
+            "filePath" : "dragon.obj",
+            "typeName" : "Model"
+         },
+         "typeName" : "MeshComponent"
+      },
+      {
+         "material" : {
+            "fromFile" : true,
+            "name" : "Default",
+            "typeName" : "Material"
+         },
+         "typeName" : "MaterialComponent"
+      }
+   ],
+   "typeName" : "ComponentContainer"
+}
