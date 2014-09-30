@@ -2,28 +2,28 @@
 <shader version="400">
 	<vertexshader>
 		<input type="vec3" location="0">position</input>
-    <input type="vec2" location="1">uv</input>
+		<input type="vec2" location="1">uv</input>
 		<input type="vec3" location="2">normal</input>
 		<uniform type="mat4">proj</uniform>
 		<uniform type="mat4">view</uniform>
 		<uniform type="mat4">world</uniform>
-    <output type="vec2">f_uv</output>
-    <output type="vec3">f_normal</output>    
+		<output type="vec2">f_uv</output>
+		<output type="vec3">f_normal</output>    
 		<source>
-      f_uv = uv;
-      f_normal = normal;
-      gl_Position = proj * view * world * vec4(position, 1.0);
-    </source>
+			f_uv = uv;
+			f_normal = normal;
+			gl_Position = proj * view * world * vec4(position, 1.0);
+		</source>
 	</vertexshader>
 	<fragmentshader>
-    <uniform type="sampler2D" default="UVTest.png">tex0</uniform>
-    <input type="vec2">f_uv</input>
-    <input type="vec3">f_normal</input>
+		<uniform type="sampler2D" default="UVTest.png">tex0</uniform>
+		<input type="vec2">f_uv</input>
+		<input type="vec3">f_normal</input>
 		<output type="vec4" location="0">g_color</output>
-    <output type="vec4" location="1">g_normal</output>
+		<output type="vec4" location="1">g_normal</output>
 		<source>
-      g_color = vec4(texture(tex0, f_uv).rgb, 1);
-      g_normal = vec4(f_normal, 0);
-    </source>
+			g_color = vec4(texture(tex0, f_uv).rgb, 1);
+			g_normal = vec4(f_normal, 0);
+		</source>
 	</fragmentshader>
 </shader>
