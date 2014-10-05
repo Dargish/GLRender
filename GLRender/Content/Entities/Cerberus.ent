@@ -1,0 +1,29 @@
+{
+   "array" : [
+      {
+         "transform" : {
+            "position" : [ 0.0, 0.0, 0.0 ],
+            "rotation" : [ 0.0, -90.0, 180.0 ],
+            "scale" : [ 0.015, 0.015, 0.015 ],
+            "typeName" : "Transform"
+         },
+         "typeName" : "TransformComponent"
+      },
+      {
+         "mesh" : {
+            "filePath" : "cerberus.fbx",
+            "typeName" : "Model"
+         },
+         "typeName" : "MeshComponent"
+      },
+      {
+         "material" : {
+            "fromFile" : true,
+            "name" : "Cerberus",
+            "typeName" : "Material"
+         },
+         "typeName" : "MaterialComponent"
+      }
+   ],
+   "typeName" : "ComponentContainer"
+}

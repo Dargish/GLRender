@@ -159,14 +159,14 @@ void Game::start()
 	world->component<TransformComponent>(torusID)->transform->position.x = 2.5f;
 	world->component<TransformComponent>(torusID)->transform->scale.y = 4.0f;
 
-	EntityID spiderID = world->createEntity("Dragon");
-	world->component<MaterialComponent>(spiderID)->material->load("Textured");
-	world->component<TransformComponent>(spiderID)->transform->position.x = 5.0f;
+	EntityID ceberusID = world->createEntity("Cerberus");
+	//world->component<MaterialComponent>(ceberusID)->material->load("Textured");
+	world->component<TransformComponent>(ceberusID)->transform->position.x = 5.0f;
 
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 1.f));
+		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 1.0f));
 		//lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
 		world->addComponent(lightID, lightComponent);
 	}
@@ -174,7 +174,7 @@ void Game::start()
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 0.25f));
+		lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 0.02f));
 		//lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(0.025f, 0.025f, 1.0f), 1.0f));
 		world->addComponent(lightID, lightComponent);
 	}
@@ -182,7 +182,7 @@ void Game::start()
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(1.0f, 1.0f, 1.0f), 0.5f));
+		lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(1.0f, 1.0f, 1.0f), 0.01f));
 		//lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(0.025f, 2.0f, 0.025f), 1.0f));
 		world->addComponent(lightID, lightComponent);
 	}

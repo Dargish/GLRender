@@ -125,6 +125,7 @@ namespace systems
 				for (; rit != it->second.end(); ++rit)
 				{
 					shader->setValue("world", rit->transform->world());
+					shader->setValue("world_it", glm::transpose(glm::inverse(rit->transform->world())));
 					rit->material->applyToShader();
 					MeshVector::iterator mit = rit->meshes.begin();
 					for (; mit != rit->meshes.end(); ++mit)

@@ -38,6 +38,18 @@ namespace graphics
 		static void Disable();
 	};
 
+	struct VertexPositionUVNormalTangentBiNormal
+	{
+		Vector3 position;
+		Vector2 uv;
+		Vector3 normal;
+		Vector3 tangent;
+		Vector3 binormal;
+
+		static void Enable();
+		static void Disable();
+	};
+
 	class VertexBuffer : public GLBuffer
 	{
 	public:
@@ -68,6 +80,7 @@ namespace graphics
 	DECL_BUFFER_TYPE(VertexPosition);
 	DECL_BUFFER_TYPE(VertexPositionNormal);
 	DECL_BUFFER_TYPE(VertexPositionUVNormal);
+	DECL_BUFFER_TYPE(VertexPositionUVNormalTangentBiNormal);
 
 	template< class VERTEX_TYPE >
 	TypedVertexBuffer<VERTEX_TYPE>::~TypedVertexBuffer()

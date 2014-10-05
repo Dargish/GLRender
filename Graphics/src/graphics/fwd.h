@@ -13,6 +13,8 @@ namespace graphics
 	DECL_CLASS(Light);
 	DECL_CLASS(Material);
 	DECL_CLASS(Mesh);
+	DECL_CLASS(Model);
+	DECL_CLASS(ModelLoader);
 	DECL_CLASS(Plane);
 	DECL_CLASS(ShaderValue);
 	DECL_CLASS(Shader);

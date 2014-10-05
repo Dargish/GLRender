@@ -19,21 +19,22 @@
 		<uniform type="float">intensity</uniform>
 		<output type="vec4">fragColor</output>
 		<source>
-			vec3 diffuse = texture(g_diffuse, f_uv).rgb;
-			vec3 normal = texture(g_normal, f_uv).rgb;
-			normal = normalize(normal);
+      vec3 diffuse = texture(g_diffuse, f_uv).rgb;
+      vec3 normal = texture(g_normal, f_uv).rgb;
+      normal = normalize(normal);
 
-			vec3 diffuseFactor = color * clamp(dot(normal, -direction), 0.0, 1.0) * intensity;
-			diffuse *= diffuseFactor;
+      vec3 diffuseFactor = color * clamp(dot(normal, -direction), 0.0, 1.0) * intensity;
+      diffuse *= diffuseFactor;
 
-			vec3 preGamma = diffuse;
-			vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
-			fragColor = vec4(postGamma, 1);
+      vec3 preGamma = diffuse;
+      vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
+      fragColor = vec4(postGamma, 1);
 
-			//fragColor = vec4(normal, 1);
-			//fragColor = vec4((normal + 1.0) / 2.0, 1);
-			//fragColor = vec4(lightDirection, 1);
-			//fragColor = vec4(lightIntensity, lightIntensity, lightIntensity, 1);
-		</source>
+      //fragColor = vec4(texture(g_diffuse, f_uv).rgb, 1);
+      //fragColor = vec4(normal, 1);
+      //fragColor = vec4((normal + 1.0) / 2.0, 1);
+      //fragColor = vec4(lightDirection, 1);
+      //fragColor = vec4(lightIntensity, lightIntensity, lightIntensity, 1);
+    </source>
 	</fragmentshader>
 </shader>
