@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='us-ascii'?>
 <shader version="400">
+  <include>Colorspace</include>
 	<vertexshader>
 		<input type="vec3" location="0">position</input>
 		<input type="vec2" location="1">uv</input>
@@ -27,7 +28,8 @@
       diffuse *= diffuseFactor;
 
       vec3 preGamma = diffuse;
-      vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
+      vec3 postGamma = gammaCorrect(preGamma);
+      //vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
       fragColor = vec4(postGamma, 1);
 
       //fragColor = vec4(texture(g_diffuse, f_uv).rgb, 1);

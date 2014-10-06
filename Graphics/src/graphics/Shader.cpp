@@ -393,6 +393,31 @@ namespace graphics
 		return m_name;
 	}
 
+	std::string Shader::parseFunctionXml(xml_node<>* function)
+	{
+		xml_node<>* source = function->first_node("source");
+		if (!source)
+		{
+			return "";
+		}
+		std::string retType(function->first_attribute("return")->value());
+		std::string funcName(function->first_attribute("name")->value());
+		std::string func(retType + " " + funcName + "(");
+		bool isFirst = true;
+		for (xml_node<>* input = function->first_node("input"); input; input = input->next_sibling("input"))
+		{
+			std::string line = isFirst ? "\n\t" : ",\n\t";
+			std::string name(input->value());
+			std::string type(input->first_attribute("type")->value());
+			line += type + " " + name;
+			func += line;
+		}
+		func += ")\n{\n";
+		func += source->value();
+		func += "\n}\n";
+		return func;
+	}
+
 	std::string Shader::parseShaderXml(xml_node<>* shader)
 	{
 		std::string source;
@@ -524,19 +549,53 @@ namespace graphics
 			xml_document<> doc;
 			doc.parse<0>(xmlFile.data());
 			xml_node<>* shader = doc.first_node("shader");
+
+			loadIncludes(shader);
+			loadFunctions(shader);
+
+			// Parse shaders
 			std::string version(shader->first_attribute("version")->value());
 			xml_node<>* vertexShader = shader->first_node("vertexshader");
-			m_vertexSource = parseShaderXml(vertexShader);
-			m_vertexSource = "#version " + version + "\n" + m_vertexSource;
+			m_vertexSource = "#version " + version + "\n";
+			m_vertexSource += m_functions;
+			m_vertexSource += parseShaderXml(vertexShader);
 			xml_node<>* fragmentShader = shader->first_node("fragmentshader");
-			m_fragmentSource = parseShaderXml(fragmentShader);
-			m_fragmentSource = "#version " + version + "\n" + m_fragmentSource;
+			m_fragmentSource = "#version " + version + "\n";
+			m_fragmentSource += m_functions;
+			m_fragmentSource += parseShaderXml(fragmentShader);
 		}
 		catch (std::runtime_error& err)
 		{
 			throw std::runtime_error((boost::format("Error loading xml shader: %s") % err.what()).str());
 		}
 		compile();
+	}
+
+	void Shader::loadFunctions(const std::string& filePath)
+	{
+		rapidxml::file<> xmlFile(ShaderPath(filePath).c_str());
+		xml_document<> doc;
+		doc.parse<0>(xmlFile.data());
+		xml_node<>* shader = doc.first_node("shader");
+		loadIncludes(shader);
+		loadFunctions(shader);
+	}
+
+	void Shader::loadFunctions(xml_node<>* shader)
+	{
+		// Parse functions
+		for (xml_node<>* function = shader->first_node("function"); function; function = function->next_sibling("function"))
+		{
+			m_functions += parseFunctionXml(function);
+		}
+	}
+
+	void Shader::loadIncludes(xml_node<>* shader)
+	{
+		for (xml_node<>* include = shader->first_node("include"); include; include = include->next_sibling("include"))
+		{
+			loadFunctions(include->value());
+		}
 	}
 
 	void Shader::compile()
