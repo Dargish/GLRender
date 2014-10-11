@@ -2,7 +2,10 @@
 
 namespace graphics
 {
-	Light::~Light()
+	namespace lights
 	{
+		Light::~Light()
+		{
+		}
 	}
 }

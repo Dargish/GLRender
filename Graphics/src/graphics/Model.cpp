@@ -5,6 +5,8 @@
 
 #include "loaders/AssimpModelLoader.h"
 
+using namespace graphics::loaders;
+
 namespace graphics
 {
 	std::string Model::ModelPath(const std::string& modelName)

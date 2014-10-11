@@ -1,7 +1,7 @@
 #include "FrameBuffer.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "Plane.h"
+#include "primitives/Plane.h"
 #include <GL/glew.h>
 
 namespace graphics

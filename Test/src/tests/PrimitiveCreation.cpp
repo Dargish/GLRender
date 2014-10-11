@@ -1,12 +1,13 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/format.hpp>
-#include "graphics/Cube.h"
+#include "graphics/primitives/Cube.h"
 #include "graphics/VertexBuffer.h"
 #include <GL/glew.h>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
 using namespace graphics;
+using namespace graphics::primitives;
 
 BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 {
@@ -18,7 +19,7 @@ BOOST_AUTO_TEST_CASE(PrimitiveCreation)
 		throw std::runtime_error((boost::format("glewInit() failed: %s") % glewGetErrorString(err)).str());
 	}
 	{
-		graphics::Cube_Ptr cube(new Cube(2.0f));
+		Cube_Ptr cube(new Cube(2.0f));
 		VertexPositionNormalBuffer_Ptr vBuffer = boost::dynamic_pointer_cast<VertexPositionNormalBuffer>(cube->vertexBuffer());
 		VertexPositionNormalBuffer::BufferType& verts = vBuffer->data();
 		BOOST_REQUIRE_EQUAL(verts.size(), 8);

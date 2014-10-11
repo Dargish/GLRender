@@ -5,7 +5,7 @@
 #include "components/MeshComponent.h"
 #include "components/MaterialComponent.h"
 #include "components/LightComponent.h"
-#include "graphics/Light.h"
+#include "graphics/lights/Light.h"
 #include "graphics/Mesh.h"
 #include "graphics/Material.h"
 #include "graphics/Transform.h"

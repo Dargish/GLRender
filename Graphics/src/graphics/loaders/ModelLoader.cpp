@@ -2,7 +2,10 @@
 
 namespace graphics
 {
-	ModelLoader::~ModelLoader()
+	namespace loaders
 	{
+		ModelLoader::~ModelLoader()
+		{
+		}
 	}
 }

@@ -13,15 +13,15 @@
 #include <components/LightComponent.h>
 #include <graphics/Window.h>
 #include <graphics/Shader.h>
-#include <graphics/DirectionalLight.h>
+#include <graphics/lights/DirectionalLight.h>
 #include <graphics/Material.h>
 #include <graphics/Model.h>
 #include <graphics/Transform.h>
 #include <graphics/Camera.h>
-#include <graphics/Cube.h>
-#include <graphics/Plane.h>
-#include <graphics/Sphere.h>
-#include <graphics/Torus.h>
+#include <graphics/primitives/Cube.h>
+#include <graphics/primitives/Plane.h>
+#include <graphics/primitives/Sphere.h>
+#include <graphics/primitives/Torus.h>
 #include <graphics/Texture.h>
 #include <graphics/TextureFile.h>
 #include "FreeCamera.h"
@@ -31,6 +31,8 @@
 using namespace io;
 using namespace ecs;
 using namespace graphics;
+using namespace graphics::lights;
+using namespace graphics::primitives;
 using namespace components;
 using namespace systems;
 using namespace serialisation;

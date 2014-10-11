@@ -5,11 +5,14 @@
 
 namespace graphics
 {
-	class ModelLoader
+	namespace loaders
 	{
-	public:
-		virtual ~ModelLoader();
+		class ModelLoader
+		{
+		public:
+			virtual ~ModelLoader();
 
-		virtual void load(const std::string& filePath, VertexBuffer_Ptr& vertexBuffer, IndexBuffer_Ptr& indexBuffer) const = 0;
-	};
+			virtual void load(const std::string& filePath, VertexBuffer_Ptr& vertexBuffer, IndexBuffer_Ptr& indexBuffer) const = 0;
+		};
+	}
 }

@@ -1,8 +1,9 @@
 #include "LightComponent.h"
-#include "graphics/Light.h"
+#include "graphics/lights/Light.h"
 #include <json/json.h>
 
 using namespace graphics;
+using namespace graphics::lights;
 using namespace serialisation;
 
 namespace components

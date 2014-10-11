@@ -8,7 +8,7 @@ namespace components
 	class LightComponent : public ecs::Component
 	{
 	public:
-		graphics::Light_Ptr light;
+		graphics::lights::Light_Ptr light;
 
 		// Helper function to convert the mesh type
 		template< class T >
