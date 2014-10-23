@@ -47,12 +47,25 @@ namespace graphics
 
 	void Camera::update(float deltaTime)
 	{
-
+		updateViewMatrix();
 	}
 
 	void Camera::updateProjectionMatrix(int width, int height)
 	{
 		m_projMatrix = glm::perspective(60.0f, float(width) / float(height), 0.01f, 10000.0f);
+	}
+
+	Frustum Camera::frustum() const
+	{
+		Matrix4 inverseViewProj = glm::inverse(m_projMatrix * m_viewMatrix);
+		Frustum frustum;
+		for (size_t i = 0; i < 8; ++i)
+		{
+			Vector4 pos(i & 1 ? 1.0f : -0.999f, i & 2 ? 1.0f : -0.999f, i & 4 ? 1.0f : -0.999f, 1.0f);
+			pos = inverseViewProj * pos;
+			frustum.corners[i] = Vector3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
+		}
+		return frustum;
 	}
 
 	void Camera::updateViewMatrix()

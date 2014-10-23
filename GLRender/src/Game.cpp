@@ -168,7 +168,7 @@ void Game::start()
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 1.0f));
+		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.9f, 0.8f), 1.0f));
 		//lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
 		world->addComponent(lightID, lightComponent);
 	}
@@ -235,7 +235,9 @@ void Game::start()
 
 		window->pushGLStates();
 		frameTimeF = float(m_clock.getElapsedTime().asMicroseconds()) / 1000.0f;
-		sf::Text text((boost::format("FrameTime: %.04fms, FPS: %dfps, Target: %dfps") % frameTimeF % fps % ( 1000000 / FRAMETIME_LIMIT )).str(), m_font);
+		Frustum frustum = world->camera()->frustum();
+		sf::Text text((boost::format("FrameTime: %.04fms, FPS: %dfps, Target: %dfps\nFrustum: (%.04f, %.04f, %.04f)->(%.04f, %.04f, %.04f)") % 
+			frameTimeF % fps % (1000000 / FRAMETIME_LIMIT) % frustum.corners[0].x % frustum.corners[0].y % frustum.corners[0].z % frustum.corners[7].x % frustum.corners[7].y % frustum.corners[7].z).str(), m_font);
 		text.setPosition(0.5f, 0.5f);
 		text.setColor(sf::Color::Red);
 		text.setCharacterSize(16);

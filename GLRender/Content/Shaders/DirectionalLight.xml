@@ -1,42 +1,67 @@
 <?xml version='1.0' encoding='us-ascii'?>
 <shader version="400">
   <include>Colorspace</include>
+  <include>BRDFs</include>
 	<vertexshader>
 		<input type="vec3" location="0">position</input>
 		<input type="vec2" location="1">uv</input>
+    <input type="vec3" location="2">eyeVec</input>
+    <uniform type="mat4">proj</uniform>
+    <uniform type="mat4">view</uniform>
+    <uniform type="vec3">eyePos</uniform>
 		<output type="vec2">f_uv</output>
+    <output type="vec3">f_eyeVec</output>
 		<source>
-			f_uv = vec2(uv.x, 1.0 - uv.y);
-			gl_Position = vec4(position, 1);
-		</source>
+      f_uv = uv;
+      f_eyeVec = normalize(position - eyePos);
+      gl_Position = proj * view * vec4(position, 1.0);
+    </source>
 	</vertexshader>
 	<fragmentshader>
 		<input type="vec2">f_uv</input>
-		<uniform type="sampler2D">g_diffuse</uniform>
-		<uniform type="sampler2D">g_normal</uniform>
-		<uniform type="vec3">eyeVec</uniform>
+    <input type="vec3">f_eyeVec</input>
+    <uniform type="sampler2D">g_diffuse</uniform>
+    <uniform type="sampler2D">g_normal</uniform>
 		<uniform type="vec3">direction</uniform>
 		<uniform type="vec3">color</uniform>
 		<uniform type="float">intensity</uniform>
 		<output type="vec4">fragColor</output>
 		<source>
-      vec3 diffuse = texture(g_diffuse, f_uv).rgb;
-      vec3 normal = texture(g_normal, f_uv).rgb;
-      normal = normalize(normal);
+      vec4 diffuseRough = texture(g_diffuse, f_uv).rgba;
+      vec4 normalMetal = texture(g_normal, f_uv).rgba;
 
-      vec3 diffuseFactor = color * clamp(dot(normal, -direction), 0.0, 1.0) * intensity;
-      diffuse *= diffuseFactor;
+      vec3 BaseColor = diffuseRough.rgb;
+      float Roughness = diffuseRough.a;
+      float Metallic = normalMetal.a;
 
-      vec3 preGamma = diffuse;
+      vec3 V = normalize(-f_eyeVec);
+      vec3 N = normalize(normalMetal.rgb);
+      vec3 L = normalize(-direction);
+
+      vec3 H = normalize(V + L);
+
+      float VoL = saturate(dot(V, L));
+      float NoV = saturate(dot(N, V));
+      float VoH = saturate(dot(V, H));
+      float NoH = saturate(dot(N, H));
+      float NoL = saturate(dot(N, L));
+
+      vec3 DiffuseColor = BaseColor - BaseColor * Metallic;
+      vec3 SpecularColor = mix( vec3(0.04), BaseColor, Metallic );
+
+      vec3 F = F_Schlick(SpecularColor, VoH);
+      float G = Vis_Schlick(Roughness, NoV, NoL);
+      float D = D_GGX(Roughness, NoH);
+
+      vec3 specular = F * G * D;
+      vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, Roughness, VoL, NoV, NoL, VoH);
+
+      vec3 preGamma = NoL * (diffuse + specular) * intensity * color;
       vec3 postGamma = gammaCorrect(preGamma);
-      //vec3 postGamma = pow(preGamma, vec3(1.0/2.2));
       fragColor = vec4(postGamma, 1);
-
-      //fragColor = vec4(texture(g_diffuse, f_uv).rgb, 1);
-      //fragColor = vec4(normal, 1);
-      //fragColor = vec4((normal + 1.0) / 2.0, 1);
-      //fragColor = vec4(lightDirection, 1);
-      //fragColor = vec4(lightIntensity, lightIntensity, lightIntensity, 1);
+      //fragColor = vec4(F, 1);
+      //fragColor = vec4(vec3(G), 1);
+      //fragColor = vec4(vec3(D), 1);
     </source>
 	</fragmentshader>
 </shader>

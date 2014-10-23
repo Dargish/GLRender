@@ -36,11 +36,7 @@ namespace graphics
 
 	void Mesh::draw(float deltaTime)
 	{
-		if (m_isDirty)
-		{
-			createMesh();
-			m_isDirty = false;
-		}
+		checkDirty();
 		if (m_vertexBuffer->empty() || m_indexBuffer->empty())
 		{
 			return;
@@ -55,5 +51,14 @@ namespace graphics
 	void Mesh::dirty()
 	{
 		m_isDirty = true;
+	}
+
+	void Mesh::checkDirty()
+	{
+		if (m_isDirty)
+		{
+			createMesh();
+			m_isDirty = false;
+		}
 	}
 }

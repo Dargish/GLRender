@@ -6,14 +6,14 @@ namespace graphics
 {
 	namespace lights
 	{
-		class DirectionalLight : public Light
+		class EnvironmentLight : public Light
 		{
 		public:
-			DirectionalLight();
-			DirectionalLight(const Vector3& direction, const Vector3& color, float intensity);
-			DirectionalLight(const DirectionalLight& other);
-			virtual ~DirectionalLight();
-			DirectionalLight& operator=(const DirectionalLight& other);
+			EnvironmentLight();
+			EnvironmentLight(const Vector3& direction, const Vector3& color, float intensity);
+			EnvironmentLight(const EnvironmentLight& other);
+			virtual ~EnvironmentLight();
+			EnvironmentLight& operator=(const EnvironmentLight& other);
 
 			virtual void light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime);
 
@@ -24,9 +24,8 @@ namespace graphics
 			virtual void deserialise(const Json::Value& data);
 
 		private:
-			Shader_Ptr m_directionalShader;
-			primitives::ScreenQuad_Ptr m_screenQuad;
-			Vector3 m_direction;
+			Shader_Ptr m_environmentShader;
+			primitives::Plane_Ptr m_screenQuad;
 			Vector3 m_color;
 			float m_intensity;
 		};

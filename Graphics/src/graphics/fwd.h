@@ -36,6 +36,7 @@ namespace graphics
 	{
 		DECL_CLASS(Cube);
 		DECL_CLASS(Plane);
+		DECL_CLASS(ScreenQuad);
 		DECL_CLASS(Sphere);
 		DECL_CLASS(Torus);
 	}

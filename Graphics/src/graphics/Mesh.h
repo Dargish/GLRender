@@ -23,6 +23,8 @@ namespace graphics
 		void dirty();
 
 	protected:
+		void checkDirty();
+
 		VertexBuffer_Ptr m_vertexBuffer;
 		IndexBuffer_Ptr m_indexBuffer;
 

@@ -25,6 +25,8 @@
 	<fragmentshader>
 		<uniform type="sampler2D" default="UVTest.png">t_color</uniform>
     <uniform type="sampler2D" default="UVTest.png">t_normal</uniform>
+    <uniform type="sampler2D" default="UVTest.png">t_roughness</uniform>
+    <uniform type="sampler2D" default="UVTest.png">t_metallicity</uniform>
 		<input type="vec2">f_uv</input>
 		<input type="vec3">f_normal</input>
     <input type="vec3">f_tangent</input>
@@ -33,10 +35,13 @@
 		<output type="vec4" location="1">g_normal</output>
 		<source>
       mat3 TBN = mat3(f_tangent, f_binormal, f_normal);
-
-      g_color = vec4(texture(t_color, f_uv).rgb, 1);
+      vec3 d = texture(t_color, f_uv).rgb;
       vec3 n = normalize(TBN * texture(t_normal, f_uv).rgb);
-      g_normal = vec4(n, 0);
+      float r = texture(t_roughness, f_uv).r;
+      float m = texture(t_metallicity, f_uv).r;
+
+      g_color = vec4(d, r);
+      g_normal = vec4(n, m);
     </source>
 	</fragmentshader>
 </shader>

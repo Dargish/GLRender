@@ -130,6 +130,7 @@ namespace graphics
 		Shader(const std::string& name);
 
 		void load();
+		void Shader::loadDefines(rapidxml::xml_node<>* shader);
 		void Shader::loadFunctions(const std::string& filePath);
 		void Shader::loadFunctions(rapidxml::xml_node<>* shader);
 		void Shader::loadIncludes(rapidxml::xml_node<>* shader);
@@ -139,7 +140,8 @@ namespace graphics
 		void enable();
 		void disable();
 
-		std::string parseFunctionXml(rapidxml::xml_node<>* shader);
+		std::string parseDefineXml(rapidxml::xml_node<>* define);
+		std::string parseFunctionXml(rapidxml::xml_node<>* function);
 		std::string parseShaderXml(rapidxml::xml_node<>* shader);
 
 		void compileSubShader(uint subShader);
@@ -148,6 +150,7 @@ namespace graphics
 		void fillTextureUnits();
 
 		std::string m_name;
+		std::string m_defines;
 		std::string m_functions;
 		std::string m_vertexSource;
 		std::string m_fragmentSource;

@@ -11,8 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\lights\EnvironmentLight.h" />
     <ClInclude Include="src\graphics\loaders\AssimpModelLoader.h" />
     <ClInclude Include="src\graphics\loaders\ModelLoader.h" />
+    <ClInclude Include="src\graphics\primitives\ScreenQuad.h" />
     <ClInclude Include="src\graphics\primitives\Sphere.h" />
     <ClInclude Include="src\graphics\lights\DirectionalLight.h" />
     <ClInclude Include="src\graphics\FrameBuffer.h" />
@@ -36,8 +38,10 @@
     <ClInclude Include="src\graphics\Model.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\lights\EnvironmentLight.cpp" />
     <ClCompile Include="src\graphics\loaders\AssimpModelLoader.cpp" />
     <ClCompile Include="src\graphics\loaders\ModelLoader.cpp" />
+    <ClCompile Include="src\graphics\primitives\ScreenQuad.cpp" />
     <ClCompile Include="src\graphics\primitives\Sphere.cpp" />
     <ClCompile Include="src\graphics\lights\DirectionalLight.cpp" />
     <ClCompile Include="src\graphics\FrameBuffer.cpp" />

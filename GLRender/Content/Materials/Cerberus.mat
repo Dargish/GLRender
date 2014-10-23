@@ -12,6 +12,16 @@
          "name" : "t_normal",
          "typeName" : "TextureValue",
          "value" : "Cerberus_N.tga"
+      },	  
+      {
+         "name" : "t_roughness",
+         "typeName" : "TextureValue",
+         "value" : "Cerberus_R.tga"
+      },	  
+      {
+         "name" : "t_metallicity",
+         "typeName" : "TextureValue",
+         "value" : "Cerberus_M.tga"
       }
    ]
 }

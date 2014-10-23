@@ -3,6 +3,11 @@
 
 namespace graphics
 {
+	struct Frustum
+	{
+		Vector3 corners[8];
+	};
+
 	class Camera
 	{
 	public:
@@ -19,6 +24,8 @@ namespace graphics
 		virtual void update(float deltaTime);
 
 		void updateProjectionMatrix(int width, int height);
+
+		Frustum frustum() const;
 
 	protected:
 		void updateViewMatrix();

@@ -393,6 +393,18 @@ namespace graphics
 		return m_name;
 	}
 
+	std::string Shader::parseDefineXml(xml_node<>* define)
+	{
+		std::string def = "uniform ";
+		def += define->first_attribute("type")->value();
+		def += " ";
+		def += define->first_attribute("name")->value();
+		def += " = ";
+		def += define->value();
+		def += ";\n";
+		return def;
+	}
+
 	std::string Shader::parseFunctionXml(xml_node<>* function)
 	{
 		xml_node<>* source = function->first_node("source");
@@ -411,6 +423,7 @@ namespace graphics
 			std::string type(input->first_attribute("type")->value());
 			line += type + " " + name;
 			func += line;
+			isFirst = false;
 		}
 		func += ")\n{\n";
 		func += source->value();
@@ -551,16 +564,19 @@ namespace graphics
 			xml_node<>* shader = doc.first_node("shader");
 
 			loadIncludes(shader);
+			loadDefines(shader);
 			loadFunctions(shader);
 
 			// Parse shaders
 			std::string version(shader->first_attribute("version")->value());
 			xml_node<>* vertexShader = shader->first_node("vertexshader");
 			m_vertexSource = "#version " + version + "\n";
+			m_vertexSource += m_defines;
 			m_vertexSource += m_functions;
 			m_vertexSource += parseShaderXml(vertexShader);
 			xml_node<>* fragmentShader = shader->first_node("fragmentshader");
 			m_fragmentSource = "#version " + version + "\n";
+			m_fragmentSource += m_defines;
 			m_fragmentSource += m_functions;
 			m_fragmentSource += parseShaderXml(fragmentShader);
 		}
@@ -571,6 +587,14 @@ namespace graphics
 		compile();
 	}
 
+	void Shader::loadDefines(xml_node<>* shader)
+	{
+		for (xml_node<>* define = shader->first_node("define"); define; define = define->next_sibling("define"))
+		{
+			m_defines += parseDefineXml(define);
+		}
+	}
+
 	void Shader::loadFunctions(const std::string& filePath)
 	{
 		rapidxml::file<> xmlFile(ShaderPath(filePath).c_str());
@@ -578,12 +602,12 @@ namespace graphics
 		doc.parse<0>(xmlFile.data());
 		xml_node<>* shader = doc.first_node("shader");
 		loadIncludes(shader);
+		loadDefines(shader);
 		loadFunctions(shader);
 	}
 
 	void Shader::loadFunctions(xml_node<>* shader)
 	{
-		// Parse functions
 		for (xml_node<>* function = shader->first_node("function"); function; function = function->next_sibling("function"))
 		{
 			m_functions += parseFunctionXml(function);

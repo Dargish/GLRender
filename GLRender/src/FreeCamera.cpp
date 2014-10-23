@@ -57,7 +57,7 @@ void FreeCamera::update( float deltaTime )
 	processInput( deltaTime );
 	integrateVelocity( deltaTime );
 	updateDirection();
-	updateViewMatrix();
+	Camera::update(deltaTime);
 }
 
 void FreeCamera::applyDrag( float deltaTime )

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<shader version="400">
+  <include>Colorspace</include>
+  <function name="environmentLight" return="vec3">
+    <input type="vec3">eV</input>
+    <input type="vec3">nV</input>
+    <source>
+      return vec3(1.0f);
+    </source>
+  </function>
+	<vertexshader>
+		<input type="vec3" location="0">position</input>
+		<input type="vec2" location="1">uv</input>
+		<output type="vec2">f_uv</output>
+		<source>
+			f_uv = uv;
+			gl_Position = vec4(position, 1);
+		</source>
+	</vertexshader>
+	<fragmentshader>
+		<input type="vec2">f_uv</input>
+		<uniform type="sampler2D">g_diffuse</uniform>
+		<uniform type="sampler2D">g_normal</uniform>
+		<uniform type="vec3">eyeVec</uniform>
+		<uniform type="vec3">color</uniform>
+		<uniform type="float">intensity</uniform>
+		<output type="vec4">fragColor</output>
+		<source>
+      vec3 diffuse = texture(g_diffuse, f_uv).rgb;
+      vec3 normal = texture(g_normal, f_uv).rgb;
+      normal = normalize(normal);
+
+      vec3 lightFactor = environmentLight(eyeVec, normal);
+      lightFactor *= color;
+      lightFactor *= intensity;
+
+      vec3 preGamma = diffuse * lightFactor;
+      vec3 postGamma = gammaCorrect(preGamma);
+      fragColor = vec4(postGamma, 1);
+    </source>
+	</fragmentshader>
+</shader>
