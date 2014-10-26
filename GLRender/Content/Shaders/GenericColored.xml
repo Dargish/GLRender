@@ -14,13 +14,15 @@
     </source>
 	</vertexshader>
 	<fragmentshader>
-		<uniform type="vec3" default="1,0,1">color</uniform>
+		<uniform type="vec3" default="1.0,1.0,1.0">v_color</uniform>
+    <uniform type="float" default="1.0">v_roughness</uniform>
+    <uniform type="float" default="1.0">v_metallicity</uniform>
 		<input type="vec3">f_normal</input>
 		<output type="vec4" location="0">g_color</output>
 		<output type="vec4" location="1">g_normal</output>
 		<source>
-			g_color = vec4(color, 1);
-			g_normal = vec4(f_normal, 0);
-		</source>
+      g_color = vec4(v_color, v_roughness);
+      g_normal = vec4(f_normal, v_metallicity);
+    </source>
 	</fragmentshader>
 </shader>

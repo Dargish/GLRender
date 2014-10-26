@@ -1,6 +1,5 @@
 #pragma once
 #include "fwd.h"
-#include "Shader.h"
 #include <map>
 #include <Serialisation/Serialiser.h>
 
@@ -17,8 +16,6 @@ namespace graphics
 		static std::string TypeName();
 		virtual std::string typeName() const;
 		virtual serialisation::Serialisable* clone() const;
-		virtual Json::Value serialise() const;
-		virtual void deserialise(const Json::Value& data);
 
 		virtual std::string pathFromName(const std::string& name) const;
 
@@ -31,6 +28,10 @@ namespace graphics
 		void setTexture(const std::string& name, const std::string& filePath);
 
 		void applyToShader();
+
+	protected:
+		virtual void serialiseToData(Json::Value& data) const;
+		virtual void deserialiseFromData(const Json::Value& data);
 
 	private:
 		void getDefaultValuesFromShader();

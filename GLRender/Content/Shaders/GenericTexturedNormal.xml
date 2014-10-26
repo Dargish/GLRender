@@ -23,10 +23,13 @@
     </source>
 	</vertexshader>
 	<fragmentshader>
-		<uniform type="sampler2D" default="UVTest.png">t_color</uniform>
-    <uniform type="sampler2D" default="UVTest.png">t_normal</uniform>
-    <uniform type="sampler2D" default="UVTest.png">t_roughness</uniform>
-    <uniform type="sampler2D" default="UVTest.png">t_metallicity</uniform>
+    <uniform type="vec3" default="1.0,1.0,1.0">v_color</uniform>
+		<uniform type="sampler2D" default="White.png">t_color</uniform>
+    <uniform type="sampler2D" default="Green.png">t_normal</uniform>
+    <uniform type="float" default="1.0">v_roughness</uniform>
+    <uniform type="sampler2D" default="White.png">t_roughness</uniform>
+    <uniform type="float" default="1.0">v_metallicity</uniform>
+    <uniform type="sampler2D" default="White.png">t_metallicity</uniform>
 		<input type="vec2">f_uv</input>
 		<input type="vec3">f_normal</input>
     <input type="vec3">f_tangent</input>
@@ -35,10 +38,10 @@
 		<output type="vec4" location="1">g_normal</output>
 		<source>
       mat3 TBN = mat3(f_tangent, f_binormal, f_normal);
-      vec3 d = texture(t_color, f_uv).rgb;
+      vec3 d = texture(t_color, f_uv).rgb * v_color;
       vec3 n = normalize(TBN * texture(t_normal, f_uv).rgb);
-      float r = texture(t_roughness, f_uv).r;
-      float m = texture(t_metallicity, f_uv).r;
+      float r = texture(t_roughness, f_uv).r * v_roughness;
+      float m = texture(t_metallicity, f_uv).r * v_metallicity;
 
       g_color = vec4(d, r);
       g_normal = vec4(n, m);

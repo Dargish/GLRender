@@ -4,7 +4,7 @@
    "typeName" : "Material",
    "values" : [
       {
-         "name" : "color",
+         "name" : "v_color",
          "typeName" : "Vector3Value",
          "value" : "0,1,0"
       }

@@ -13,6 +13,7 @@
 #include <components/LightComponent.h>
 #include <graphics/Window.h>
 #include <graphics/Shader.h>
+#include <graphics/ShaderValue.h>
 #include <graphics/lights/DirectionalLight.h>
 #include <graphics/Material.h>
 #include <graphics/Model.h>
@@ -105,89 +106,43 @@ void Game::start()
 	RenderSystem_Ptr renderSystem = world->createSystem<RenderSystem>();
 	world->setCamera(Camera_Ptr(new FreeCamera));
 
-	//for (size_t i = 0; i < 8; ++i)
-	//{
-	//	EntityID cubeID = world->createEntity("Cube");
-	//	Transform_Ptr transform = world->component<TransformComponent>(cubeID)->transform;
-	//	transform->position.x = (i & 1) == 0 ? -3.0f : 3.0f;
-	//	transform->position.y = (i & 2) == 0 ? -3.0f : 3.0f;
-	//	transform->position.z = (i & 4) == 0 ? -3.0f : 3.0f;
-	//	Material_Ptr material = world->component<MaterialComponent>(cubeID)->material;
-	//	if ((i & 1) == 0)
-	//	{
-	//		material->load("Red");
-	//	}
-	//	else if ((i & 2) == 0)
-	//	{
-	//		material->load("Green");
-	//	}
-	//	else if ((i & 4) == 0)
-	//	{
-	//		material->load("Blue");
-	//	}
-	//}
-
-	//world->save("Test2");
-	//world->load("Test2");
-
-	//EntityID entityID1 = StrToEntityID("28852923-dc75-4b0e-9fd0-f6ab9deb02cd");
-	//world->component<MaterialComponent>(entityID1)->material->load("Textured");
-
-	//EntityID entityID2 = StrToEntityID("6094aacb-0394-49b1-a46f-27e282ac64b6");
-	//world->component<MaterialComponent>(entityID2)->material->setShader(Shader::Load("ShowNormal"));
-	//world->component<MeshComponent>(entityID2)->meshAs<Cube>()->setSmooth(true);
-
-	//EntityID planeID = world->createEntity();
-	//world->addComponent(planeID, TransformComponent_Ptr(new TransformComponent()));
-	//MeshComponent_Ptr meshComponent(new MeshComponent());
-	//meshComponent->mesh.reset(new Plane());
-	//world->addComponent(planeID, meshComponent);
-	//MaterialComponent_Ptr materialComponent(new MaterialComponent());
-	//materialComponent->material->load("Textured");
-	//world->addComponent(planeID, materialComponent);
-
-	//world->load("Test2");
-
-	EntityID cubeID = world->createEntity("Cube");
-	world->component<MaterialComponent>(cubeID)->material->load("Textured");
-	world->component<TransformComponent>(cubeID)->transform->position.x = -2.5f;
-
-	EntityID sphereID = world->createEntity("Sphere");
-	world->component<MaterialComponent>(sphereID)->material->load("Textured");
-
-	EntityID torusID = world->createEntity("Torus");
-	world->component<MeshComponent>(torusID)->meshAs<Torus>()->setSegments(48);
-	world->component<MaterialComponent>(torusID)->material->load("Textured");
-	world->component<TransformComponent>(torusID)->transform->position.x = 2.5f;
-	world->component<TransformComponent>(torusID)->transform->scale.y = 4.0f;
-
-	EntityID ceberusID = world->createEntity("Cerberus");
-	//world->component<MaterialComponent>(ceberusID)->material->load("Textured");
-	world->component<TransformComponent>(ceberusID)->transform->position.x = 5.0f;
+	for (size_t r = 0; r <= 10; ++r)
+	{
+		for (size_t m = 0; m <= 10; ++m)
+		{
+			EntityID s = world->createEntity("Sphere");
+			float rf = r / 10.0f;
+			float mf = m / 10.0f;
+			world->component<MaterialComponent>(s)->material->setValue("v_color", Vector3(rf, 0, mf));
+			world->component<MaterialComponent>(s)->material->setValue("v_roughness", rf);
+			world->component<MaterialComponent>(s)->material->setValue("v_metallicity", mf);
+			world->component<TransformComponent>(s)->transform->position.x = r * 2.5f;
+			world->component<TransformComponent>(s)->transform->position.z = m * 2.5f;
+		}
+	}
 
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
 		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.9f, 0.8f), 1.0f));
-		//lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.025f, 0.025f), 1.0f));
 		world->addComponent(lightID, lightComponent);
 	}
 
-	{
-		EntityID lightID = world->createEntity();
-		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 0.02f));
-		//lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(0.025f, 0.025f, 1.0f), 1.0f));
-		world->addComponent(lightID, lightComponent);
-	}
+	//{
+	//	EntityID lightID = world->createEntity();
+	//	LightComponent_Ptr lightComponent(new LightComponent);
+	//	lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 0.02f));
+	//	world->addComponent(lightID, lightComponent);
+	//}
 
-	{
-		EntityID lightID = world->createEntity();
-		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(1.0f, 1.0f, 1.0f), 0.01f));
-		//lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(0.025f, 2.0f, 0.025f), 1.0f));
-		world->addComponent(lightID, lightComponent);
-	}
+	//{
+	//	EntityID lightID = world->createEntity();
+	//	LightComponent_Ptr lightComponent(new LightComponent);
+	//	lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(1.0f, 1.0f, 1.0f), 0.01f));
+	//	world->addComponent(lightID, lightComponent);
+	//}
+
+	//world->load("primTest");
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{

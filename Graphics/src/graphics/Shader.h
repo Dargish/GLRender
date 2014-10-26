@@ -8,104 +8,10 @@
 
 namespace graphics
 {
-	class ShaderValue : public serialisation::Serialisable
-	{
-	public:
-		ShaderValue();
-		ShaderValue(const std::string& name);
-		virtual ~ShaderValue();
-
-		const std::string& name() const;
-		void setName(const std::string& name);
-
-		virtual Json::Value serialise() const;
-		virtual void deserialise(const Json::Value& data);
-
-		virtual void applyToShader(const Shader_Ptr& shader) const = 0;
-
-		virtual void fromString(const std::string& str) = 0;
-
-	protected:
-		std::string m_name;
-	};
-
-	typedef std::map<std::string, ShaderValue_Ptr> ShaderValueMap;
-
-	class FloatValue : public ShaderValue
-	{
-	public:
-		FloatValue();
-		FloatValue(const std::string& name, float value);
-		FloatValue(const FloatValue& other);
-		virtual ~FloatValue();
-		FloatValue& operator=(const FloatValue& other);
-
-		static std::string TypeName();
-		virtual std::string typeName() const;
-		virtual serialisation::Serialisable* clone() const;
-		virtual Json::Value serialise() const;
-		virtual void deserialise(const Json::Value& data);
-
-		virtual void applyToShader(const Shader_Ptr& shader) const;
-
-		virtual void fromString(const std::string& str);
-
-	private:
-		float m_value;
-	};
-
-	class Vector3Value : public ShaderValue
-	{
-	public:
-		Vector3Value();
-		Vector3Value(const std::string& name, const Vector3& value);
-		Vector3Value(const Vector3Value& other);
-		virtual ~Vector3Value();
-		Vector3Value& operator=(const Vector3Value& other);
-
-		static std::string TypeName();
-		virtual std::string typeName() const;
-		virtual serialisation::Serialisable* clone() const;
-		virtual Json::Value serialise() const;
-		virtual void deserialise(const Json::Value& data);
-
-		virtual void applyToShader(const Shader_Ptr& shader) const;
-
-		virtual void fromString(const std::string& str);
-
-	private:
-		Vector3 m_value;
-	};
-
-	class TextureValue : public ShaderValue
-	{
-	public:
-		TextureValue();
-		TextureValue(const std::string& name, const TextureFile_Ptr& value);
-		TextureValue(const TextureValue& other);
-		virtual ~TextureValue();
-		TextureValue& operator=(const TextureValue& other);
-
-		static std::string TypeName();
-		virtual std::string typeName() const;
-		virtual serialisation::Serialisable* clone() const;
-		virtual Json::Value serialise() const;
-		virtual void deserialise(const Json::Value& data);
-
-		virtual void applyToShader(const Shader_Ptr& shader) const;
-
-		virtual void fromString(const std::string& str);
-
-	private:
-		TextureFile_Ptr m_value;
-	};
-
 	class Shader
 	{
 	public:
 		static void CheckGLError();
-
-		static std::string ShaderPath(const std::string& shaderName);
 
 		static Shader_Ptr& Load(const std::string& name);
 		static void Enable(const Shader_Ptr& shader);
@@ -129,20 +35,10 @@ namespace graphics
 
 		Shader(const std::string& name);
 
-		void load();
-		void Shader::loadDefines(rapidxml::xml_node<>* shader);
-		void Shader::loadFunctions(const std::string& filePath);
-		void Shader::loadFunctions(rapidxml::xml_node<>* shader);
-		void Shader::loadIncludes(rapidxml::xml_node<>* shader);
-
 		void compile();
 
 		void enable();
 		void disable();
-
-		std::string parseDefineXml(rapidxml::xml_node<>* define);
-		std::string parseFunctionXml(rapidxml::xml_node<>* function);
-		std::string parseShaderXml(rapidxml::xml_node<>* shader);
 
 		void compileSubShader(uint subShader);
 
@@ -150,12 +46,8 @@ namespace graphics
 		void fillTextureUnits();
 
 		std::string m_name;
-		std::string m_defines;
-		std::string m_functions;
-		std::string m_vertexSource;
-		std::string m_fragmentSource;
+		ShaderSource_Ptr m_shaderSource;
 		uint m_program;
-		ShaderValueMap m_defaultValues;
 		std::deque<int> m_textureUnits;
 
 		static Shader_Ptr s_current;

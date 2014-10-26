@@ -1,0 +1,190 @@
+{
+   "entities" : [
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ -2.50, 0.0, 0.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 1.0,
+                     "smooth" : false,
+                     "typeName" : "Cube"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Textured",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "3eb72534-6eeb-4990-a036-388bd8557d37"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "light" : {
+                     "color" : [ 1.0, 0.8999999761581421, 0.8000000119209290 ],
+                     "direction" : [ -1.0, -0.750, -0.750 ],
+                     "intensity" : 1.0,
+                     "typeName" : "DirectionalLight"
+                  },
+                  "typeName" : "LightComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "6a1a6715-2fd3-408a-ada4-ea7ee16da08f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 0.0, 0.0, 0.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "rings" : 16,
+                     "segments" : 32,
+                     "size" : 1.0,
+                     "typeName" : "Sphere"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Textured",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "7aca2f89-f765-4e51-9f12-b0752c8d4be9"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 2.50, 0.0, 0.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 4.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "radius" : 0.250,
+                     "rings" : 48,
+                     "segments" : 48,
+                     "size" : 1.0,
+                     "typeName" : "Torus"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Textured",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "9700deb0-199b-4ea3-a231-8df92d7a0bb4"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "light" : {
+                     "color" : [ 1.0, 1.0, 1.0 ],
+                     "direction" : [ 0.250, 0.750, 0.250 ],
+                     "intensity" : 0.009999999776482582,
+                     "typeName" : "DirectionalLight"
+                  },
+                  "typeName" : "LightComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "eaf2f1b7-4a69-466e-9e77-63fdc69e7eda"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "light" : {
+                     "color" : [ 1.0, 1.0, 1.0 ],
+                     "direction" : [ 1.0, -0.750, -0.750 ],
+                     "intensity" : 0.01999999955296516,
+                     "typeName" : "DirectionalLight"
+                  },
+                  "typeName" : "LightComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "f86d9475-d407-4819-a7da-47bbb720bde1"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
+                     "position" : [ 5.0, 0.0, 0.0 ],
+                     "rotation" : [ 0.0, -90.0, 180.0 ],
+                     "scale" : [ 0.01499999966472387, 0.01499999966472387, 0.01499999966472387 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "filePath" : "cerberus.fbx",
+                     "typeName" : "Model"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : true,
+                     "name" : "Cerberus",
+                     "typeName" : "Material"
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "fb537d96-9d8f-400f-ad7a-6ba1ddd139fd"
+      }
+   ],
+   "typeName" : "World"
+}

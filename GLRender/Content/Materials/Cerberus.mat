@@ -7,7 +7,7 @@
          "name" : "t_color",
          "typeName" : "TextureValue",
          "value" : "Cerberus_A.tga"
-      },	  
+      },
       {
          "name" : "t_normal",
          "typeName" : "TextureValue",

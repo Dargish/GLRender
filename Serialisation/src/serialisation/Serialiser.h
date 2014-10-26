@@ -34,6 +34,9 @@ namespace serialisation
 		void save(const std::string& name);
 
 	protected:
+		virtual void serialiseToData(Json::Value& data) const = 0;
+		virtual void deserialiseFromData(const Json::Value& data) = 0;
+
 		std::string m_name;
 		bool m_fromFile;
 	};

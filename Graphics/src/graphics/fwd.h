@@ -1,5 +1,6 @@
 #pragma once
 #include <core/fwd.h>
+#include <map>
 
 namespace graphics
 {
@@ -13,6 +14,7 @@ namespace graphics
 	DECL_CLASS(Model);
 	DECL_CLASS(ShaderValue);
 	DECL_CLASS(Shader);
+	DECL_CLASS(ShaderSource);
 	DECL_CLASS(Texture);
 	DECL_CLASS(TextureBuffer);
 	DECL_CLASS(TextureData);
@@ -40,4 +42,6 @@ namespace graphics
 		DECL_CLASS(Sphere);
 		DECL_CLASS(Torus);
 	}
+
+	typedef std::map<std::string, ShaderValue_Ptr> ShaderValueMap;
 }

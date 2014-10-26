@@ -1,4 +1,6 @@
 #include "Material.h"
+#include "Shader.h"
+#include "ShaderValue.h"
 #include "TextureFile.h"
 #include <json/json.h>
 
@@ -45,38 +47,29 @@ namespace graphics
 		return new Material(*this);
 	}
 
-	Json::Value Material::serialise() const
+	void Material::serialiseToData(Json::Value& data) const
 	{
-		Json::Value data = FileSerialisable::serialise();
-		if (!m_fromFile)
+		data["shader"] = m_shader->name();
+		Json::Value valueArray = Json::Value(Json::arrayValue);
+		ShaderValueMap::const_iterator it = m_values.begin();
+		for (; it != m_values.end(); ++it)
 		{
-			data["shader"] = m_shader->name();
-			Json::Value valueArray = Json::Value(Json::arrayValue);
-			ShaderValueMap::const_iterator it = m_values.begin();
-			for (; it != m_values.end(); ++it)
-			{
-				valueArray.append(it->second->serialise());
-			}
-			data["values"] = valueArray;
+			valueArray.append(it->second->serialise());
 		}
-		return data;
+		data["values"] = valueArray;
 	}
 
-	void Material::deserialise(const Json::Value& data)
+	void Material::deserialiseFromData(const Json::Value& data)
 	{
 		m_values.clear();
-		FileSerialisable::deserialise(data);
-		if (!m_fromFile)
+		m_shader = Shader::Load(data["shader"].asString());
+		getDefaultValuesFromShader();
+		Json::Value valueArray = data["values"];
+		Json::Value::iterator it = valueArray.begin();
+		for (; it != valueArray.end(); ++it)
 		{
-			m_shader = Shader::Load(data["shader"].asString());
-			getDefaultValuesFromShader();
-			Json::Value valueArray = data["values"];
-			Json::Value::iterator it = valueArray.begin();
-			for (; it != valueArray.end(); ++it)
-			{
-				ShaderValue_Ptr shaderValue(Serialiser::Deserialise<ShaderValue>(*it));
-				m_values[shaderValue->name()] = shaderValue;
-			}
+			ShaderValue_Ptr shaderValue(Serialiser::Deserialise<ShaderValue>(*it));
+			m_values[shaderValue->name()] = shaderValue;
 		}
 	}
 

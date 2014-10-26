@@ -17,14 +17,23 @@
     </source>
 	</vertexshader>
 	<fragmentshader>
-		<uniform type="sampler2D" default="UVTest.png">t_color</uniform>
+    <uniform type="vec3" default="1.0,1.0,1.0">v_color</uniform>
+		<uniform type="sampler2D" default="White.png">t_color</uniform>
+    <uniform type="float" default="1.0">v_roughness</uniform>
+    <uniform type="sampler2D" default="White.png">t_roughness</uniform>
+    <uniform type="float" default="1.0">v_metallicity</uniform>
+    <uniform type="sampler2D" default="White.png">t_metallicity</uniform>
 		<input type="vec2">f_uv</input>
 		<input type="vec3">f_normal</input>
 		<output type="vec4" location="0">g_color</output>
 		<output type="vec4" location="1">g_normal</output>
 		<source>
-      g_color = vec4(texture(t_color, f_uv).rgb, 1);
-      g_normal = vec4(f_normal, 0);
+      vec3 d = texture(t_color, f_uv).rgb * v_color;
+      float r = texture(t_roughness, f_uv).r * v_roughness;
+      float m = texture(t_metallicity, f_uv).r * v_metallicity;
+
+      g_color = vec4(d, r);
+      g_normal = vec4(f_normal, m);
     </source>
 	</fragmentshader>
 </shader>

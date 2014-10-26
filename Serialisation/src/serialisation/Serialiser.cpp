@@ -48,6 +48,10 @@ namespace serialisation
 		Json::Value data = Serialisable::serialise();
 		data["name"] = m_name;
 		data["fromFile"] = m_fromFile;
+		if (!m_fromFile)
+		{
+			serialiseToData(data);
+		}
 		return data;
 	}
 
@@ -59,12 +63,17 @@ namespace serialisation
 		{
 			load(m_name);
 		}
+		else
+		{
+			deserialiseFromData(data);
+		}
 	}
 
 	void FileSerialisable::load(const std::string& name)
 	{
 		m_name = name;
-		deserialise(JsonFile::Load(pathFromName(m_name)));
+		m_fromFile = false;
+		deserialiseFromData(JsonFile::Load(pathFromName(m_name)));
 		m_fromFile = true;
 	}
 

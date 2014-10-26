@@ -6,6 +6,7 @@
 #include "components/MaterialComponent.h"
 #include "components/LightComponent.h"
 #include "graphics/lights/Light.h"
+#include "graphics/Shader.h"
 #include "graphics/Mesh.h"
 #include "graphics/Material.h"
 #include "graphics/Transform.h"
@@ -31,10 +32,10 @@ namespace systems
 
 	void RenderSystem::resetFrameBufferSize(const Point2& size)
 	{
-		RGBABuffer_Ptr diffuse(new RGBABuffer(size.x, size.y));
-		RGBABuffer_Ptr normal(new RGBABuffer(size.x, size.y));
-		m_frameBuffer->addTextureTarget("g_diffuse", diffuse);
-		m_frameBuffer->addTextureTarget("g_normal", normal);
+		RGBABuffer_Ptr A(new RGBABuffer(size.x, size.y));
+		RGBABuffer_Ptr B(new RGBABuffer(size.x, size.y));
+		m_frameBuffer->addTextureTarget("g_A", A);
+		m_frameBuffer->addTextureTarget("g_B", B);
 	}
 
 	void RenderSystem::componentAdded(const World_Ptr& world, const EntityID& entityID)
@@ -141,6 +142,7 @@ namespace systems
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		for (LightCache::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
 		{
