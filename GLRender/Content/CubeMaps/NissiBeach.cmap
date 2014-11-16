@@ -1,0 +1,12 @@
+{
+   "name" : "Blue",
+   "typeName" : "CubeMap",
+   "sides" : [
+      "NissiBeachEnvMap/nissi_posx.jpg",
+      "NissiBeachEnvMap/nissi_negx.jpg",
+      "NissiBeachEnvMap/nissi_posy.jpg",
+      "NissiBeachEnvMap/nissi_negy.jpg",
+      "NissiBeachEnvMap/nissi_posz.jpg",
+      "NissiBeachEnvMap/nissi_negz.jpg"
+   ]
+}
