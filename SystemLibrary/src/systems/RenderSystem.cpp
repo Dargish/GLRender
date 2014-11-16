@@ -14,16 +14,41 @@
 #include "graphics/FrameBuffer.h"
 #include "graphics/Texture.h"
 #include <vector>
+#include <io/InputManager.h>
+#include <graphics/primitives/ScreenQuad.h>
 
 using namespace graphics;
+using namespace graphics::primitives;
 using namespace ecs;
 using namespace components;
+using namespace io;
 
 namespace systems
 {
 	RenderSystem::RenderSystem() :
-		m_frameBuffer(new FrameBuffer)
+		m_frameBuffer(new FrameBuffer),
+		m_screenQuad(new ScreenQuad),
+		m_dbg_showColor(false),
+		m_dbg_showNormal(false),
+		m_dbg_showRoughness(false),
+		m_dbg_showMetallicity(false)
 	{
+		if (!InputManager::HasMappedInput("Debug_ShowColor"))
+		{
+			InputManager::AddInput("Debug_ShowColor", sf::Keyboard::F1);
+		}
+		if (!InputManager::HasMappedInput("Debug_ShowNormal"))
+		{
+			InputManager::AddInput("Debug_ShowNormal", sf::Keyboard::F2);
+		}
+		if (!InputManager::HasMappedInput("Debug_ShowRoughness"))
+		{
+			InputManager::AddInput("Debug_ShowRoughness", sf::Keyboard::F3);
+		}
+		if (!InputManager::HasMappedInput("Debug_ShowMetallicity"))
+		{
+			InputManager::AddInput("Debug_ShowMetallicity", sf::Keyboard::F4);
+		}
 	}
 
 	RenderSystem::~RenderSystem()
@@ -70,6 +95,38 @@ namespace systems
 	void RenderSystem::entityDestroyed(const EntityID& entityID)
 	{
 		m_interestingEntities.erase(entityID);
+	}
+
+	void RenderSystem::_update(const World_Ptr& world, float deltaTime)
+	{
+		if (InputManager::Clicked("Debug_ShowColor"))
+		{
+			m_dbg_showColor = !m_dbg_showColor;
+			m_dbg_showNormal = false;
+			m_dbg_showRoughness = false;
+			m_dbg_showMetallicity = false;
+		}
+		if (InputManager::Clicked("Debug_ShowNormal"))
+		{
+			m_dbg_showColor = false;
+			m_dbg_showNormal = !m_dbg_showNormal;
+			m_dbg_showRoughness = false;
+			m_dbg_showMetallicity = false;
+		}
+		if (InputManager::Clicked("Debug_ShowRoughness"))
+		{
+			m_dbg_showColor = false;
+			m_dbg_showNormal = false;
+			m_dbg_showRoughness = !m_dbg_showRoughness;
+			m_dbg_showMetallicity = false;
+		}
+		if (InputManager::Clicked("Debug_ShowMetallicity"))
+		{
+			m_dbg_showColor = false;
+			m_dbg_showNormal = false;
+			m_dbg_showRoughness = false;
+			m_dbg_showMetallicity = !m_dbg_showMetallicity;
+		}
 	}
 
 	void RenderSystem::_draw(const World_Ptr& world, float deltaTime)
@@ -144,9 +201,34 @@ namespace systems
 		glBlendFunc(GL_ONE, GL_ONE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		for (LightCache::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
+
+		if (m_dbg_showColor || m_dbg_showNormal || m_dbg_showRoughness || m_dbg_showMetallicity)
 		{
-			(*it)->light(m_frameBuffer, world->camera(), deltaTime);
+			if (!m_debugShader)
+			{
+				m_debugShader = Shader::Load("ShowDebug");
+			}
+			Shader::Enable(m_debugShader);
+			m_frameBuffer->bindTargets(m_debugShader);
+			m_debugShader->setValue("proj", world->camera()->projMatrix());
+			m_debugShader->setValue("view", world->camera()->viewMatrix());
+			m_debugShader->setValue("eyePos", world->camera()->position());
+
+			m_debugShader->setValue("drawColor", m_dbg_showColor ? 1.0f : 0.0f);
+			m_debugShader->setValue("drawNormal", m_dbg_showNormal ? 1.0f : 0.0f);
+			m_debugShader->setValue("drawRoughness", m_dbg_showRoughness ? 1.0f : 0.0f);
+			m_debugShader->setValue("drawMetallicity", m_dbg_showMetallicity ? 1.0f : 0.0f);
+
+			m_screenQuad->setEyeVec(world->camera());
+			m_screenQuad->draw(deltaTime);
+			Shader::Disable(m_debugShader);
+		}
+		else
+		{
+			for (LightCache::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
+			{
+				(*it)->light(m_frameBuffer, world->camera(), deltaTime);
+			}
 		}
 		m_frameBuffer->unbind();
 	}

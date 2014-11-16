@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<shader version="400">
+  <include>DeferredCommon</include>
+  <include>Colorspace</include>
+  <include>BRDFs</include>
+	<vertexshader>
+		<input type="vec3" location="0">position</input>
+		<input type="vec2" location="1">uv</input>
+    <uniform type="mat4">proj</uniform>
+    <uniform type="mat4">view</uniform>
+    <uniform type="vec3">eyePos</uniform>
+		<output type="vec2">f_uv</output>
+    <output type="vec3">f_eyeVec</output>
+		<source>
+      f_uv = uv;
+      f_eyeVec = normalize(position - eyePos);
+      gl_Position = proj * view * vec4(position, 1.0);
+    </source>
+	</vertexshader>
+	<fragmentshader>
+    <uniform type="float">drawColor</uniform>
+    <uniform type="float">drawNormal</uniform>
+    <uniform type="float">drawRoughness</uniform>
+    <uniform type="float">drawMetallicity</uniform>
+    
+		<input type="vec2">f_uv</input>
+    <input type="vec3">f_eyeVec</input>
+		<uniform type="vec3">direction</uniform>
+		<uniform type="vec3">color</uniform>
+		<uniform type="float">intensity</uniform>
+		<output type="vec4">fragColor</output>
+		<source>
+      GBufferData data = ReadGBuffer(f_uv);
+      vec3 color = data.Color * drawColor;
+      color += data.Normal * drawNormal;
+      color += data.Roughness * drawRoughness;
+      color += data.Metallicity * drawMetallicity;
+      fragColor = vec4(color, 1);
+    </source>
+	</fragmentshader>
+</shader>

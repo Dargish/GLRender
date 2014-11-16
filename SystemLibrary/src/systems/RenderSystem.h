@@ -20,6 +20,7 @@ namespace systems
 		virtual void entityDestroyed(const ecs::EntityID& entityID);
 
 	protected:
+		virtual void _update(const ecs::World_Ptr& world, float deltaTime);
 		virtual void _draw(const ecs::World_Ptr& world, float deltaTime);
 
 	private:
@@ -38,5 +39,12 @@ namespace systems
 		LightCache m_lightCache;
 		RenderCacheMap m_renderCache;
 		graphics::FrameBuffer_Ptr m_frameBuffer;
+		graphics::Shader_Ptr m_debugShader;
+		graphics::primitives::ScreenQuad_Ptr m_screenQuad;
+
+		bool m_dbg_showColor;
+		bool m_dbg_showNormal;
+		bool m_dbg_showRoughness;
+		bool m_dbg_showMetallicity;
 	};
 }
