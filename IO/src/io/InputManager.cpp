@@ -435,6 +435,11 @@ namespace io
 		return false;
 	}
 
+	bool InputManager::clicked(const std::string& assignmentName) const
+	{
+		return (isDown(assignmentName) && !wasDown(assignmentName));
+	}
+
 	int InputManager::iValue(const std::string& assignmentName) const
 	{
 		std::map<std::string, MappedInput_Ptr>::const_iterator it = m_mappedInputs.find(assignmentName);
@@ -543,6 +548,11 @@ namespace io
 	bool InputManager::WasDown(const std::string& assignmentName)
 	{
 		return Instance()->wasDown(assignmentName);
+	}
+
+	bool InputManager::Clicked(const std::string& assignmentName)
+	{
+		return Instance()->clicked(assignmentName);
 	}
 
 	int InputManager::IValue(const std::string& assignmentName)

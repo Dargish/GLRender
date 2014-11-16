@@ -142,6 +142,7 @@ namespace io
 		bool hasMappedInput(const std::string& assignmentName) const;
 		bool isDown(const std::string& assignmentName) const;
 		bool wasDown(const std::string& assignmentName) const;
+		bool clicked(const std::string& assignmentName) const;
 		int iValue(const std::string& assignmentName) const;
 		int iDelta(const std::string& assignmentName) const;
 		float fValue(const std::string& assignmentName) const;
@@ -161,6 +162,7 @@ namespace io
 		static bool HasMappedInput(const std::string& assignmentName);
 		static bool IsDown(const std::string& assignmentName);
 		static bool WasDown(const std::string& assignmentName);
+		static bool Clicked(const std::string& assignmentName);
 		static int IValue(const std::string& assignmentName);
 		static int IDelta(const std::string& assignmentName);
 		static float FValue(const std::string& assignmentName);
