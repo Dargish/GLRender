@@ -12,6 +12,11 @@ namespace graphics
 	{
 	}
 
+	Material::Material(const std::string& name)
+	{
+		load(name);
+	}
+
 	Material::Material(const Material& other) :
 		m_shader(other.m_shader)
 	{
@@ -45,32 +50,6 @@ namespace graphics
 	Serialisable* Material::clone() const
 	{
 		return new Material(*this);
-	}
-
-	void Material::serialiseToData(Json::Value& data) const
-	{
-		data["shader"] = m_shader->name();
-		Json::Value valueArray = Json::Value(Json::arrayValue);
-		ShaderValueMap::const_iterator it = m_values.begin();
-		for (; it != m_values.end(); ++it)
-		{
-			valueArray.append(it->second->serialise());
-		}
-		data["values"] = valueArray;
-	}
-
-	void Material::deserialiseFromData(const Json::Value& data)
-	{
-		m_values.clear();
-		m_shader = Shader::Load(data["shader"].asString());
-		getDefaultValuesFromShader();
-		Json::Value valueArray = data["values"];
-		Json::Value::iterator it = valueArray.begin();
-		for (; it != valueArray.end(); ++it)
-		{
-			ShaderValue_Ptr shaderValue(Serialiser::Deserialise<ShaderValue>(*it));
-			m_values[shaderValue->name()] = shaderValue;
-		}
 	}
 
 	std::string Material::pathFromName(const std::string& name) const
@@ -119,6 +98,32 @@ namespace graphics
 		for (; it != m_values.end(); ++it)
 		{
 			it->second->applyToShader(m_shader);
+		}
+	}
+
+	void Material::serialiseToData(Json::Value& data) const
+	{
+		data["shader"] = m_shader->name();
+		Json::Value valueArray = Json::Value(Json::arrayValue);
+		ShaderValueMap::const_iterator it = m_values.begin();
+		for (; it != m_values.end(); ++it)
+		{
+			valueArray.append(it->second->serialise());
+		}
+		data["values"] = valueArray;
+	}
+
+	void Material::deserialiseFromData(const Json::Value& data)
+	{
+		m_values.clear();
+		m_shader = Shader::Load(data["shader"].asString());
+		getDefaultValuesFromShader();
+		Json::Value valueArray = data["values"];
+		Json::Value::iterator it = valueArray.begin();
+		for (; it != valueArray.end(); ++it)
+		{
+			ShaderValue_Ptr shaderValue(Serialiser::Deserialise<ShaderValue>(*it));
+			m_values[shaderValue->name()] = shaderValue;
 		}
 	}
 

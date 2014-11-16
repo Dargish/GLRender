@@ -61,7 +61,7 @@ namespace graphics
 		Frustum frustum;
 		for (size_t i = 0; i < 8; ++i)
 		{
-			Vector4 pos(i & 1 ? 1.0f : -0.999f, i & 2 ? 1.0f : -0.999f, i & 4 ? 1.0f : -0.999f, 1.0f);
+			Vector4 pos(i & 1 ? 1.0f : -0.998f, i & 2 ? 1.0f : -0.998f, i & 4 ? 1.0f : -0.998f, 1.0f);
 			pos = inverseViewProj * pos;
 			frustum.corners[i] = Vector3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
 		}

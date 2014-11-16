@@ -10,7 +10,7 @@ namespace graphics
 		{
 		public:
 			EnvironmentLight();
-			EnvironmentLight(const Vector3& direction, const Vector3& color, float intensity);
+			EnvironmentLight(const CubeMap_Ptr& cubeMap, float intensity);
 			EnvironmentLight(const EnvironmentLight& other);
 			virtual ~EnvironmentLight();
 			EnvironmentLight& operator=(const EnvironmentLight& other);
@@ -25,8 +25,8 @@ namespace graphics
 
 		private:
 			Shader_Ptr m_environmentShader;
-			primitives::Plane_Ptr m_screenQuad;
-			Vector3 m_color;
+			primitives::ScreenQuad_Ptr m_screenQuad;
+			CubeMap_Ptr m_cubeMap;
 			float m_intensity;
 		};
 	}

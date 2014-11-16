@@ -70,18 +70,7 @@ namespace graphics
 	typedef TypedTextureData<float> FloatTextureData;
 	typedef boost::shared_ptr<FloatTextureData> FloatTextureData_Ptr;
 	typedef boost::shared_ptr<const FloatTextureData> FloatTextureData_Const_Ptr;
-
-
-	class ActivateTexture
-	{
-	public:
-		ActivateTexture(int textureUnit);
-		~ActivateTexture();
-
-	private:
-		int m_oldTextureUnit;
-	};
-
+	
 
 	class Texture : public TextureBuffer
 	{

@@ -49,7 +49,6 @@ namespace graphics
 				m_directionalShader = Shader::Load("DirectionalLight");
 			}
 			Shader::Enable(m_directionalShader);
-			//m_directionalShader->setValue("eyeVec", camera->direction());
 			m_directionalShader->setValue("direction", m_direction);
 			m_directionalShader->setValue("color", m_color);
 			m_directionalShader->setValue("intensity", m_intensity);

@@ -25,7 +25,7 @@ namespace graphics
 		void setValue(const std::string& name, float value);
 		void setValue(const std::string& name, const Vector3& value);
 		void setValue(const std::string& name, const Matrix4& value);
-		void setValue(const std::string& name, const TextureBuffer_Ptr& value, int textureUnit = -1);
+		void setValue(const std::string& name, const GLBuffer_Ptr& value, int textureUnit = -1);
 
 		const ShaderValueMap& defaultValues() const;
 		uint program() const;

@@ -122,8 +122,7 @@ vec3 F_Schlick(
 
 in vec2 f_uv;
 in vec3 f_eyeVec;
-uniform vec3 direction;
-uniform vec3 color;
+uniform samplerCube cubeMap;
 uniform float intensity;
 out vec4 fragColor;
 void main(void)
@@ -131,34 +130,37 @@ void main(void)
 	GBufferData data = ReadGBuffer(f_uv);
 
 	vec3 V = normalize(-f_eyeVec);
-	vec3 L = normalize(-direction);
-	vec3 H = normalize(V + L);
+	vec3 diffL = data.Normal;
+	vec3 specL = reflect(-V, data.Normal);
+	vec3 diffH = normalize(V + diffL);
+	vec3 specH = normalize(V + specL);
 
-	float VoL = saturate(dot(V, L));
+	vec3 diffuseLightColor = textureLod(cubeMap, diffL, 10.0).rgb;
+	vec3 specularLightColor = textureLod(cubeMap, specL, data.Roughness * 10.0).rgb;
+
 	float NoV = saturate(dot(data.Normal, V));
-	float VoH = saturate(dot(V, H));
-	float NoH = saturate(dot(data.Normal, H));
-	float NoL = saturate(dot(data.Normal, L));
-	float LoH = saturate(dot(L, H));
 
 	vec3 DiffuseColor = data.Color - data.Color * data.Metallicity;
 	vec3 f0 = mix( vec3(0.04), data.Color, data.Metallicity );
 
-	vec3 F = F_Schlick(f0, LoH);
-	float G = Vis_Schlick(data.Roughness, NoV, NoL);
-	float D = D_GGX(data.Roughness, NoH);
+	float specLoH = saturate(dot(specL, specH));
+	float specNoL = saturate(dot(data.Normal, specL));
+	float specNoH = 1.0;
+	//vec3 F = F_Schlick(f0, specLoH);
+	//float G = Vis_Schlick(data.Roughness, NoV, specNoL);
+	//float D = D_Beckmann(data.Roughness, specNoH);
 
-	vec3 specular = (F * G * D) * NoL;// / (4*NoL*NoV);
-	vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, VoL, NoV, NoL, VoH);
+	//vec3 specular = (F * G * D);
+	vec3 specular = F_Schlick(f0, specLoH) * (1.0 - data.Roughness);
 
-	vec3 preGamma = (diffuse + specular) * intensity * color;
+	float diffVoL = saturate(dot(V, diffL));
+	float diffVoH = saturate(dot(V, diffH));
+	vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, diffVoL, NoV, 1.0, diffVoH);
+
+	vec3 preGamma = ((diffuse * diffuseLightColor) + (specular * specularLightColor)) * intensity;
 	vec3 postGamma = gammaCorrect(preGamma);
 	fragColor = vec4(postGamma, 1);
-	//fragColor = vec4(0);
-	//fragColor = vec4(NoL * specular * intensity, 1);
-	//fragColor = vec4(diffuse * intensity, 1);
-	//fragColor = vec4(F, 1);
-	//fragColor = vec4(NoL * specular * intensity * color, 1);
-	//fragColor = vec4(NoL * diffuse * intensity * color, 1);
-	//fragColor = vec4(vec3(D * 0.01) * intensity, 1);
+	//fragColor = vec4(vec3(data.Roughness), 1);
+	//fragColor = vec4(diffuse * diffuseLightColor, 1);
+	//fragColor = vec4(vec3(D), 1);
 }

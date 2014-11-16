@@ -30,6 +30,9 @@
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{3a24da8f-2e50-408d-91e1-98ee30531edb}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\IO\IO.vcxproj">
+      <Project>{ae6866da-6146-4664-9993-25549960f04d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Serialisation\Serialisation.vcxproj">
       <Project>{f572203f-3a13-4d02-8696-8eb824dafdfa}</Project>
     </ProjectReference>
@@ -71,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_SCL_SECURE_NO_WARNINGS ;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src;../Graphics/src;../EntityComponentSystem/src;../ComponentLibrary/src;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Core/src;../Serialisation/src;../Graphics/src;../EntityComponentSystem/src;../ComponentLibrary/src;../IO/src;E:\thirdparty\glew-1.10.0\include;E:\thirdparty\glm-0.9.4.4;E:\thirdparty\SFML-2.1\include;E:\thirdparty\jsoncpp-0.5.0\include;E:\thirdparty\boost_1_55_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

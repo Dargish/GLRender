@@ -94,5 +94,28 @@ namespace graphics
 
 	private:
 		TextureFile_Ptr m_value;
+	}; 
+	
+	class CubeMapValue : public ShaderValue
+	{
+	public:
+		CubeMapValue();
+		CubeMapValue(const std::string& name, const CubeMap_Ptr& value);
+		CubeMapValue(const CubeMapValue& other);
+		virtual ~CubeMapValue();
+		CubeMapValue& operator=(const CubeMapValue& other);
+
+		static std::string TypeName();
+		virtual std::string typeName() const;
+		virtual serialisation::Serialisable* clone() const;
+		virtual Json::Value serialise() const;
+		virtual void deserialise(const Json::Value& data);
+
+		virtual void applyToShader(const Shader_Ptr& shader) const;
+
+		virtual void fromString(const std::string& str);
+
+	private:
+		CubeMap_Ptr m_value;
 	};
 }

@@ -18,16 +18,16 @@
     </source>
 	</vertexshader>
 	<fragmentshader>
-		<input type="vec2">f_uv</input>
-    <input type="vec3">f_eyeVec</input>
+		<input type="vec2">uv</input>
+    <input type="vec3">eyeVec</input>
 		<uniform type="vec3">direction</uniform>
 		<uniform type="vec3">color</uniform>
 		<uniform type="float">intensity</uniform>
 		<output type="vec4">fragColor</output>
 		<source>
-      GBufferData data = ReadGBuffer(f_uv);
+      GBufferData data = ReadGBuffer(uv);
 
-      vec3 V = normalize(-f_eyeVec);
+      vec3 V = normalize(-eyeVec);
       vec3 L = normalize(-direction);
       vec3 H = normalize(V + L);
 
@@ -51,13 +51,6 @@
       vec3 preGamma = (diffuse + specular) * intensity * color;
       vec3 postGamma = gammaCorrect(preGamma);
       fragColor = vec4(postGamma, 1);
-      //fragColor = vec4(0);
-      //fragColor = vec4(NoL * specular * intensity, 1);
-      //fragColor = vec4(diffuse * intensity, 1);
-      //fragColor = vec4(F, 1);
-      //fragColor = vec4(NoL * specular * intensity * color, 1);
-      //fragColor = vec4(NoL * diffuse * intensity * color, 1);
-      //fragColor = vec4(vec3(D * 0.01) * intensity, 1);
     </source>
 	</fragmentshader>
 </shader>

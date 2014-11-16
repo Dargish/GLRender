@@ -3,17 +3,6 @@
 
 namespace graphics
 {
-	ActivateTexture::ActivateTexture(int textureUnit)
-	{
-		glGetIntegerv(GL_ACTIVE_TEXTURE, &m_oldTextureUnit);
-		glActiveTexture(GL_TEXTURE0 + textureUnit);
-	}
-
-	ActivateTexture::~ActivateTexture()
-	{
-		glActiveTexture(m_oldTextureUnit);
-	}
-
 	Texture::Texture() :
 		TextureBuffer(0, 0, 0), m_textureType(TextureType::kInvalid)
 	{

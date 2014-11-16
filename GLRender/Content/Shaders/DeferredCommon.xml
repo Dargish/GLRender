@@ -21,4 +21,16 @@
       return data;
     </source>
   </function>
+  <function name="saturate" return="float">
+    <input type="float">v</input>
+    <source>
+      return clamp(v, 0.0, 1.0);
+    </source>
+  </function>
+  <function name="saturate" return="vec3">
+    <input type="vec3">v</input>
+    <source>
+      return clamp(v, vec3(0.0), vec3(1.0));
+    </source>
+  </function>
 </shader>

@@ -2,7 +2,8 @@
 #include "../Shader.h"
 #include "../FrameBuffer.h"
 #include "../Camera.h"
-#include "../primitives/Plane.h"
+#include "../CubeMap.h"
+#include "../primitives/ScreenQuad.h"
 
 using namespace graphics::primitives;
 
@@ -11,19 +12,19 @@ namespace graphics
 	namespace lights
 	{
 		EnvironmentLight::EnvironmentLight() :
-			m_screenQuad(new Plane), m_color(Vector3(1, 1, 1)), m_intensity(1.0f)
+			m_screenQuad(new ScreenQuad), m_cubeMap(new CubeMap), m_intensity(1.0f)
 		{
 
 		}
 
-		EnvironmentLight::EnvironmentLight(const Vector3& direction, const Vector3& color, float intensity) :
-			m_screenQuad(new Plane), m_color(color), m_intensity(intensity)
+		EnvironmentLight::EnvironmentLight(const CubeMap_Ptr& cubeMap, float intensity) :
+			m_screenQuad(new ScreenQuad), m_cubeMap(cubeMap), m_intensity(intensity)
 		{
 
 		}
 
 		EnvironmentLight::EnvironmentLight(const EnvironmentLight& other) :
-			m_screenQuad(new Plane), m_color(other.m_color), m_intensity(other.m_intensity)
+			m_screenQuad(new ScreenQuad), m_cubeMap(other.m_cubeMap), m_intensity(other.m_intensity)
 		{
 
 		}
@@ -35,7 +36,7 @@ namespace graphics
 
 		EnvironmentLight& EnvironmentLight::operator=(const EnvironmentLight& other)
 		{
-			m_color = other.m_color;
+			m_cubeMap = other.m_cubeMap;
 			m_intensity = other.m_intensity;
 			return *this;
 		}
@@ -47,10 +48,13 @@ namespace graphics
 				m_environmentShader = Shader::Load("EnvironmentLight");
 			}
 			Shader::Enable(m_environmentShader);
-			m_environmentShader->setValue("eyeVec", camera->direction());
-			m_environmentShader->setValue("color", m_color);
+			m_environmentShader->setValue("cubeMap", m_cubeMap);
 			m_environmentShader->setValue("intensity", m_intensity);
+			m_environmentShader->setValue("proj", camera->projMatrix());
+			m_environmentShader->setValue("view", camera->viewMatrix());
+			m_environmentShader->setValue("eyePos", camera->position());
 			frameBuffer->bindTargets(m_environmentShader);
+			m_screenQuad->setEyeVec(camera);
 			m_screenQuad->draw(deltaTime);
 			Shader::Disable(m_environmentShader);
 		}
@@ -73,24 +77,14 @@ namespace graphics
 		Json::Value EnvironmentLight::serialise() const
 		{
 			Json::Value data = Serialisable::serialise();
-			Json::Value directionArray = Json::Value(Json::arrayValue);
-			Json::Value colorArray = Json::Value(Json::arrayValue);
-			for (size_t r = 0; r < 3; ++r)
-			{
-				colorArray.append(m_color[r]);
-			}
-			data["direction"] = directionArray;
-			data["color"] = colorArray;
+			data["cubeMap"] = m_cubeMap->name();
 			data["intensity"] = m_intensity;
 			return data;
 		}
 
 		void EnvironmentLight::deserialise(const Json::Value& data)
 		{
-			for (size_t r = 0; r < 3; ++r)
-			{
-				m_color[r] = (float)data["color"][r].asDouble();
-			}
+			m_cubeMap.reset(new CubeMap(data["cubeMap"].asString()));
 			m_intensity = (float)data["intensity"].asDouble();
 		}
 	}

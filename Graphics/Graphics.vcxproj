@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\CubeMap.h" />
     <ClInclude Include="src\graphics\lights\EnvironmentLight.h" />
     <ClInclude Include="src\graphics\loaders\AssimpModelLoader.h" />
     <ClInclude Include="src\graphics\loaders\ModelLoader.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\graphics\Model.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics\CubeMap.cpp" />
     <ClCompile Include="src\graphics\lights\EnvironmentLight.cpp" />
     <ClCompile Include="src\graphics\loaders\AssimpModelLoader.cpp" />
     <ClCompile Include="src\graphics\loaders\ModelLoader.cpp" />

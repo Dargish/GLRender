@@ -33,4 +33,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\CubeMaps\NissiBeach.cmap" />
+  </ItemGroup>
 </Project>

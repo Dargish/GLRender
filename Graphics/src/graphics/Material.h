@@ -9,6 +9,7 @@ namespace graphics
 	{
 	public:
 		Material();
+		Material(const std::string& name);
 		Material(const Material& other);
 		~Material();
 		Material& operator= (const Material& other);

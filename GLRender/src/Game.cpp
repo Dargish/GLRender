@@ -15,6 +15,7 @@
 #include <graphics/Shader.h>
 #include <graphics/ShaderValue.h>
 #include <graphics/lights/DirectionalLight.h>
+#include <graphics/lights/EnvironmentLight.h>
 #include <graphics/Material.h>
 #include <graphics/Model.h>
 #include <graphics/Transform.h>
@@ -26,6 +27,9 @@
 #include <graphics/Texture.h>
 #include <graphics/TextureFile.h>
 #include "FreeCamera.h"
+
+// Testing
+#include <graphics/CubeMap.h>
 
 #define FRAMETIME_LIMIT 16666 // in usec (60fps)
 
@@ -50,6 +54,7 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<TransformComponent>();
 	Serialiser::RegisterSerialisable<LightComponent>();
 	Serialiser::RegisterSerialisable<DirectionalLight>();
+	Serialiser::RegisterSerialisable<EnvironmentLight>();
 	Serialiser::RegisterSerialisable<Model>();
 	Serialiser::RegisterSerialisable<Cube>();
 	Serialiser::RegisterSerialisable<Plane>();
@@ -106,43 +111,57 @@ void Game::start()
 	RenderSystem_Ptr renderSystem = world->createSystem<RenderSystem>();
 	world->setCamera(Camera_Ptr(new FreeCamera));
 
-	for (size_t r = 0; r <= 10; ++r)
+	//CubeMap_Ptr cubeMap(new CubeMap("NissiBeach"));
+
+	//for (size_t r = 0; r <= 10; ++r)
+	//{
+	//	for (size_t m = 0; m <= 10; ++m)
+	//	{
+	//		EntityID s = world->createEntity("Sphere");
+	//		float rf = r / 10.0f;
+	//		float mf = m / 10.0f;
+	//		world->component<MaterialComponent>(s)->material->setValue("v_color", Vector3(rf, 0.5, mf));
+	//		world->component<MaterialComponent>(s)->material->setValue("v_roughness", rf);
+	//		world->component<MaterialComponent>(s)->material->setValue("v_metallicity", mf);
+	//		world->component<TransformComponent>(s)->transform->position.x = r * 2.5f;
+	//		world->component<TransformComponent>(s)->transform->position.z = m * 2.5f;
+	//	}
+	//}
+
+	//{
+	//	EntityID lightID = world->createEntity();
+	//	LightComponent_Ptr lightComponent(new LightComponent);
+	//	lightComponent->light.reset(new EnvironmentLight(cubeMap, 1.0f));
+	//	world->addComponent(lightID, lightComponent);
+	//}
+
+	//world->load("pbrTest");
+	world->load("primTest");
+
 	{
-		for (size_t m = 0; m <= 10; ++m)
-		{
-			EntityID s = world->createEntity("Sphere");
-			float rf = r / 10.0f;
-			float mf = m / 10.0f;
-			world->component<MaterialComponent>(s)->material->setValue("v_color", Vector3(rf, 0, mf));
-			world->component<MaterialComponent>(s)->material->setValue("v_roughness", rf);
-			world->component<MaterialComponent>(s)->material->setValue("v_metallicity", mf);
-			world->component<TransformComponent>(s)->transform->position.x = r * 2.5f;
-			world->component<TransformComponent>(s)->transform->position.z = m * 2.5f;
-		}
+		EntityID s = world->createEntity("Plane");
+		world->component<MeshComponent>(s)->meshAs<Plane>()->setSize(10.0f);
+		world->component<TransformComponent>(s)->transform->position.y = -2.5f;
+		world->component<TransformComponent>(s)->transform->rotation.y = -90.0f;
+		world->component<MaterialComponent>(s)->material->setValue("v_color", Vector3(1.0f, 1.0f, 1.0f));
+		world->component<MaterialComponent>(s)->material->setValue("v_roughness", 1.0f);
+		world->component<MaterialComponent>(s)->material->setValue("v_metallicity", 0.0f);
 	}
 
+	{
+		EntityID s = world->createEntity("Sphere");
+		world->component<MaterialComponent>(s)->material->setValue("v_color", Vector3(1.0f, 0.782f, 0.344f));
+		world->component<MaterialComponent>(s)->material->setValue("v_roughness", 0.25f);
+		world->component<MaterialComponent>(s)->material->setValue("v_metallicity", 1.0f);
+		world->component<TransformComponent>(s)->transform->position.y = 2.5f;
+	}
+	
 	{
 		EntityID lightID = world->createEntity();
 		LightComponent_Ptr lightComponent(new LightComponent);
-		lightComponent->light.reset(new DirectionalLight(Vector3(-1.0f, -0.75f, -0.75f), Vector3(1.0f, 0.9f, 0.8f), 1.0f));
+		lightComponent->light.reset(new EnvironmentLight(CubeMap_Ptr(new CubeMap("NissiBeach")), 0.0025f));
 		world->addComponent(lightID, lightComponent);
 	}
-
-	//{
-	//	EntityID lightID = world->createEntity();
-	//	LightComponent_Ptr lightComponent(new LightComponent);
-	//	lightComponent->light.reset(new DirectionalLight(Vector3(1, -0.75f, -0.75f), Vector3(1.0f, 1.0f, 1.0f), 0.02f));
-	//	world->addComponent(lightID, lightComponent);
-	//}
-
-	//{
-	//	EntityID lightID = world->createEntity();
-	//	LightComponent_Ptr lightComponent(new LightComponent);
-	//	lightComponent->light.reset(new DirectionalLight(Vector3(0.25f, 0.75f, 0.25f), Vector3(1.0f, 1.0f, 1.0f), 0.01f));
-	//	world->addComponent(lightID, lightComponent);
-	//}
-
-	//world->load("primTest");
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{

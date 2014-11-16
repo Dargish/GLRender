@@ -1,6 +1,6 @@
 ﻿#include "Shader.h"
 #include "ShaderSource.h"
-#include "Texture.h"
+#include "GLBuffer.h"
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <fstream>
@@ -9,6 +9,24 @@ namespace graphics
 {
 	Shader_Ptr Shader::s_current;
 	Shader::ShaderCache Shader::s_shaderCache;
+
+	class ActivateTexture
+	{
+	public:
+		ActivateTexture(int textureUnit)
+		{
+			glGetIntegerv(GL_ACTIVE_TEXTURE, &m_oldTextureUnit);
+			glActiveTexture(GL_TEXTURE0 + textureUnit);
+		}
+
+		~ActivateTexture()
+		{
+			glActiveTexture(m_oldTextureUnit);
+		}
+
+	private:
+		int m_oldTextureUnit;
+	};
 
 	void Shader::CheckGLError()
 	{
@@ -126,7 +144,7 @@ namespace graphics
 		}
 	}
 
-	void Shader::setValue(const std::string& name, const TextureBuffer_Ptr& value, int textureUnit /*= -1*/ )
+	void Shader::setValue(const std::string& name, const GLBuffer_Ptr& value, int textureUnit /*= -1*/ )
 	{
 		sf::Int32 loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)

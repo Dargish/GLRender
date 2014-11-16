@@ -1,4 +1,4 @@
-#include "TextureBuffer.h"
+﻿#include "TextureBuffer.h"
 #include "Shader.h"
 #include <GL/glew.h>
 
@@ -39,7 +39,8 @@ namespace graphics
 
 	void TextureBuffer::bind()
 	{
-		glBindTexture(GL_TEXTURE_2D, buffer());
+		uint buf = buffer();
+		glBindTexture(GL_TEXTURE_2D, buf);
 		if (isDirty())
 		{
 			GLenum internalFormat = this->internalFormat();
@@ -49,15 +50,27 @@ namespace graphics
 			GLenum type = this->type();
 			GLvoid* data = this->data();
 			Shader::CheckGLError();
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data);
-			if (mipMapped())
-			{
-				glGenerateMipmap(GL_TEXTURE_2D);
-			}
-			Shader::CheckGLError();
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter());
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter());
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, anisotropicLevel());
+			Shader::CheckGLError();
+			if (mipMapped() && width >= 32 && height >= 32)
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 5);
+				Shader::CheckGLError();
+				glTexStorage2D(GL_TEXTURE_2D, 4, internalFormat, width, height);
+				Shader::CheckGLError();
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, format, type, data);
+				Shader::CheckGLError();
+				glGenerateMipmap(GL_TEXTURE_2D);
+				Shader::CheckGLError();
+			}
+			else
+			{
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data);
+			}
 			Shader::CheckGLError();
 			clean();
 		}
@@ -78,15 +91,15 @@ namespace graphics
 		// By default infer from nChannels
 		if (nChannels() == 1)
 		{
-			return GL_R;
+			return GL_R32F;
 		}
 		else if (nChannels() == 3)
 		{
-			return GL_SRGB;
+			return GL_SRGB8;
 		}
 		else if (nChannels() == 4)
 		{
-			return GL_SRGB_ALPHA;
+			return GL_SRGB8_ALPHA8;
 		}
 		return GL_NONE;
 	}

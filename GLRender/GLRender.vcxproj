@@ -115,6 +115,9 @@
     <ClInclude Include="src\FreeCamera.h" />
     <ClInclude Include="src\Game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\CubeMaps\NissiBeach.cmap" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

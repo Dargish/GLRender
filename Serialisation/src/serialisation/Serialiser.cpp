@@ -71,18 +71,21 @@ namespace serialisation
 
 	void FileSerialisable::load(const std::string& name)
 	{
-		m_name = name;
-		m_fromFile = false;
-		deserialiseFromData(JsonFile::Load(pathFromName(m_name)));
 		m_fromFile = true;
+		m_name = name;
+		deserialiseFromData(JsonFile::Load(pathFromName(m_name)));
 	}
 
 	void FileSerialisable::save(const std::string& name)
 	{
 		m_name = name;
-		m_fromFile = false;
 		JsonFile::Save(pathFromName(m_name), serialise());
 		m_fromFile = true;
+	}
+
+	const std::string& FileSerialisable::name() const
+	{
+		return m_name;
 	}
 
 

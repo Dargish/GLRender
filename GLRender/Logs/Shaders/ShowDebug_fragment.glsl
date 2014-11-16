@@ -122,6 +122,10 @@ vec3 F_Schlick(
 
 in vec2 f_uv;
 in vec3 f_eyeVec;
+uniform float drawColor;
+uniform float drawNormal;
+uniform float drawRoughness;
+uniform float drawMetallicity;
 uniform vec3 direction;
 uniform vec3 color;
 uniform float intensity;
@@ -129,36 +133,9 @@ out vec4 fragColor;
 void main(void)
 {
 	GBufferData data = ReadGBuffer(f_uv);
-
-	vec3 V = normalize(-f_eyeVec);
-	vec3 L = normalize(-direction);
-	vec3 H = normalize(V + L);
-
-	float VoL = saturate(dot(V, L));
-	float NoV = saturate(dot(data.Normal, V));
-	float VoH = saturate(dot(V, H));
-	float NoH = saturate(dot(data.Normal, H));
-	float NoL = saturate(dot(data.Normal, L));
-	float LoH = saturate(dot(L, H));
-
-	vec3 DiffuseColor = data.Color - data.Color * data.Metallicity;
-	vec3 f0 = mix( vec3(0.04), data.Color, data.Metallicity );
-
-	vec3 F = F_Schlick(f0, LoH);
-	float G = Vis_Schlick(data.Roughness, NoV, NoL);
-	float D = D_GGX(data.Roughness, NoH);
-
-	vec3 specular = (F * G * D) * NoL;// / (4*NoL*NoV);
-	vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, VoL, NoV, NoL, VoH);
-
-	vec3 preGamma = (diffuse + specular) * intensity * color;
-	vec3 postGamma = gammaCorrect(preGamma);
-	fragColor = vec4(postGamma, 1);
-	//fragColor = vec4(0);
-	//fragColor = vec4(NoL * specular * intensity, 1);
-	//fragColor = vec4(diffuse * intensity, 1);
-	//fragColor = vec4(F, 1);
-	//fragColor = vec4(NoL * specular * intensity * color, 1);
-	//fragColor = vec4(NoL * diffuse * intensity * color, 1);
-	//fragColor = vec4(vec3(D * 0.01) * intensity, 1);
+	vec3 color = data.Color * drawColor;
+	color += data.Normal * drawNormal;
+	color += data.Roughness * drawRoughness;
+	color += data.Metallicity * drawMetallicity;
+	fragColor = vec4(color, 1);
 }

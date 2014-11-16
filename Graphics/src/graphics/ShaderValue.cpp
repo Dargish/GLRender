@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "TextureFile.h"
+#include "CubeMap.h"
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <boost/lexical_cast.hpp>
@@ -285,5 +286,79 @@ namespace graphics
 	void TextureValue::fromString(const std::string& str)
 	{
 		m_value = TextureFile::Load(str);
+	}
+
+
+	/*
+	* CubeMapValue
+	*/
+
+	CubeMapValue::CubeMapValue()
+	{
+
+	}
+
+	CubeMapValue::CubeMapValue(const std::string& name, const CubeMap_Ptr& value) :
+		ShaderValue(name),
+		m_value(value)
+	{
+
+	}
+
+	CubeMapValue::CubeMapValue(const CubeMapValue& other) :
+		ShaderValue(other.m_name),
+		m_value(other.m_value)
+	{
+
+	}
+
+	CubeMapValue::~CubeMapValue()
+	{
+
+	}
+
+	CubeMapValue& CubeMapValue::operator=(const CubeMapValue& other)
+	{
+		m_name = other.m_name;
+		m_value = other.m_value;
+		return *this;
+	}
+
+	std::string CubeMapValue::TypeName()
+	{
+		return "CubeMapValue";
+	}
+
+	std::string CubeMapValue::typeName() const
+	{
+		return CubeMapValue::TypeName();
+	}
+
+	serialisation::Serialisable* CubeMapValue::clone() const
+	{
+		return new CubeMapValue(*this);
+	}
+
+	Json::Value CubeMapValue::serialise() const
+	{
+		Json::Value data = ShaderValue::serialise();
+		data["value"] = m_value->name();
+		return data;
+	}
+
+	void CubeMapValue::deserialise(const Json::Value& data)
+	{
+		ShaderValue::deserialise(data);
+		fromString(data["value"].asString());
+	}
+
+	void CubeMapValue::applyToShader(const Shader_Ptr& shader) const
+	{
+		shader->setValue(m_name, m_value);
+	}
+
+	void CubeMapValue::fromString(const std::string& str)
+	{
+		m_value.reset(new CubeMap(str));
 	}
 }

@@ -33,6 +33,8 @@ namespace serialisation
 		void load(const std::string& name);
 		void save(const std::string& name);
 
+		const std::string& name() const;
+
 	protected:
 		virtual void serialiseToData(Json::Value& data) const = 0;
 		virtual void deserialiseFromData(const Json::Value& data) = 0;
