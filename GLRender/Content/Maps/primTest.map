@@ -5,6 +5,58 @@
             "array" : [
                {
                   "transform" : {
+                     "position" : [ 0.0, 2.50, 0.0 ],
+                     "rotation" : [ 0.0, 0.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "rings" : 16,
+                     "segments" : 32,
+                     "size" : 1.0,
+                     "typeName" : "Sphere"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : false,
+                     "name" : "Default",
+                     "shader" : "GenericColored",
+                     "typeName" : "Material",
+                     "values" : [
+                        {
+                           "name" : "v_color",
+                           "typeName" : "Vector3Value",
+                           "value" : "1,0.782000005,0.344000012"
+                        },
+                        {
+                           "name" : "v_metallicity",
+                           "typeName" : "FloatValue",
+                           "value" : 1.0
+                        },
+                        {
+                           "name" : "v_roughness",
+                           "typeName" : "FloatValue",
+                           "value" : 0.2
+                        }
+                     ]
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "0144750b-109d-4c0c-b2f2-d971bdda324f"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "transform" : {
                      "position" : [ -2.50, 0.0, 0.0 ],
                      "rotation" : [ 0.0, 0.0, 0.0 ],
                      "scale" : [ 1.0, 1.0, 1.0 ],
@@ -37,10 +89,60 @@
          "components" : {
             "array" : [
                {
+                  "transform" : {
+                     "position" : [ 0.0, -1.0, 0.0 ],
+                     "rotation" : [ 0.0, -90.0, 0.0 ],
+                     "scale" : [ 1.0, 1.0, 1.0 ],
+                     "typeName" : "Transform"
+                  },
+                  "typeName" : "TransformComponent"
+               },
+               {
+                  "mesh" : {
+                     "size" : 10.0,
+                     "typeName" : "Plane"
+                  },
+                  "typeName" : "MeshComponent"
+               },
+               {
+                  "material" : {
+                     "fromFile" : false,
+                     "name" : "Default",
+                     "shader" : "GenericColored",
+                     "typeName" : "Material",
+                     "values" : [
+                        {
+                           "name" : "v_color",
+                           "typeName" : "Vector3Value",
+                           "value" : "1,1,1"
+                        },
+                        {
+                           "name" : "v_metallicity",
+                           "typeName" : "FloatValue",
+                           "value" : 0.0
+                        },
+                        {
+                           "name" : "v_roughness",
+                           "typeName" : "FloatValue",
+                           "value" : 0.5
+                        }
+                     ]
+                  },
+                  "typeName" : "MaterialComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "4bb2701b-f672-40a7-9893-5581f05b9344"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
                   "light" : {
                      "color" : [ 1.0, 0.8999999761581421, 0.8000000119209290 ],
                      "direction" : [ -1.0, -0.750, -0.750 ],
-                     "intensity" : 1.0,
+                     "intensity" : 2.50,
                      "typeName" : "DirectionalLight"
                   },
                   "typeName" : "LightComponent"
@@ -123,40 +225,6 @@
          "components" : {
             "array" : [
                {
-                  "light" : {
-                     "color" : [ 1.0, 1.0, 1.0 ],
-                     "direction" : [ 0.250, 0.750, 0.250 ],
-                     "intensity" : 0.0,
-                     "typeName" : "DirectionalLight"
-                  },
-                  "typeName" : "LightComponent"
-               }
-            ],
-            "typeName" : "ComponentContainer"
-         },
-         "entityID" : "eaf2f1b7-4a69-466e-9e77-63fdc69e7eda"
-      },
-      {
-         "components" : {
-            "array" : [
-               {
-                  "light" : {
-                     "color" : [ 1.0, 1.0, 1.0 ],
-                     "direction" : [ 1.0, -0.750, -0.750 ],
-                     "intensity" : 0.0,
-                     "typeName" : "DirectionalLight"
-                  },
-                  "typeName" : "LightComponent"
-               }
-            ],
-            "typeName" : "ComponentContainer"
-         },
-         "entityID" : "f86d9475-d407-4819-a7da-47bbb720bde1"
-      },
-      {
-         "components" : {
-            "array" : [
-               {
                   "transform" : {
                      "position" : [ 5.0, 0.0, 0.0 ],
                      "rotation" : [ 0.0, -90.0, 180.0 ],
@@ -184,6 +252,22 @@
             "typeName" : "ComponentContainer"
          },
          "entityID" : "fb537d96-9d8f-400f-ad7a-6ba1ddd139fd"
+      },
+      {
+         "components" : {
+            "array" : [
+               {
+                  "light" : {
+                     "cubeMap" : "NissiBeach",
+                     "intensity" : 0.02500000037252903,
+                     "typeName" : "EnvironmentLight"
+                  },
+                  "typeName" : "LightComponent"
+               }
+            ],
+            "typeName" : "ComponentContainer"
+         },
+         "entityID" : "ff2486e1-a823-4340-8072-c3332f36b7c6"
       }
    ],
    "typeName" : "World"
