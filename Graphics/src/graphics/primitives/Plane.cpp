@@ -81,7 +81,7 @@ namespace graphics
 			IndexBuffer::BufferType& iBuffer = m_indexBuffer->data();
 			iBuffer.clear();
 
-			Vector3 normal(0.0f, 1.0f, 0.0f);
+			Vector3 normal(0.0f, 0.0f, 1.0f);
 
 			// Vertex 0:
 			VertexPositionUVNormal v0;
