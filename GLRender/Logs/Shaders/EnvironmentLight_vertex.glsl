@@ -125,15 +125,12 @@ vec3 F_Schlick(
 
 
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec2 uv;
 uniform mat4 proj;
 uniform mat4 view;
 uniform vec3 eyePos;
-out vec2 f_uv;
 out vec3 f_eyeVec;
 void main(void)
 {
-	f_uv = uv;
 	f_eyeVec = normalize(position - eyePos);
 	gl_Position = proj * view * vec4(position, 1.0);
 }

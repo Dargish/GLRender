@@ -14,12 +14,13 @@ namespace graphics
 		Camera();
 		~Camera();
 
-		Vector3 position();
-		Vector3 direction();
-		Vector3 right();
-		Vector3 up();
-		Matrix4 projMatrix();
-		Matrix4 viewMatrix();
+		Vector3 position() const;
+		Vector3 direction() const;
+		Vector3 right() const;
+		Vector3 up() const;
+		Matrix4 projMatrix() const;
+		Matrix4 viewMatrix() const;
+		Vector2 viewportSize() const;
 
 		virtual void update(float deltaTime);
 
@@ -36,6 +37,7 @@ namespace graphics
 		Vector3 m_up;
 		Matrix4 m_projMatrix;
 		Matrix4 m_viewMatrix;
+		Vector2 m_viewportSize;
 	};
 }
 

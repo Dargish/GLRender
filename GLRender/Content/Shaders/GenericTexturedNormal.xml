@@ -10,19 +10,18 @@
 		<uniform type="mat4">view</uniform>
 		<uniform type="mat4">world</uniform>
     <uniform type="mat4">world_it</uniform>
-    <uniform type="vec3">eyePos</uniform>
 		<output type="vec2">f_uv</output>
 		<output type="vec3">f_normal</output>
     <output type="vec3">f_tangent</output>
     <output type="vec3">f_binormal</output>
-    <output type="float">f_depth</output>
+    <output type="vec3">f_worldPos</output>
 		<source>
       f_uv = uv;
       f_normal = (world_it * vec4(normal, 0.0)).xyz;
       f_tangent = (world_it * vec4(tangent, 0.0)).xyz;
       f_binormal = (world_it * vec4(binormal, 0.0)).xyz;
       vec4 worldPos = world * vec4(position, 1.0);
-      f_depth = distance(worldPos.xyz, eyePos);
+      f_worldPos = worldPos.xyz;
       gl_Position = proj * view * worldPos;
     </source>
 	</vertexshader>
@@ -34,11 +33,12 @@
     <uniform type="sampler2D" default="White.png">t_roughness</uniform>
     <uniform type="float" default="1.0">v_metallicity</uniform>
     <uniform type="sampler2D" default="White.png">t_metallicity</uniform>
+    <uniform type="vec3">eyePos</uniform>
 		<input type="vec2">f_uv</input>
 		<input type="vec3">f_normal</input>
     <input type="vec3">f_tangent</input>
     <input type="vec3">f_binormal</input>
-    <input type="float">f_depth</input>
+    <input type="vec3">f_worldPos</input>
 		<output type="vec4" location="0">g_color</output>
 		<output type="vec4" location="1">g_normal</output>
     <output type="vec4" location="2">g_depth</output>
@@ -49,9 +49,11 @@
       float r = texture(t_roughness, f_uv).r * v_roughness;
       float m = texture(t_metallicity, f_uv).r * v_metallicity;
 
+      float depth = distance(f_worldPos, eyePos);
+
       g_color = vec4(d, r);
       g_normal = vec4(n, m);
-      g_depth = vec4(f_depth, 0, 0, 0);
+      g_depth = vec4(depth, 0, 0, 0);
     </source>
 	</fragmentshader>
 </shader>

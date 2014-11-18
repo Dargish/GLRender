@@ -49,12 +49,14 @@ namespace graphics
 				m_directionalShader = Shader::Load("DirectionalLight");
 			}
 			Shader::Enable(m_directionalShader);
+			m_directionalShader->setValue("screenSize", camera->viewportSize());
 			m_directionalShader->setValue("direction", m_direction);
 			m_directionalShader->setValue("color", m_color);
 			m_directionalShader->setValue("intensity", m_intensity);
 			m_directionalShader->setValue("proj", camera->projMatrix());
 			m_directionalShader->setValue("view", camera->viewMatrix());
 			m_directionalShader->setValue("eyePos", camera->position());
+
 			frameBuffer->bindTargets(m_directionalShader);
 			m_screenQuad->setEyeVec(camera);
 			m_screenQuad->draw(deltaTime);

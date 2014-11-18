@@ -11,12 +11,11 @@ uniform mat4 proj;
 uniform mat4 view;
 uniform mat4 world;
 uniform mat4 world_it;
-uniform vec3 eyePos;
 out vec2 f_uv;
 out vec3 f_normal;
 out vec3 f_tangent;
 out vec3 f_binormal;
-out float f_depth;
+out vec3 f_worldPos;
 void main(void)
 {
 	f_uv = uv;
@@ -24,6 +23,6 @@ void main(void)
 	f_tangent = (world_it * vec4(tangent, 0.0)).xyz;
 	f_binormal = (world_it * vec4(binormal, 0.0)).xyz;
 	vec4 worldPos = world * vec4(position, 1.0);
-	f_depth = distance(worldPos.xyz, eyePos);
+	f_worldPos = worldPos.xyz;
 	gl_Position = proj * view * worldPos;
 }

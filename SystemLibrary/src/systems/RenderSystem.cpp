@@ -53,6 +53,10 @@ namespace systems
 		{
 			InputManager::AddInput("Debug_ShowDepth", sf::Keyboard::F5);
 		}
+		if (!InputManager::HasMappedInput("Debug_ShowPosition"))
+		{
+			InputManager::AddInput("Debug_ShowPosition", sf::Keyboard::F6);
+		}
 	}
 
 	RenderSystem::~RenderSystem()
@@ -112,6 +116,7 @@ namespace systems
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = false;
 			m_dbg_showDepth = false;
+			m_dbg_showPosition = false;
 		}
 		if (InputManager::Clicked("Debug_ShowNormal"))
 		{
@@ -120,6 +125,7 @@ namespace systems
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = false;
 			m_dbg_showDepth = false;
+			m_dbg_showPosition = false;
 		}
 		if (InputManager::Clicked("Debug_ShowRoughness"))
 		{
@@ -128,6 +134,7 @@ namespace systems
 			m_dbg_showRoughness = !m_dbg_showRoughness;
 			m_dbg_showMetallicity = false;
 			m_dbg_showDepth = false;
+			m_dbg_showPosition = false;
 		}
 		if (InputManager::Clicked("Debug_ShowMetallicity"))
 		{
@@ -136,6 +143,7 @@ namespace systems
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = !m_dbg_showMetallicity;
 			m_dbg_showDepth = false;
+			m_dbg_showPosition = false;
 		}
 		if (InputManager::Clicked("Debug_ShowDepth"))
 		{
@@ -144,6 +152,16 @@ namespace systems
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = false;
 			m_dbg_showDepth = !m_dbg_showDepth;
+			m_dbg_showPosition = false;
+		}
+		if (InputManager::Clicked("Debug_ShowPosition"))
+		{
+			m_dbg_showColor = false;
+			m_dbg_showNormal = false;
+			m_dbg_showRoughness = false;
+			m_dbg_showMetallicity = false;
+			m_dbg_showDepth = false;
+			m_dbg_showPosition = !m_dbg_showPosition;
 		}
 	}
 
@@ -221,14 +239,14 @@ namespace systems
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (m_dbg_showColor || m_dbg_showNormal || m_dbg_showRoughness || m_dbg_showMetallicity || m_dbg_showDepth)
+		if (m_dbg_showColor || m_dbg_showNormal || m_dbg_showRoughness || m_dbg_showMetallicity || m_dbg_showDepth || m_dbg_showPosition)
 		{
 			if (!m_debugShader)
 			{
 				m_debugShader = Shader::Load("ShowDebug");
 			}
 			Shader::Enable(m_debugShader);
-			m_frameBuffer->bindTargets(m_debugShader);
+
 			m_debugShader->setValue("proj", world->camera()->projMatrix());
 			m_debugShader->setValue("view", world->camera()->viewMatrix());
 			m_debugShader->setValue("eyePos", world->camera()->position());
@@ -238,7 +256,9 @@ namespace systems
 			m_debugShader->setValue("drawRoughness", m_dbg_showRoughness ? 1.0f : 0.0f);
 			m_debugShader->setValue("drawMetallicity", m_dbg_showMetallicity ? 1.0f : 0.0f);
 			m_debugShader->setValue("drawDepth", m_dbg_showDepth ? 1.0f : 0.0f);
+			m_debugShader->setValue("drawPosition", m_dbg_showPosition ? 1.0f : 0.0f);
 
+			m_frameBuffer->bindTargets(m_debugShader);
 			m_screenQuad->setEyeVec(world->camera());
 			m_screenQuad->draw(deltaTime);
 			Shader::Disable(m_debugShader);

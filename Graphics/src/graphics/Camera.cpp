@@ -15,34 +15,39 @@ namespace graphics
 	{
 	}
 
-	Vector3 Camera::position()
+	Vector3 Camera::position() const
 	{
 		return m_position;
 	}
 
-	Vector3 Camera::direction()
+	Vector3 Camera::direction() const
 	{
 		return m_direction;
 	}
 
-	Vector3 Camera::right()
+	Vector3 Camera::right() const
 	{
 		return m_right;
 	}
 
-	Vector3 Camera::up()
+	Vector3 Camera::up() const
 	{
 		return m_up;
 	}
 
-	Matrix4 Camera::projMatrix()
+	Matrix4 Camera::projMatrix() const
 	{
 		return m_projMatrix;
 	}
 
-	Matrix4 Camera::viewMatrix()
+	Matrix4 Camera::viewMatrix() const
 	{
 		return m_viewMatrix;
+	}
+
+	Vector2 Camera::viewportSize() const
+	{
+		return m_viewportSize;
 	}
 
 	void Camera::update(float deltaTime)
@@ -52,7 +57,8 @@ namespace graphics
 
 	void Camera::updateProjectionMatrix(int width, int height)
 	{
-		m_projMatrix = glm::perspective(60.0f, float(width) / float(height), 0.01f, 10000.0f);
+		m_viewportSize = Vector2(width, height);
+		m_projMatrix = glm::perspective(60.0f, m_viewportSize.x / m_viewportSize.y, 0.01f, 10000.0f);
 	}
 
 	Frustum Camera::frustum() const

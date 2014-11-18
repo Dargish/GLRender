@@ -125,12 +125,14 @@ vec3 F_Schlick(
 
 
 in vec2 f_uv;
+in vec3 f_eyePos;
 in vec3 f_eyeVec;
 uniform float drawColor;
 uniform float drawNormal;
 uniform float drawRoughness;
 uniform float drawMetallicity;
 uniform float drawDepth;
+uniform float drawPosition;
 uniform vec3 direction;
 uniform vec3 color;
 uniform float intensity;
@@ -142,6 +144,7 @@ void main(void)
 	color += data.Normal * drawNormal;
 	color += data.Roughness * drawRoughness;
 	color += data.Metallicity * drawMetallicity;
-	color += data.Depth * drawDepth * 0.01; // to make distance viewable
+	color += data.Depth * drawDepth * 0.01;  // to make distance viewable
+	color += (f_eyePos + (normalize(f_eyeVec) * data.Depth)) * drawPosition * 0.1;  // to make position viewable
 	fragColor = vec4(color, 1);
 }

@@ -5,19 +5,24 @@
   <include>BRDFs</include>
 	<vertexshader>
 		<input type="vec3" location="0">position</input>
+    <uniform type="mat4">world</uniform>
     <uniform type="mat4">proj</uniform>
     <uniform type="mat4">view</uniform>
     <uniform type="vec3">eyePos</uniform>
-    <output type="vec3">f_eyeVec</output>
+    <output type="vec3">f_eyePos</output>
+    <output type="vec3">f_worldPos</output>
 		<source>
-      f_eyeVec = normalize(position - eyePos);
-      gl_Position = proj * view * vec4(position, 1.0);
+      f_eyePos = eyePos;
+      vec4 worldPos = world * vec4(position, 1.0);
+      f_worldPos = worldPos.xyz;
+      gl_Position = proj * view * worldPos;
     </source>
 	</vertexshader>
 	<fragmentshader>
-    <input type="vec3">f_eyeVec</input>
+    <input type="vec3">f_eyePos</input>
+    <input type="vec3">f_worldPos</input>
     <uniform type="vec2">screenSize</uniform>
-		<uniform type="vec3">direction</uniform>
+		<uniform type="vec3">lightPosition</uniform>
 		<uniform type="vec3">color</uniform>
 		<uniform type="float">intensity</uniform>
 		<output type="vec4">fragColor</output>
@@ -25,8 +30,18 @@
       vec2 uv = gl_FragCoord.xy / screenSize;
       GBufferData data = ReadGBuffer(uv);
 
-      vec3 V = normalize(-f_eyeVec);
-      vec3 L = normalize(-direction);
+      vec3 eyeVec = normalize(f_worldPos - f_eyePos);
+
+      vec3 worldPos = f_eyePos + (normalize(eyeVec) * data.Depth);
+      float distanceFromLight = distance(lightPosition, worldPos);
+
+      float a = 0.00025;
+      float b = 10.0;
+      float d2 = distanceFromLight * distanceFromLight;
+      float attenuatedIntensity = ((intensity + a) / (1 + b * d2)) - a;
+
+      vec3 V = normalize(-eyeVec);
+      vec3 L = normalize(lightPosition - worldPos);
       vec3 H = normalize(V + L);
 
       float VoL = saturate(dot(V, L));
@@ -46,10 +61,11 @@
       vec3 specular = (F * G * D) * NoL;// / (4*NoL*NoV);
       vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, VoL, NoV, NoL, VoH);
 
-      vec3 preGamma = (diffuse + specular) * intensity * color;
+      vec3 preGamma = (diffuse + specular) * attenuatedIntensity * color;
       vec3 postGamma = gammaCorrect(preGamma);
       fragColor = vec4(postGamma, 1);
-      fragColor = vec4(0);
+      //fragColor = vec4(attenuatedIntensity, attenuatedIntensity, attenuatedIntensity, 1);
+      //fragColor = vec4(0);
       //fragColor = vec4(NoL * specular * intensity, 1);
       //fragColor = vec4(diffuse * intensity, 1);
       //fragColor = vec4(F, 1);

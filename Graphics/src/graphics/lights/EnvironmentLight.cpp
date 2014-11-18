@@ -48,11 +48,13 @@ namespace graphics
 				m_environmentShader = Shader::Load("EnvironmentLight");
 			}
 			Shader::Enable(m_environmentShader);
+			m_environmentShader->setValue("screenSize", camera->viewportSize());
 			m_environmentShader->setValue("cubeMap", m_cubeMap);
 			m_environmentShader->setValue("intensity", m_intensity);
 			m_environmentShader->setValue("proj", camera->projMatrix());
 			m_environmentShader->setValue("view", camera->viewMatrix());
 			m_environmentShader->setValue("eyePos", camera->position());
+
 			frameBuffer->bindTargets(m_environmentShader);
 			m_screenQuad->setEyeVec(camera);
 			m_screenQuad->draw(deltaTime);

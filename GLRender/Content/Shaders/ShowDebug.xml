@@ -10,9 +10,11 @@
     <uniform type="mat4">view</uniform>
     <uniform type="vec3">eyePos</uniform>
 		<output type="vec2">f_uv</output>
+    <output type="vec3">f_eyePos</output>
     <output type="vec3">f_eyeVec</output>
 		<source>
       f_uv = uv;
+      f_eyePos = eyePos;
       f_eyeVec = normalize(position - eyePos);
       gl_Position = proj * view * vec4(position, 1.0);
     </source>
@@ -23,8 +25,10 @@
     <uniform type="float">drawRoughness</uniform>
     <uniform type="float">drawMetallicity</uniform>
     <uniform type="float">drawDepth</uniform>
+    <uniform type="float">drawPosition</uniform>
     
 		<input type="vec2">f_uv</input>
+    <input type="vec3">f_eyePos</input>
     <input type="vec3">f_eyeVec</input>
 		<uniform type="vec3">direction</uniform>
 		<uniform type="vec3">color</uniform>
@@ -36,7 +40,8 @@
       color += data.Normal * drawNormal;
       color += data.Roughness * drawRoughness;
       color += data.Metallicity * drawMetallicity;
-      color += data.Depth * drawDepth * 0.01; // to make distance viewable
+      color += data.Depth * drawDepth * 0.01;  // to make distance viewable
+      color += (f_eyePos + (normalize(f_eyeVec) * data.Depth)) * drawPosition * 0.1;  // to make position viewable
       fragColor = vec4(color, 1);
     </source>
 	</fragmentshader>

@@ -124,15 +124,16 @@ vec3 F_Schlick(
 }
 
 
-in vec2 f_uv;
 in vec3 f_eyeVec;
+uniform vec2 screenSize;
 uniform vec3 direction;
 uniform vec3 color;
 uniform float intensity;
 out vec4 fragColor;
 void main(void)
 {
-	GBufferData data = ReadGBuffer(f_uv);
+	vec2 uv = gl_FragCoord.xy / screenSize;
+	GBufferData data = ReadGBuffer(uv);
 
 	vec3 V = normalize(-f_eyeVec);
 	vec3 L = normalize(-direction);
@@ -158,7 +159,7 @@ void main(void)
 	vec3 preGamma = (diffuse + specular) * intensity * color;
 	vec3 postGamma = gammaCorrect(preGamma);
 	fragColor = vec4(postGamma, 1);
-	//fragColor = vec4(0);
+	fragColor = vec4(0);
 	//fragColor = vec4(NoL * specular * intensity, 1);
 	//fragColor = vec4(diffuse * intensity, 1);
 	//fragColor = vec4(F, 1);

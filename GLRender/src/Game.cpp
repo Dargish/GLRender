@@ -16,6 +16,7 @@
 #include <graphics/ShaderValue.h>
 #include <graphics/lights/DirectionalLight.h>
 #include <graphics/lights/EnvironmentLight.h>
+#include <graphics/lights/PointLight.h>
 #include <graphics/Material.h>
 #include <graphics/Model.h>
 #include <graphics/Transform.h>
@@ -55,6 +56,7 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<LightComponent>();
 	Serialiser::RegisterSerialisable<DirectionalLight>();
 	Serialiser::RegisterSerialisable<EnvironmentLight>();
+	Serialiser::RegisterSerialisable<PointLight>();
 	Serialiser::RegisterSerialisable<Model>();
 	Serialiser::RegisterSerialisable<Cube>();
 	Serialiser::RegisterSerialisable<Plane>();
@@ -113,6 +115,17 @@ void Game::start()
 
 	//world->load("pbrTest");
 	world->load("primTest");
+
+	for (int x = -10; x <= 10; x+=2)
+	{
+		for (int y = -10; y <= 10; y+=2)
+		{
+			EntityID lightID = world->createEntity();
+			LightComponent_Ptr lightComponent(new LightComponent);
+			lightComponent->light.reset(new PointLight(Vector3(x, 2, y), Vector3((x + 10) / 20.0f, 0.5f, (y + 10) / 20.0f), 0.1f));
+			world->addComponent(lightID, lightComponent);
+		}
+	}
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{

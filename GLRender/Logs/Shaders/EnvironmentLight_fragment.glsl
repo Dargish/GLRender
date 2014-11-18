@@ -124,14 +124,15 @@ vec3 F_Schlick(
 }
 
 
-in vec2 f_uv;
 in vec3 f_eyeVec;
+uniform vec2 screenSize;
 uniform samplerCube cubeMap;
 uniform float intensity;
 out vec4 fragColor;
 void main(void)
 {
-	GBufferData data = ReadGBuffer(f_uv);
+	vec2 uv = gl_FragCoord.xy / screenSize;
+	GBufferData data = ReadGBuffer(uv);
 
 	vec3 V = normalize(-f_eyeVec);
 	vec3 diffL = data.Normal;
@@ -164,6 +165,7 @@ void main(void)
 	vec3 preGamma = ((diffuse * diffuseLightColor) + (specular * specularLightColor)) * intensity;
 	vec3 postGamma = gammaCorrect(preGamma);
 	fragColor = vec4(postGamma, 1);
+	fragColor = vec4(0);
 	//fragColor = vec4(vec3(data.Roughness), 1);
 	//fragColor = vec4(diffuse * diffuseLightColor, 1);
 	//fragColor = vec4(vec3(D), 1);

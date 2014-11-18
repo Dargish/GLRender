@@ -124,13 +124,58 @@ vec3 F_Schlick(
 }
 
 
-layout (location = 0) in vec3 position;
-uniform mat4 proj;
-uniform mat4 view;
-uniform vec3 eyePos;
-out vec3 f_eyeVec;
+in vec3 f_eyePos;
+in vec3 f_worldPos;
+uniform vec2 screenSize;
+uniform vec3 lightPosition;
+uniform vec3 color;
+uniform float intensity;
+out vec4 fragColor;
 void main(void)
 {
-	f_eyeVec = normalize(position - eyePos);
-	gl_Position = proj * view * vec4(position, 1.0);
+	vec2 uv = gl_FragCoord.xy / screenSize;
+	GBufferData data = ReadGBuffer(uv);
+
+	vec3 eyeVec = normalize(f_worldPos - f_eyePos);
+
+	vec3 worldPos = f_eyePos + (normalize(eyeVec) * data.Depth);
+	float distanceFromLight = distance(lightPosition, worldPos);
+
+	float a = 0.00025;
+	float b = 10.0;
+	float d2 = distanceFromLight * distanceFromLight;
+	float attenuatedIntensity = ((intensity + a) / (1 + b * d2)) - a;
+
+	vec3 V = normalize(-eyeVec);
+	vec3 L = normalize(lightPosition - worldPos);
+	vec3 H = normalize(V + L);
+
+	float VoL = saturate(dot(V, L));
+	float NoV = saturate(dot(data.Normal, V));
+	float VoH = saturate(dot(V, H));
+	float NoH = saturate(dot(data.Normal, H));
+	float NoL = saturate(dot(data.Normal, L));
+	float LoH = saturate(dot(L, H));
+
+	vec3 DiffuseColor = data.Color - data.Color * data.Metallicity;
+	vec3 f0 = mix( vec3(0.04), data.Color, data.Metallicity );
+
+	vec3 F = F_Schlick(f0, LoH);
+	float G = Vis_Schlick(data.Roughness, NoV, NoL);
+	float D = D_GGX(data.Roughness, NoH);
+
+	vec3 specular = (F * G * D) * NoL;// / (4*NoL*NoV);
+	vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, VoL, NoV, NoL, VoH);
+
+	vec3 preGamma = (diffuse + specular) * attenuatedIntensity * color;
+	vec3 postGamma = gammaCorrect(preGamma);
+	fragColor = vec4(postGamma, 1);
+	//fragColor = vec4(attenuatedIntensity, attenuatedIntensity, attenuatedIntensity, 1);
+	//fragColor = vec4(0);
+	//fragColor = vec4(NoL * specular * intensity, 1);
+	//fragColor = vec4(diffuse * intensity, 1);
+	//fragColor = vec4(F, 1);
+	//fragColor = vec4(NoL * specular * intensity * color, 1);
+	//fragColor = vec4(NoL * diffuse * intensity * color, 1);
+	//fragColor = vec4(vec3(D * 0.01) * intensity, 1);
 }

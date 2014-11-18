@@ -126,6 +126,15 @@ namespace graphics
 		}
 	}
 
+	void Shader::setValue(const std::string& name, const Vector2& value)
+	{
+		sf::Int32 loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			glUniform2fv(loc, 1, glm::value_ptr(value));
+		}
+	}
+
 	void Shader::setValue(const std::string& name, const Vector3& value)
 	{
 		sf::Int32 loc = glGetUniformLocation(m_program, name.c_str());

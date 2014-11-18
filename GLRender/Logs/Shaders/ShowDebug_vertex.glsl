@@ -130,10 +130,12 @@ uniform mat4 proj;
 uniform mat4 view;
 uniform vec3 eyePos;
 out vec2 f_uv;
+out vec3 f_eyePos;
 out vec3 f_eyeVec;
 void main(void)
 {
 	f_uv = uv;
+	f_eyePos = eyePos;
 	f_eyeVec = normalize(position - eyePos);
 	gl_Position = proj * view * vec4(position, 1.0);
 }
