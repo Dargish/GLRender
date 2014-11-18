@@ -39,6 +39,39 @@ namespace graphics
 	}
 
 
+	FloatBuffer::FloatBuffer(int width, int height) :
+		TextureBuffer(width, height, 2)
+	{
+		m_data.resize(width * height * 2);
+		setMipMapped(false);
+	}
+
+	FloatBuffer::~FloatBuffer()
+	{
+
+	}
+
+	void* FloatBuffer::data() const
+	{
+		return (void*)&m_data.front();
+	}
+
+	uint FloatBuffer::internalFormat() const
+	{
+		return GL_RG32F;
+	}
+
+	uint FloatBuffer::format() const
+	{
+		return GL_RG;
+	}
+
+	uint FloatBuffer::type() const
+	{
+		return GL_FLOAT;
+	}
+
+
 	FrameBuffer::FrameBuffer() :
 		m_depthTexture(0)
 	{
@@ -65,7 +98,7 @@ namespace graphics
 		}
 	}
 
-	void FrameBuffer::addTextureTarget(const std::string& target, const RGBABuffer_Ptr& buffer)
+	void FrameBuffer::addTextureTarget(const std::string& target, const TextureBuffer_Ptr& buffer)
 	{
 		m_textureTargets[target] = buffer;
 		dirty();

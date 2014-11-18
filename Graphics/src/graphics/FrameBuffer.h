@@ -24,10 +24,26 @@ namespace graphics
 		std::vector<short> m_data;
 	};
 
+	class FloatBuffer : public TextureBuffer
+	{
+	public:
+		FloatBuffer(int width, int height);
+		virtual ~FloatBuffer();
+
+		virtual void* data() const;
+
+		virtual uint internalFormat() const;
+		virtual uint format() const;
+		virtual uint type() const;
+
+	private:
+		std::vector<float> m_data;
+	};
+
 	class FrameBuffer : public GLBuffer
 	{
 	public:
-		typedef std::map< std::string, RGBABuffer_Ptr > TextureTargets;
+		typedef std::map< std::string, TextureBuffer_Ptr > TextureTargets;
 
 		FrameBuffer();
 		virtual ~FrameBuffer();
@@ -35,7 +51,7 @@ namespace graphics
 		virtual uint generateBuffer();
 		virtual void deleteBuffer();
 
-		void addTextureTarget(const std::string& target, const RGBABuffer_Ptr& texture);
+		void addTextureTarget(const std::string& target, const TextureBuffer_Ptr& texture);
 
 		void bindForRead();
 		void bindTargets(const Shader_Ptr& shader);

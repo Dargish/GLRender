@@ -7,21 +7,25 @@ struct GBufferData
 	vec3 Normal;
 	float Roughness;
 	float Metallicity;
+	float Depth;
 };
 
 
 uniform sampler2D g_A;
 uniform sampler2D g_B;
+uniform sampler2D g_C;
 GBufferData ReadGBuffer(
 	vec2 uv)
 {
 	GBufferData data;
 	vec4 A = texture(g_A, uv);
 	vec4 B = texture(g_B, uv);
+	vec4 C = texture(g_C, uv);
 	data.Color = A.rgb;
 	data.Roughness = A.a;
 	data.Normal = normalize(B.rgb);
 	data.Metallicity = B.a;
+	data.Depth = C.r;
 	return data;
 }
 

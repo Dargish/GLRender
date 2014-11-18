@@ -14,6 +14,7 @@
     <ClInclude Include="src\graphics\CubeMap.h" />
     <ClInclude Include="src\graphics\lights\EnvironmentLight.h" />
     <ClInclude Include="src\graphics\loaders\AssimpModelLoader.h" />
+    <ClInclude Include="src\graphics\lights\PointLight.h" />
     <ClInclude Include="src\graphics\loaders\ModelLoader.h" />
     <ClInclude Include="src\graphics\primitives\ScreenQuad.h" />
     <ClInclude Include="src\graphics\ShaderValue.h" />
@@ -44,6 +45,7 @@
     <ClCompile Include="src\graphics\CubeMap.cpp" />
     <ClCompile Include="src\graphics\lights\EnvironmentLight.cpp" />
     <ClCompile Include="src\graphics\loaders\AssimpModelLoader.cpp" />
+    <ClCompile Include="src\graphics\lights\PointLight.cpp" />
     <ClCompile Include="src\graphics\loaders\ModelLoader.cpp" />
     <ClCompile Include="src\graphics\primitives\ScreenQuad.cpp" />
     <ClCompile Include="src\graphics\ShaderValue.cpp" />

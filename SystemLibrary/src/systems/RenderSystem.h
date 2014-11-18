@@ -46,5 +46,6 @@ namespace systems
 		bool m_dbg_showNormal;
 		bool m_dbg_showRoughness;
 		bool m_dbg_showMetallicity;
+		bool m_dbg_showDepth;
 	};
 }

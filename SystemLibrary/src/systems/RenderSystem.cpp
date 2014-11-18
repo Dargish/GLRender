@@ -49,6 +49,10 @@ namespace systems
 		{
 			InputManager::AddInput("Debug_ShowMetallicity", sf::Keyboard::F4);
 		}
+		if (!InputManager::HasMappedInput("Debug_ShowDepth"))
+		{
+			InputManager::AddInput("Debug_ShowDepth", sf::Keyboard::F5);
+		}
 	}
 
 	RenderSystem::~RenderSystem()
@@ -59,8 +63,10 @@ namespace systems
 	{
 		RGBABuffer_Ptr A(new RGBABuffer(size.x, size.y));
 		RGBABuffer_Ptr B(new RGBABuffer(size.x, size.y));
+		FloatBuffer_Ptr C(new FloatBuffer(size.x, size.y));
 		m_frameBuffer->addTextureTarget("g_A", A);
 		m_frameBuffer->addTextureTarget("g_B", B);
+		m_frameBuffer->addTextureTarget("g_C", C);
 	}
 
 	void RenderSystem::componentAdded(const World_Ptr& world, const EntityID& entityID)
@@ -105,6 +111,7 @@ namespace systems
 			m_dbg_showNormal = false;
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = false;
+			m_dbg_showDepth = false;
 		}
 		if (InputManager::Clicked("Debug_ShowNormal"))
 		{
@@ -112,6 +119,7 @@ namespace systems
 			m_dbg_showNormal = !m_dbg_showNormal;
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = false;
+			m_dbg_showDepth = false;
 		}
 		if (InputManager::Clicked("Debug_ShowRoughness"))
 		{
@@ -119,6 +127,7 @@ namespace systems
 			m_dbg_showNormal = false;
 			m_dbg_showRoughness = !m_dbg_showRoughness;
 			m_dbg_showMetallicity = false;
+			m_dbg_showDepth = false;
 		}
 		if (InputManager::Clicked("Debug_ShowMetallicity"))
 		{
@@ -126,6 +135,15 @@ namespace systems
 			m_dbg_showNormal = false;
 			m_dbg_showRoughness = false;
 			m_dbg_showMetallicity = !m_dbg_showMetallicity;
+			m_dbg_showDepth = false;
+		}
+		if (InputManager::Clicked("Debug_ShowDepth"))
+		{
+			m_dbg_showColor = false;
+			m_dbg_showNormal = false;
+			m_dbg_showRoughness = false;
+			m_dbg_showMetallicity = false;
+			m_dbg_showDepth = !m_dbg_showDepth;
 		}
 	}
 
@@ -177,6 +195,7 @@ namespace systems
 			{
 				Shader_Ptr shader = it->first;
 				Shader::Enable(shader);
+				shader->setValue("eyePos", world->camera()->position());
 				shader->setValue("proj", world->camera()->projMatrix());
 				shader->setValue("view", world->camera()->viewMatrix());
 				RenderCacheVector::iterator rit = it->second.begin();
@@ -202,7 +221,7 @@ namespace systems
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (m_dbg_showColor || m_dbg_showNormal || m_dbg_showRoughness || m_dbg_showMetallicity)
+		if (m_dbg_showColor || m_dbg_showNormal || m_dbg_showRoughness || m_dbg_showMetallicity || m_dbg_showDepth)
 		{
 			if (!m_debugShader)
 			{
@@ -218,6 +237,7 @@ namespace systems
 			m_debugShader->setValue("drawNormal", m_dbg_showNormal ? 1.0f : 0.0f);
 			m_debugShader->setValue("drawRoughness", m_dbg_showRoughness ? 1.0f : 0.0f);
 			m_debugShader->setValue("drawMetallicity", m_dbg_showMetallicity ? 1.0f : 0.0f);
+			m_debugShader->setValue("drawDepth", m_dbg_showDepth ? 1.0f : 0.0f);
 
 			m_screenQuad->setEyeVec(world->camera());
 			m_screenQuad->draw(deltaTime);

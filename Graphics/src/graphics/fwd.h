@@ -7,6 +7,7 @@ namespace graphics
 	DECL_CLASS(Camera);
 	DECL_CLASS(CubeMap);
 	DECL_CLASS(RGBABuffer);
+	DECL_CLASS(FloatBuffer);
 	DECL_CLASS(FrameBuffer);
 	DECL_CLASS(GLBuffer);
 	DECL_CLASS(IndexBuffer);

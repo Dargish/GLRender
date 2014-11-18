@@ -5,19 +5,23 @@
     <value name="Normal" type="vec3"/>
     <value name="Roughness" type="float"/>
     <value name="Metallicity" type="float"/>
+    <value name="Depth" type="float"/>
   </struct>
   <function name="ReadGBuffer" return="GBufferData">
     <uniform type="sampler2D">g_A</uniform>
     <uniform type="sampler2D">g_B</uniform>
+    <uniform type="sampler2D">g_C</uniform>
     <input type="vec2">uv</input>
     <source>
       GBufferData data;
       vec4 A = texture(g_A, uv);
       vec4 B = texture(g_B, uv);
+      vec4 C = texture(g_C, uv);
       data.Color = A.rgb;
       data.Roughness = A.a;
       data.Normal = normalize(B.rgb);
       data.Metallicity = B.a;
+      data.Depth = C.r;
       return data;
     </source>
   </function>
