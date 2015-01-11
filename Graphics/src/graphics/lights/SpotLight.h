@@ -6,14 +6,14 @@ namespace graphics
 {
 	namespace lights
 	{
-		class PointLight : public Light
+		class SpotLight : public Light
 		{
 		public:
-			PointLight();
-			PointLight(const Vector3& color, float intensity);
-			PointLight(const PointLight& other);
-			virtual ~PointLight();
-			PointLight& operator=(const PointLight& other);
+			SpotLight();
+			SpotLight(const Vector3& color, float intensity, float angle);
+			SpotLight(const SpotLight& other);
+			virtual ~SpotLight();
+			SpotLight& operator=(const SpotLight& other);
 
 			virtual void light(
 				const FrameBuffer_Ptr frameBuffer, 
@@ -27,9 +27,12 @@ namespace graphics
 			virtual Json::Value serialise() const;
 			virtual void deserialise(const Json::Value& data);
 
+			float angle() const;
+			void setAngle(float angle);
+
 		private:
-			Shader_Ptr m_pointShader;
-			primitives::Sphere_Ptr m_lightSphere;
+			Shader_Ptr m_spotShader;
+			primitives::Cone_Ptr m_lightCone;
 			Vector3 m_color;
 			float m_intensity;
 		};

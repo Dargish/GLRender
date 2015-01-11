@@ -192,12 +192,15 @@ namespace systems
 					Shader_Ptr shader = renderCache.material->shader();
 					m_renderCache[shader].push_back(renderCache);
 				}
-				else
+				else if (transformComponent)
 				{
 					LightComponent_Ptr lightComponent = world->component<LightComponent>(*it);
 					if (lightComponent)
 					{
-						m_lightCache.push_back(lightComponent->light);
+						LightCache lightCache;
+						lightCache.transform = transformComponent->transform;
+						lightCache.light = lightComponent->light;
+						m_lightCache.push_back(lightCache);
 					}
 				}
 			}
@@ -265,9 +268,9 @@ namespace systems
 		}
 		else
 		{
-			for (LightCache::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
+			for (LightCacheVector::iterator it = m_lightCache.begin(); it != m_lightCache.end(); ++it)
 			{
-				(*it)->light(m_frameBuffer, world->camera(), deltaTime);
+				it->light->light(m_frameBuffer, it->transform, world->camera(), deltaTime);
 			}
 		}
 		m_frameBuffer->unbind();

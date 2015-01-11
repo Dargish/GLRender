@@ -53,6 +53,19 @@ float gammaCorrect(
 	return pow(preGamma, (1.0/2.2) );
 }
 
+vec3 Diffuse_Burley(
+	vec3 DiffuseColor,
+	float Roughness,
+	float NoV,
+	float NoL,
+	float VoH)
+{
+	float FD90 = 0.5 + 2 * VoH * VoH * Roughness;
+	float FdV = 1 + (FD90 - 1) * exp2( (-5.55473 * NoV - 6.98316) * NoV );
+	float FdL = 1 + (FD90 - 1) * exp2( (-5.55473 * NoL - 6.98316) * NoL );
+	return DiffuseColor / PI * FdV * FdL;
+}
+
 vec3 Diffuse_OrenNayar(
 	vec3 DiffuseColor,
 	float Roughness,
@@ -124,7 +137,8 @@ vec3 F_Schlick(
 }
 
 
-in vec3 f_eyeVec;
+in vec3 f_eyePos;
+in vec3 f_worldPos;
 uniform vec2 screenSize;
 uniform samplerCube cubeMap;
 uniform float intensity;
@@ -134,14 +148,20 @@ void main(void)
 	vec2 uv = gl_FragCoord.xy / screenSize;
 	GBufferData data = ReadGBuffer(uv);
 
-	vec3 V = normalize(-f_eyeVec);
+	vec3 eyeVec = normalize(f_worldPos - f_eyePos);
+
+	vec3 V = normalize(-eyeVec);
 	vec3 diffL = data.Normal;
 	vec3 specL = reflect(-V, data.Normal);
 	vec3 diffH = normalize(V + diffL);
 	vec3 specH = normalize(V + specL);
 
+	float shininess = 1.0 - data.Roughness;
+	shininess = shininess * shininess;
+	float roughness = 1.0 - shininess;
+
 	vec3 diffuseLightColor = textureLod(cubeMap, diffL, 10.0).rgb;
-	vec3 specularLightColor = textureLod(cubeMap, specL, data.Roughness * 10.0).rgb;
+	vec3 specularLightColor = textureLod(cubeMap, specL, roughness * 10.0).rgb;
 
 	float NoV = saturate(dot(data.Normal, V));
 
@@ -156,7 +176,7 @@ void main(void)
 	//float D = D_Beckmann(data.Roughness, specNoH);
 
 	//vec3 specular = (F * G * D);
-	vec3 specular = F_Schlick(f0, specLoH) * (1.0 - data.Roughness);
+	vec3 specular = F_Schlick(f0, specLoH) * shininess;
 
 	float diffVoL = saturate(dot(V, diffL));
 	float diffVoH = saturate(dot(V, diffH));
@@ -165,7 +185,7 @@ void main(void)
 	vec3 preGamma = ((diffuse * diffuseLightColor) + (specular * specularLightColor)) * intensity;
 	vec3 postGamma = gammaCorrect(preGamma);
 	fragColor = vec4(postGamma, 1);
-	fragColor = vec4(0);
+	//fragColor = vec4(0);
 	//fragColor = vec4(vec3(data.Roughness), 1);
 	//fragColor = vec4(diffuse * diffuseLightColor, 1);
 	//fragColor = vec4(vec3(D), 1);

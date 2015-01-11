@@ -128,9 +128,11 @@ layout (location = 0) in vec3 position;
 uniform mat4 proj;
 uniform mat4 view;
 uniform vec3 eyePos;
-out vec3 f_eyeVec;
+out vec3 f_eyePos;
+out vec3 f_worldPos;
 void main(void)
 {
-	f_eyeVec = normalize(position - eyePos);
+	f_eyePos = eyePos;
+	f_worldPos = position;
 	gl_Position = proj * view * vec4(position, 1.0);
 }

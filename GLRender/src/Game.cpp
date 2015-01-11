@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <GL/glew.h>
 #include <boost/format.hpp>
+#include <core/MathUtils.h>
 #include <io/InputManager.h>
 #include <serialisation/Serialiser.h>
 #include <ecs/World.h>
@@ -17,11 +18,13 @@
 #include <graphics/lights/DirectionalLight.h>
 #include <graphics/lights/EnvironmentLight.h>
 #include <graphics/lights/PointLight.h>
+#include <graphics/lights/SpotLight.h>
 #include <graphics/Material.h>
 #include <graphics/Model.h>
 #include <graphics/Transform.h>
 #include <graphics/Camera.h>
 #include <graphics/primitives/Cube.h>
+#include <graphics/primitives/Cone.h>
 #include <graphics/primitives/Plane.h>
 #include <graphics/primitives/Sphere.h>
 #include <graphics/primitives/Torus.h>
@@ -59,6 +62,7 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<PointLight>();
 	Serialiser::RegisterSerialisable<Model>();
 	Serialiser::RegisterSerialisable<Cube>();
+	Serialiser::RegisterSerialisable<Cone>();
 	Serialiser::RegisterSerialisable<Plane>();
 	Serialiser::RegisterSerialisable<Sphere>();
 	Serialiser::RegisterSerialisable<Torus>();
@@ -101,6 +105,29 @@ void Game::setupInputManager()
 	InputManager::SetMouseLocked(true);
 }
 
+template<class T>
+class Animatable
+{
+public:
+	Animatable(T* variable):
+		m_variable(variable), elapsedTime(0)
+	{
+
+	}
+
+	void update(float deltaTime)
+	{
+		elapsedTime += deltaTime;		
+		*m_variable = std::sin(elapsedTime * 0.5) * -45.0f + 180.0f;
+	}
+
+protected:
+	T* m_variable;
+
+private:
+	float elapsedTime;
+};
+
 void Game::start()
 {
 	sf::RenderWindow_Ptr window = createWindow();
@@ -116,16 +143,47 @@ void Game::start()
 	//world->load("pbrTest");
 	world->load("primTest");
 
-	for (int x = -10; x <= 10; x+=2)
+
+	EntityID lightID = world->createEntity();
+	LightComponent_Ptr lightComponent(new LightComponent);
+	lightComponent->light.reset(new SpotLight(Vector3(1.0f, 0.75f, 0.5f), 1.0f, 30.0f));
+	SpotLight_Ptr light = boost::dynamic_pointer_cast<SpotLight>(lightComponent->light);
+//	CubeMap_Ptr cubeMap(new CubeMap("NissiBeach"));
+//	lightComponent->light.reset(new EnvironmentLight(cubeMap, 1.0f));
+	world->addComponent(lightID, lightComponent);
+	TransformComponent_Ptr transformComponent(new TransformComponent);
+	transformComponent->transform->position = Vector3(0.0f, 5.0f, 5.0f);
+	transformComponent->transform->rotation.y = 45.0f;
+	world->addComponent(lightID, transformComponent);
+
+	Animatable<float> animatable(&transformComponent->transform->rotation.x);
+
 	{
-		for (int y = -10; y <= 10; y+=2)
-		{
-			EntityID lightID = world->createEntity();
-			LightComponent_Ptr lightComponent(new LightComponent);
-			lightComponent->light.reset(new PointLight(Vector3(x, 2, y), Vector3((x + 10) / 20.0f, 0.5f, (y + 10) / 20.0f), 0.1f));
-			world->addComponent(lightID, lightComponent);
-		}
+		EntityID cone = world->createEntity("Cone");
+		world->component<MaterialComponent>(cone)->material->load("Textured");
+		world->component<TransformComponent>(cone)->transform->position.y = 1.0f;
+		world->component<TransformComponent>(cone)->transform->position.x = 7.5f;
+		world->component<TransformComponent>(cone)->transform->rotation.y = 90.0f;
+		world->component<TransformComponent>(cone)->transform->scale.z = 2.0f;
 	}
+
+
+	//for (int x = -10; x <= 10; x+=2)
+	//{
+	//	for (int y = -10; y <= 10; y+=2)
+	//	{
+	//		EntityID lightID = world->createEntity();
+	//		LightComponent_Ptr lightComponent(new LightComponent);
+	//		lightComponent->light.reset(new PointLight(Vector3(x, 2, y), Vector3((x + 10) / 20.0f, 0.5f, (y + 10) / 20.0f), 0.5f));
+	//		world->addComponent(lightID, lightComponent);
+	//	}
+	//}
+
+	EntityID globe = world->createEntity("TestGlobe");
+	world->component<TransformComponent>(globe)->transform->position.x = -5.0f;
+	world->component<MaterialComponent>(globe)->material->setValue("v_color", Vector3(0.5f, 0.5f, 0.5f));
+	world->component<MaterialComponent>(globe)->material->setValue("v_roughness", 0.0f);
+	world->component<MaterialComponent>(globe)->material->setValue("v_metallicity", 0.0f);
 
 	if (!m_font.loadFromFile("Content/Fonts/SourceSansPro-Regular.ttf"))
 	{
@@ -139,10 +197,12 @@ void Game::start()
 	m_clock.restart();
 	float frameTimeF = 0.0f;
 	int fps = 0;
+	//float elapsedTime = 0.0f;
 	while (window->isOpen())
 	{
 		// Calculate frame time
 		float deltaTime = m_clock.getElapsedTime().asSeconds();
+		//elapsedTime += deltaTime;
 		m_clock.restart();
 
 		// Handle events
@@ -161,6 +221,8 @@ void Game::start()
 		}
 
 		// Update
+		animatable.update(deltaTime);
+
 		InputManager::Update();
 		if (InputManager::IsDown("Escape"))
 		{

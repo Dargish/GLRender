@@ -53,6 +53,19 @@ float gammaCorrect(
 	return pow(preGamma, (1.0/2.2) );
 }
 
+vec3 Diffuse_Burley(
+	vec3 DiffuseColor,
+	float Roughness,
+	float NoV,
+	float NoL,
+	float VoH)
+{
+	float FD90 = 0.5 + 2 * VoH * VoH * Roughness;
+	float FdV = 1 + (FD90 - 1) * exp2( (-5.55473 * NoV - 6.98316) * NoV );
+	float FdL = 1 + (FD90 - 1) * exp2( (-5.55473 * NoL - 6.98316) * NoL );
+	return DiffuseColor / PI * FdV * FdL;
+}
+
 vec3 Diffuse_OrenNayar(
 	vec3 DiffuseColor,
 	float Roughness,
@@ -141,7 +154,7 @@ void main(void)
 {
 	GBufferData data = ReadGBuffer(f_uv);
 	vec3 color = data.Color * drawColor;
-	color += data.Normal * drawNormal;
+	color += ((data.Normal + 1.0f) * 0.5f) * drawNormal;
 	color += data.Roughness * drawRoughness;
 	color += data.Metallicity * drawMetallicity;
 	color += data.Depth * drawDepth * 0.01;  // to make distance viewable

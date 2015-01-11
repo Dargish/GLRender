@@ -124,7 +124,8 @@ vec3 F_Schlick(
 }
 
 
-in vec3 f_eyeVec;
+in vec3 f_eyePos;
+in vec3 f_worldPos;
 uniform vec2 screenSize;
 uniform vec3 direction;
 uniform vec3 color;
@@ -135,7 +136,9 @@ void main(void)
 	vec2 uv = gl_FragCoord.xy / screenSize;
 	GBufferData data = ReadGBuffer(uv);
 
-	vec3 V = normalize(-f_eyeVec);
+	vec3 eyeVec = normalize(f_worldPos - f_eyePos);
+
+	vec3 V = normalize(-eyeVec);
 	vec3 L = normalize(-direction);
 	vec3 H = normalize(V + L);
 

@@ -20,6 +20,7 @@ namespace graphics
 		virtual ~Transform();
 		Transform& operator= (const Transform& t);
 
+		Vector3 direction() const;
 		Matrix4 world() const;
 
 		static std::string TypeName();

@@ -1,6 +1,19 @@
 <?xml version='1.0' encoding='us-ascii'?>
 <shader version="400">
   <define name="PI" type="float">3.14159265359</define>
+  <function name="Diffuse_Burley" return="vec3">
+    <input type="vec3">DiffuseColor</input>
+    <input type="float">Roughness</input>
+    <input type="float">NoV</input>
+    <input type="float">NoL</input>
+    <input type="float">VoH</input>
+    <source>
+      float FD90 = 0.5 + 2 * VoH * VoH * Roughness;
+      float FdV = 1 + (FD90 - 1) * exp2( (-5.55473 * NoV - 6.98316) * NoV );
+      float FdL = 1 + (FD90 - 1) * exp2( (-5.55473 * NoL - 6.98316) * NoL );
+      return DiffuseColor / PI * FdV * FdL;
+    </source>
+  </function>
   <function name="Diffuse_OrenNayar" return="vec3">
     <input type="vec3">DiffuseColor</input>
     <input type="float">Roughness</input>

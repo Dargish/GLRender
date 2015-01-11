@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include <core/MathUtils.h>
 #include <glm/gtx/transform.hpp>
 #include <json/json.h>
 
@@ -45,6 +46,18 @@ namespace graphics
 		rotation = other.rotation;
 		scale = other.scale;
 		return *this;
+	}
+
+	Vector3 Transform::direction() const
+	{
+		float yaw = degreesToRadians(rotation.x);
+		float pitch = degreesToRadians(rotation.y);
+		float cosPitch = std::cos(pitch);
+		Vector3 d(
+			std::sin(yaw) * cosPitch,
+			-std::sin(pitch),
+			std::cos(yaw) * cosPitch);
+		return glm::normalize(d);
 	}
 
 	Matrix4 Transform::world() const

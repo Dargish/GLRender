@@ -142,7 +142,7 @@
                   "light" : {
                      "color" : [ 1.0, 0.8999999761581421, 0.8000000119209290 ],
                      "direction" : [ -1.0, -0.750, -0.750 ],
-                     "intensity" : 2.50,
+                     "intensity" : 0.0,
                      "typeName" : "DirectionalLight"
                   },
                   "typeName" : "LightComponent"
@@ -259,7 +259,7 @@
                {
                   "light" : {
                      "cubeMap" : "NissiBeach",
-                     "intensity" : 0.02500000037252903,
+                     "intensity" : 0.0,
                      "typeName" : "EnvironmentLight"
                   },
                   "typeName" : "LightComponent"

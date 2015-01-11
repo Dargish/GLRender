@@ -1,5 +1,6 @@
 #pragma once
 #include "fwd.h"
+#include <vector>
 
 namespace graphics
 {
@@ -8,7 +9,8 @@ namespace graphics
 	public:
 		static std::string ShaderPath(const std::string& shaderName);
 
-		ShaderSource(const std::string& shaderName, bool isInclude = false);
+		ShaderSource(const std::string& shaderName);
+		ShaderSource(const std::string& shaderName, std::vector<std::string> includedShaders);
 
 		const std::string& version() const;
 		const std::string& defines() const;
@@ -41,6 +43,8 @@ namespace graphics
 		std::string m_functions;
 		std::string m_vertexFunction;
 		std::string m_fragmentFunction;
+
+		std::vector<std::string> m_includedShaders;
 
 		ShaderValueMap m_defaultValues;
 	};

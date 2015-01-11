@@ -163,35 +163,39 @@ vec3 DynamicLighting(
 	return diffuse + specular;
 }
 
-
-in vec3 f_eyePos;
-in vec3 f_worldPos;
-uniform vec2 screenSize;
-uniform vec3 lightPosition;
-uniform vec3 color;
-uniform float intensity;
-out vec4 fragColor;
-void main(void)
+float GetAttenuatedIntensity(
+	float intensity,
+	float distanceFromLight)
 {
-	vec2 uv = gl_FragCoord.xy / screenSize;
-	GBufferData data = ReadGBuffer(uv);
-
-	vec3 eyeVec = normalize(f_worldPos - f_eyePos);
-
-	vec3 worldPos = f_eyePos + (normalize(eyeVec) * data.Depth);
-	float distanceFromLight = distance(lightPosition, worldPos);
-
 	float a = 0.00025;
 	float b = 10.0;
 	float d2 = distanceFromLight * distanceFromLight;
-	float attenuatedIntensity = ((intensity + a) / (1 + b * d2)) - a;
+	return ((intensity + a) / (1 + b * d2)) - a;
+}
 
-	vec3 V = normalize(-eyeVec);
-	vec3 L = normalize(lightPosition - worldPos);
+float GetSpotlightFalloff(
+	vec3 spotDirection,
+	vec3 L,
+	float spotAngle)
+{
+	return saturate(dot(L, -spotDirection) - spotAngle);
+	//v = 1.0f - v;
+	//v = v * v;
+	//return 1.0f - v;
+}
 
-	vec3 lighting = DynamicLighting(V, L, data);
 
-	vec3 preGamma = lighting * attenuatedIntensity * color;
-	vec3 postGamma = gammaCorrect(preGamma);
-	fragColor = vec4(postGamma, 1);
+layout (location = 0) in vec3 position;
+uniform mat4 world;
+uniform mat4 proj;
+uniform mat4 view;
+uniform vec3 eyePos;
+out vec3 f_eyePos;
+out vec3 f_worldPos;
+void main(void)
+{
+	f_eyePos = eyePos;
+	vec4 worldPos = world * vec4(position, 1.0);
+	f_worldPos = worldPos.xyz;
+	gl_Position = proj * view * worldPos;
 }

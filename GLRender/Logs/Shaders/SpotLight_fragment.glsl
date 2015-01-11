@@ -163,13 +163,36 @@ vec3 DynamicLighting(
 	return diffuse + specular;
 }
 
+float GetAttenuatedIntensity(
+	float intensity,
+	float distanceFromLight)
+{
+	float a = 0.00025;
+	float b = 10.0;
+	float d2 = distanceFromLight * distanceFromLight;
+	return ((intensity + a) / (1 + b * d2)) - a;
+}
+
+float GetSpotlightFalloff(
+	vec3 spotDirection,
+	vec3 L,
+	float spotAngle)
+{
+	return saturate(dot(L, -spotDirection) - spotAngle);
+	//v = 1.0f - v;
+	//v = v * v;
+	//return 1.0f - v;
+}
+
 
 in vec3 f_eyePos;
 in vec3 f_worldPos;
 uniform vec2 screenSize;
 uniform vec3 lightPosition;
+uniform vec3 direction;
 uniform vec3 color;
 uniform float intensity;
+uniform float spotAngle;
 out vec4 fragColor;
 void main(void)
 {
@@ -181,17 +204,18 @@ void main(void)
 	vec3 worldPos = f_eyePos + (normalize(eyeVec) * data.Depth);
 	float distanceFromLight = distance(lightPosition, worldPos);
 
-	float a = 0.00025;
-	float b = 10.0;
-	float d2 = distanceFromLight * distanceFromLight;
-	float attenuatedIntensity = ((intensity + a) / (1 + b * d2)) - a;
-
 	vec3 V = normalize(-eyeVec);
 	vec3 L = normalize(lightPosition - worldPos);
 
+	float spotlightFalloff = GetSpotlightFalloff(direction, L, spotAngle);
+	float attenuatedIntensity = GetAttenuatedIntensity(distanceFromLight, intensity);
+
 	vec3 lighting = DynamicLighting(V, L, data);
 
-	vec3 preGamma = lighting * attenuatedIntensity * color;
+	vec3 preGamma = lighting * spotlightFalloff * attenuatedIntensity * color;
 	vec3 postGamma = gammaCorrect(preGamma);
 	fragColor = vec4(postGamma, 1);
+	//fragColor = vec4(((direction + 1.0f) * 0.5f), 1);
+	//float c = saturate(dot(-direction, L));
+	//fragColor = vec4(c - spotAngle, 0.0, spotAngle - c, 1);
 }

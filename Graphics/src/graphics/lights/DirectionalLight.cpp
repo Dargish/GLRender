@@ -2,6 +2,7 @@
 #include "../Shader.h"
 #include "../FrameBuffer.h"
 #include "../Camera.h"
+#include "../Transform.h"
 #include "../primitives/ScreenQuad.h"
 #include "../VertexBuffer.h"
 
@@ -12,19 +13,19 @@ namespace graphics
 	namespace lights
 	{
 		DirectionalLight::DirectionalLight() :
-			m_screenQuad(new ScreenQuad), m_direction(Vector3(0, -1, 0)), m_color(Vector3(1, 1, 1)), m_intensity(1.0f)
+			m_screenQuad(new ScreenQuad), m_color(Vector3(1, 1, 1)), m_intensity(1.0f)
 		{
 
 		}
 
-		DirectionalLight::DirectionalLight(const Vector3& direction, const Vector3& color, float intensity) :
-			m_screenQuad(new ScreenQuad), m_direction(direction), m_color(color), m_intensity(intensity)
+		DirectionalLight::DirectionalLight(const Vector3& color, float intensity) :
+			m_screenQuad(new ScreenQuad), m_color(color), m_intensity(intensity)
 		{
 
 		}
 
 		DirectionalLight::DirectionalLight(const DirectionalLight& other) :
-			m_screenQuad(new ScreenQuad), m_direction(other.m_direction), m_color(other.m_color), m_intensity(other.m_intensity)
+			m_screenQuad(new ScreenQuad), m_color(other.m_color), m_intensity(other.m_intensity)
 		{
 
 		}
@@ -36,13 +37,16 @@ namespace graphics
 
 		DirectionalLight& DirectionalLight::operator=(const DirectionalLight& other)
 		{
-			m_direction = other.m_direction;
 			m_color = other.m_color;
 			m_intensity = other.m_intensity;
 			return *this;
 		}
 
-		void DirectionalLight::light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime)
+		void DirectionalLight::light(
+			const FrameBuffer_Ptr frameBuffer,
+			const Transform_Ptr& transform,
+			const Camera_Ptr& camera,
+			float deltaTime)
 		{
 			if (!m_directionalShader)
 			{
@@ -50,7 +54,7 @@ namespace graphics
 			}
 			Shader::Enable(m_directionalShader);
 			m_directionalShader->setValue("screenSize", camera->viewportSize());
-			m_directionalShader->setValue("direction", m_direction);
+			m_directionalShader->setValue("direction", transform->direction());
 			m_directionalShader->setValue("color", m_color);
 			m_directionalShader->setValue("intensity", m_intensity);
 			m_directionalShader->setValue("proj", camera->projMatrix());
@@ -81,14 +85,11 @@ namespace graphics
 		Json::Value DirectionalLight::serialise() const
 		{
 			Json::Value data = Serialisable::serialise();
-			Json::Value directionArray = Json::Value(Json::arrayValue);
 			Json::Value colorArray = Json::Value(Json::arrayValue);
 			for (size_t r = 0; r < 3; ++r)
 			{
-				directionArray.append(m_direction[r]);
 				colorArray.append(m_color[r]);
 			}
-			data["direction"] = directionArray;
 			data["color"] = colorArray;
 			data["intensity"] = m_intensity;
 			return data;
@@ -98,7 +99,6 @@ namespace graphics
 		{
 			for (size_t r = 0; r < 3; ++r)
 			{
-				m_direction[r] = (float)data["direction"][r].asDouble();
 				m_color[r] = (float)data["color"][r].asDouble();
 			}
 			m_intensity = (float)data["intensity"].asDouble();

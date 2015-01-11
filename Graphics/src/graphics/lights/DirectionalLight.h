@@ -10,12 +10,16 @@ namespace graphics
 		{
 		public:
 			DirectionalLight();
-			DirectionalLight(const Vector3& direction, const Vector3& color, float intensity);
+			DirectionalLight(const Vector3& color, float intensity);
 			DirectionalLight(const DirectionalLight& other);
 			virtual ~DirectionalLight();
 			DirectionalLight& operator=(const DirectionalLight& other);
 
-			virtual void light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime);
+			virtual void light(
+				const FrameBuffer_Ptr frameBuffer,
+				const Transform_Ptr& transform,
+				const Camera_Ptr& camera,
+				float deltaTime);
 
 			static std::string TypeName();
 			virtual std::string typeName() const;
@@ -26,7 +30,6 @@ namespace graphics
 		private:
 			Shader_Ptr m_directionalShader;
 			primitives::ScreenQuad_Ptr m_screenQuad;
-			Vector3 m_direction;
 			Vector3 m_color;
 			float m_intensity;
 		};

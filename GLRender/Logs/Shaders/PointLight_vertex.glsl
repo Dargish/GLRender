@@ -53,6 +53,19 @@ float gammaCorrect(
 	return pow(preGamma, (1.0/2.2) );
 }
 
+vec3 Diffuse_Burley(
+	vec3 DiffuseColor,
+	float Roughness,
+	float NoV,
+	float NoL,
+	float VoH)
+{
+	float FD90 = 0.5 + 2 * VoH * VoH * Roughness;
+	float FdV = 1 + (FD90 - 1) * exp2( (-5.55473 * NoV - 6.98316) * NoV );
+	float FdL = 1 + (FD90 - 1) * exp2( (-5.55473 * NoL - 6.98316) * NoL );
+	return DiffuseColor / PI * FdV * FdL;
+}
+
 vec3 Diffuse_OrenNayar(
 	vec3 DiffuseColor,
 	float Roughness,
@@ -121,6 +134,33 @@ vec3 F_Schlick(
 	//return SpecularColor + ( saturate( 50.0 * SpecularColor.g ) - SpecularColor ) * exp2( (-5.55473 * VoH - 6.98316) * VoH );
 	//return mix(SpecularColor, vec3(1.0), pow(1.0 - VoH, 5));
 	return f0 + (vec3(1.0) - f0) * pow((1.0 - LoH), 5);
+}
+
+vec3 DynamicLighting(
+	vec3 V,
+	vec3 L,
+	GBufferData data)
+{
+	vec3 H = normalize(V + L);
+
+	float VoL = saturate(dot(V, L));
+	float NoV = saturate(dot(data.Normal, V));
+	float VoH = saturate(dot(V, H));
+	float NoH = saturate(dot(data.Normal, H));
+	float NoL = saturate(dot(data.Normal, L));
+	float LoH = saturate(dot(L, H));
+
+	vec3 DiffuseColor = data.Color - data.Color * data.Metallicity;
+	vec3 f0 = mix( vec3(0.04), data.Color, data.Metallicity );
+
+	vec3 F = F_Schlick(f0, LoH);
+	float G = Vis_Schlick(data.Roughness, NoV, NoL);
+	float D = D_GGX(data.Roughness, NoH);
+
+	vec3 specular = (F * G * D) * NoL;// / (4*NoL*NoV);
+	vec3 diffuse = Diffuse_OrenNayar(DiffuseColor, data.Roughness, VoL, NoV, NoL, VoH);
+
+	return diffuse + specular;
 }
 
 

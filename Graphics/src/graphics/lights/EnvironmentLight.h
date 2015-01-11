@@ -15,7 +15,11 @@ namespace graphics
 			virtual ~EnvironmentLight();
 			EnvironmentLight& operator=(const EnvironmentLight& other);
 
-			virtual void light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime);
+			virtual void light(
+				const FrameBuffer_Ptr frameBuffer,
+				const Transform_Ptr& transform,
+				const Camera_Ptr& camera,
+				float deltaTime);
 
 			static std::string TypeName();
 			virtual std::string typeName() const;

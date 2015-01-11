@@ -23,8 +23,10 @@
     <input type="vec3">f_worldPos</input>
     <uniform type="vec2">screenSize</uniform>
 		<uniform type="vec3">lightPosition</uniform>
+    <uniform type="vec3">direction</uniform>
 		<uniform type="vec3">color</uniform>
 		<uniform type="float">intensity</uniform>
+    <uniform type="float">spotAngle</uniform>
 		<output type="vec4">fragColor</output>
 		<source>
       vec2 uv = gl_FragCoord.xy / screenSize;
@@ -35,16 +37,20 @@
       vec3 worldPos = f_eyePos + (normalize(eyeVec) * data.Depth);
       float distanceFromLight = distance(lightPosition, worldPos);
 
-      float attenuatedIntensity = GetAttenuatedIntensity(distanceFromLight, intensity);
-
       vec3 V = normalize(-eyeVec);
       vec3 L = normalize(lightPosition - worldPos);
 
+      float spotlightFalloff = GetSpotlightFalloff(direction, L, spotAngle);
+      float attenuatedIntensity = GetAttenuatedIntensity(distanceFromLight, intensity);
+
       vec3 lighting = DynamicLighting(V, L, data);
 
-      vec3 preGamma = lighting * attenuatedIntensity * color;
+      vec3 preGamma = lighting * spotlightFalloff * attenuatedIntensity * color;
       vec3 postGamma = gammaCorrect(preGamma);
       fragColor = vec4(postGamma, 1);
+      //fragColor = vec4(((direction + 1.0f) * 0.5f), 1);
+      //float c = saturate(dot(-direction, L));
+      //fragColor = vec4(c - spotAngle, 0.0, spotAngle - c, 1);
     </source>
 	</fragmentshader>
 </shader>

@@ -14,9 +14,15 @@ namespace graphics
 		return "Content/Shaders/" + shaderName + ".xml";
 	}
 
-	ShaderSource::ShaderSource(const std::string& shaderName, bool isInclude /*= false*/)
+	ShaderSource::ShaderSource(const std::string& shaderName)
 	{
-		load(ShaderPath(shaderName), isInclude);
+		load(ShaderPath(shaderName), false);
+	}
+
+	ShaderSource::ShaderSource(const std::string& shaderName, std::vector<std::string> includedShaders) :
+		m_includedShaders(includedShaders)
+	{
+		load(ShaderPath(shaderName), true);
 	}
 
 	const std::string& ShaderSource::version() const
@@ -133,9 +139,19 @@ namespace graphics
 
 	void ShaderSource::loadIncludes(xml_node<>* shader)
 	{
+		std::vector<std::string> shadersToInclude;
 		for (xml_node<>* include = shader->first_node("include"); include; include = include->next_sibling("include"))
 		{
-			ShaderSource includeSource(include->value(), true);
+			std::string shader = include->value();
+			if (std::find(m_includedShaders.begin(), m_includedShaders.end(), shader) == m_includedShaders.end())
+			{
+				m_includedShaders.push_back(shader);
+				shadersToInclude.push_back(shader);
+			}
+		}
+		for (std::vector<std::string>::const_iterator it = shadersToInclude.begin(); it != shadersToInclude.end(); ++it)
+		{
+			ShaderSource includeSource(*it, m_includedShaders);
 			m_defines += includeSource.defines();
 			m_structs += includeSource.structs();
 			m_functions += includeSource.functions();

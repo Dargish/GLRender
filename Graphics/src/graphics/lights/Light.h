@@ -11,7 +11,11 @@ namespace graphics
 		public:
 			virtual ~Light();
 
-			virtual void light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime) = 0;
+			virtual void light(
+				const FrameBuffer_Ptr frameBuffer,
+				const Transform_Ptr& transform,
+				const Camera_Ptr& camera,
+				float deltaTime) = 0;
 		};
 	}
 }

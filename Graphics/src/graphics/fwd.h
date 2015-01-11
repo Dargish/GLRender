@@ -29,6 +29,8 @@ namespace graphics
 	namespace lights
 	{
 		DECL_CLASS(DirectionalLight);
+		DECL_CLASS(PointLight);
+		DECL_CLASS(SpotLight);
 		DECL_CLASS(Light);
 	}
 	namespace loaders
@@ -38,6 +40,7 @@ namespace graphics
 	}
 	namespace primitives
 	{
+		DECL_CLASS(Cone);
 		DECL_CLASS(Cube);
 		DECL_CLASS(Plane);
 		DECL_CLASS(ScreenQuad);

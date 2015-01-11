@@ -41,7 +41,11 @@ namespace graphics
 			return *this;
 		}
 
-		void EnvironmentLight::light(const FrameBuffer_Ptr frameBuffer, const Camera_Ptr& camera, float deltaTime)
+		void EnvironmentLight::light(
+			const FrameBuffer_Ptr frameBuffer,
+			const Transform_Ptr& /*transform*/,
+			const Camera_Ptr& camera,
+			float deltaTime)
 		{
 			if (!m_environmentShader)
 			{

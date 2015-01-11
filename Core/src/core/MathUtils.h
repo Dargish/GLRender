@@ -9,6 +9,7 @@
 #define PITCH_LIMIT 1.57f
 #define ZOOM_SPEED 1.0f
 #define PAN_SPEED 0.5f
+#define DEG_TO_RADS 0.0174532925f
 
 inline float wrapAngle(float x)
 {
@@ -28,4 +29,14 @@ inline float constrainAngle(float x, float max = HALF_PI - EPSILON, float min = 
 	x = std::min(x, max);
 	x = std::max(x, min);
 	return x;
+}
+
+inline float degreesToRadians(float degrees)
+{
+	return degrees * DEG_TO_RADS;
+}
+
+inline float radiansToDegrees(float radians)
+{
+	return radians / DEG_TO_RADS;
 }
