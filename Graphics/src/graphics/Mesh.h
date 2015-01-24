@@ -25,6 +25,8 @@ namespace graphics
 	protected:
 		void checkDirty();
 
+		virtual uint geometryType();
+
 		VertexBuffer_Ptr m_vertexBuffer;
 		IndexBuffer_Ptr m_indexBuffer;
 

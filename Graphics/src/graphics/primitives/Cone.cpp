@@ -122,7 +122,7 @@ namespace graphics
 			vBuffer[vBottom].uv = Vector2(0.5f, 0.5f);
 			
 			float deltaPhi = PI2 / m_segments;
-			float halfDeltaPhi = deltaPhi / 2.0;
+			float halfDeltaPhi = deltaPhi / 2.0f;
 			
 			uint vTop = 0;
 			vBuffer[vTop].normal = Vector3(0.0f, 0.0f, -1.0f);

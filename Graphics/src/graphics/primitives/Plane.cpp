@@ -24,8 +24,11 @@ namespace graphics
 
 		Plane& Plane::operator=(const Plane& other)
 		{
-			m_size = other.m_size;
-			dirty();
+			if (m_size != other.m_size)
+			{
+				m_size = other.m_size;
+				dirty();
+			}
 			return *this;
 		}
 
@@ -55,20 +58,6 @@ namespace graphics
 		{
 			m_size = (float)data["size"].asDouble();
 			dirty();
-		}
-
-		float Plane::size() const
-		{
-			return m_size;
-		}
-
-		void Plane::setSize(float size)
-		{
-			if (size != m_size)
-			{
-				m_size = size;
-				dirty();
-			}
 		}
 
 		void Plane::createMesh()
@@ -123,6 +112,20 @@ namespace graphics
 
 			m_vertexBuffer->dirty();
 			m_indexBuffer->dirty();
+		}
+
+		float Plane::size() const
+		{
+			return m_size;
+		}
+
+		void Plane::setSize(float size)
+		{
+			if (size != m_size)
+			{
+				m_size = size;
+				dirty();
+			}
 		}
 	}
 }

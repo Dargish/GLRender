@@ -28,6 +28,7 @@
 #include <graphics/primitives/Plane.h>
 #include <graphics/primitives/Sphere.h>
 #include <graphics/primitives/Torus.h>
+#include <graphics/primitives/Terrain.h>
 #include <graphics/Texture.h>
 #include <graphics/TextureFile.h>
 #include "FreeCamera.h"
@@ -60,12 +61,14 @@ void Game::registerSerialisables()
 	Serialiser::RegisterSerialisable<DirectionalLight>();
 	Serialiser::RegisterSerialisable<EnvironmentLight>();
 	Serialiser::RegisterSerialisable<PointLight>();
+	Serialiser::RegisterSerialisable<SpotLight>();
 	Serialiser::RegisterSerialisable<Model>();
 	Serialiser::RegisterSerialisable<Cube>();
 	Serialiser::RegisterSerialisable<Cone>();
 	Serialiser::RegisterSerialisable<Plane>();
 	Serialiser::RegisterSerialisable<Sphere>();
 	Serialiser::RegisterSerialisable<Torus>();
+	Serialiser::RegisterSerialisable<Terrain>();
 	Serialiser::RegisterSerialisable<Transform>();
 	Serialiser::RegisterSerialisable<Material>();
 	Serialiser::RegisterSerialisable<FloatValue>();
@@ -141,30 +144,29 @@ void Game::start()
 	world->setCamera(Camera_Ptr(new FreeCamera));
 
 	//world->load("pbrTest");
-	world->load("primTest");
+	//world->load("primTest");
 
 
 	EntityID lightID = world->createEntity();
 	LightComponent_Ptr lightComponent(new LightComponent);
 	lightComponent->light.reset(new SpotLight(Vector3(1.0f, 0.75f, 0.5f), 1.0f, 30.0f));
-	SpotLight_Ptr light = boost::dynamic_pointer_cast<SpotLight>(lightComponent->light);
-//	CubeMap_Ptr cubeMap(new CubeMap("NissiBeach"));
-//	lightComponent->light.reset(new EnvironmentLight(cubeMap, 1.0f));
+//	SpotLight_Ptr light = boost::dynamic_pointer_cast<SpotLight>(lightComponent->light);
+	CubeMap_Ptr cubeMap(new CubeMap("NissiBeach"));
+	lightComponent->light.reset(new EnvironmentLight(cubeMap, 1.0f));
 	world->addComponent(lightID, lightComponent);
 	TransformComponent_Ptr transformComponent(new TransformComponent);
 	transformComponent->transform->position = Vector3(0.0f, 5.0f, 5.0f);
 	transformComponent->transform->rotation.y = 45.0f;
 	world->addComponent(lightID, transformComponent);
 
-	Animatable<float> animatable(&transformComponent->transform->rotation.x);
+//	Animatable<float> animatable(&transformComponent->transform->rotation.x);
 
 	{
-		EntityID cone = world->createEntity("Cone");
+		EntityID cone = world->createEntity("Terrain");
 		world->component<MaterialComponent>(cone)->material->load("Textured");
-		world->component<TransformComponent>(cone)->transform->position.y = 1.0f;
-		world->component<TransformComponent>(cone)->transform->position.x = 7.5f;
-		world->component<TransformComponent>(cone)->transform->rotation.y = 90.0f;
-		world->component<TransformComponent>(cone)->transform->scale.z = 2.0f;
+		world->component<MaterialComponent>(cone)->material->setTexture("t_color", "White.png");
+		world->component<MaterialComponent>(cone)->material->setValue("v_roughness", 0.05f);
+		world->component<MaterialComponent>(cone)->material->setValue("v_metallicity", 1.0f);
 	}
 
 
@@ -221,7 +223,7 @@ void Game::start()
 		}
 
 		// Update
-		animatable.update(deltaTime);
+		//animatable.update(deltaTime);
 
 		InputManager::Update();
 		if (InputManager::IsDown("Escape"))

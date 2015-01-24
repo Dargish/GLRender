@@ -43,7 +43,7 @@ namespace graphics
 		}
 		m_vertexBuffer->bind();
 		m_indexBuffer->bind();
-		glDrawElements(GL_TRIANGLES, m_indexBuffer->data().size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(geometryType(), m_indexBuffer->data().size(), GL_UNSIGNED_INT, 0);
 		m_indexBuffer->unbind();
 		m_vertexBuffer->unbind();
 	}
@@ -60,5 +60,10 @@ namespace graphics
 			createMesh();
 			m_isDirty = false;
 		}
+	}
+
+	uint Mesh::geometryType()
+	{
+		return GL_TRIANGLES;
 	}
 }

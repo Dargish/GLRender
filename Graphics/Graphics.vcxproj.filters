@@ -108,6 +108,9 @@
     <ClInclude Include="src\graphics\primitives\Cone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\primitives\Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics\Camera.cpp">
@@ -198,6 +201,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics\primitives\Cone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\primitives\Terrain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

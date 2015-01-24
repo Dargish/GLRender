@@ -19,6 +19,7 @@
     <ClInclude Include="src\graphics\loaders\ModelLoader.h" />
     <ClInclude Include="src\graphics\primitives\Cone.h" />
     <ClInclude Include="src\graphics\primitives\ScreenQuad.h" />
+    <ClInclude Include="src\graphics\primitives\Terrain.h" />
     <ClInclude Include="src\graphics\ShaderValue.h" />
     <ClInclude Include="src\graphics\ShaderSource.h" />
     <ClInclude Include="src\graphics\primitives\Sphere.h" />
@@ -52,6 +53,7 @@
     <ClCompile Include="src\graphics\loaders\ModelLoader.cpp" />
     <ClCompile Include="src\graphics\primitives\Cone.cpp" />
     <ClCompile Include="src\graphics\primitives\ScreenQuad.cpp" />
+    <ClCompile Include="src\graphics\primitives\Terrain.cpp" />
     <ClCompile Include="src\graphics\ShaderValue.cpp" />
     <ClCompile Include="src\graphics\ShaderSource.cpp" />
     <ClCompile Include="src\graphics\primitives\Sphere.cpp" />
