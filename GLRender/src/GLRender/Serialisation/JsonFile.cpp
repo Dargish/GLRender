@@ -25,12 +25,12 @@ namespace serialisation
 			}
 			else
 			{
-				std::cerr << "Error loading file" << std::endl;
+				throw std::runtime_error("Error loading file");
 			}
 		}
 		else
 		{
-			std::cerr << "Couldn't open file " << filePath << std::endl;
+			throw std::runtime_error("Couldn't open file");
 		}
 	}
 

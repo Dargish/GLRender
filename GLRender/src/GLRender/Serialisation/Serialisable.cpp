@@ -13,7 +13,7 @@ namespace serialisation
 
 	void BaseSerialisable::deserialise(const Json::Value& data)
 	{
-		if (!data["typeName"].asString() == typeName())
+		if (data["typeName"].asString() != typeName())
 		{
 			throw std::runtime_error("Incompatible serialisable type");
 		}

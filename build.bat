@@ -3,5 +3,6 @@ rmdir _build /s /q
 :BUILD
 mkdir _build
 cd _build
-cmake -DCMAKE_INSTALL_SUFFIX=./install ..
-"%VS120COMNTOOLS%\..\IDE\devenv.exe" "%CD%\GLRender.sln"
+cmake -DCMAKE_INSTALL_SUFFIX=./install %* ..
+cd ..
+start /B "%VS120COMNTOOLS%\..\IDE\devenv.exe" "%CD%\_build\GLRender.sln"
