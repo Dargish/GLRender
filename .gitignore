@@ -53,3 +53,4 @@ Icon
 *.res
 *.user
 *.cache
+_build/
