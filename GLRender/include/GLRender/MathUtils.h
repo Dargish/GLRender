@@ -1,3 +1,4 @@
+#include <GLRender/GLRender.h>
 #include <math.h>
 #include <algorithm>
 
@@ -13,7 +14,7 @@ namespace glrender
 	#define PAN_SPEED 0.5f
 	#define DEG_TO_RADS 0.0174532925f
 
-	inline float wrapAngle(float x)
+	GLRENDERAPI inline float wrapAngle(float x)
 	{
 		while (x < -PI)
 		{
@@ -26,19 +27,19 @@ namespace glrender
 		return x;
 	}
 
-	inline float constrainAngle(float x, float max = HALF_PI - EPSILON, float min = EPSILON - HALF_PI)
+	GLRENDERAPI inline float constrainAngle(float x, float max = HALF_PI - EPSILON, float min = EPSILON - HALF_PI)
 	{
 		x = std::min(x, max);
 		x = std::max(x, min);
 		return x;
 	}
 
-	inline float degreesToRadians(float degrees)
+	GLRENDERAPI inline float degreesToRadians(float degrees)
 	{
 		return degrees * DEG_TO_RADS;
 	}
 
-	inline float radiansToDegrees(float radians)
+	GLRENDERAPI inline float radiansToDegrees(float radians)
 	{
 		return radians / DEG_TO_RADS;
 	}

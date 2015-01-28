@@ -7,7 +7,7 @@ file(GLOB_RECURSE SRC "src/*.cpp")
 include_directories(${JSON_INCLUDE_DIR})
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-add_definitions(-DRENDERER_EXPORT)
+add_definitions(-DGLRENDER_EXPORT)
 
 add_library(${TARGET} SHARED ${SRC} ${HDR} ${PVT_HDR})
 

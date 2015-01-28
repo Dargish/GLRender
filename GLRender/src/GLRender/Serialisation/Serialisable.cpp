@@ -6,6 +6,11 @@ namespace glrender
 {
 namespace serialisation
 {
+	BaseSerialisable::~BaseSerialisable()
+	{
+
+	}
+
 	void BaseSerialisable::serialise(Json::Value& data) const
 	{
 		data["typeName"] = typeName();

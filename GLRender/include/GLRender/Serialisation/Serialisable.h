@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GLRender/GLRender.h>
 #include <GLRender/DataTypes.h>
 
 #include <typeinfo>
@@ -13,7 +14,7 @@ namespace glrender
 {
 namespace serialisation
 {
-	class BaseSerialisable
+	class GLRENDERAPI BaseSerialisable
 	{
 		virtual ~BaseSerialisable();
 
@@ -33,7 +34,7 @@ namespace serialisation
 	};
 
 	template<class T>
-	string Serialisable<T>::TypeName = typeid(T).name();
+	string Serialisable<T>::TypeName = typeid(T).raw_name();
 
 	template<class T>
 	Serialisable<T>::~Serialisable()
@@ -50,7 +51,7 @@ namespace serialisation
 	template<class T>	
 	T* Serialisable<T>::clone() const
 	{
-		return new T(*this);
+		return new T(*((T*)this));
 	}
 }
 }

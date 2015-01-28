@@ -54,3 +54,4 @@ Icon
 *.user
 *.cache
 _build/
+!Tests/tests.vcxproj.user
