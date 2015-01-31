@@ -2,7 +2,6 @@
 
 #include <GLRender/GLRender.h>
 #include <GLRender/DataTypes.h>
-#include <GLRender/TypeName.h>
 
 #include <typeinfo>
 
@@ -17,6 +16,7 @@ namespace serialisation
 {
 	class GLRENDERAPI BaseSerialisable
 	{
+	public:
 		virtual ~BaseSerialisable();
 
 		virtual const string& typeName() const = 0;
@@ -28,8 +28,9 @@ namespace serialisation
 	class Serialisable
 	{
 	public:
+		static string TypeName();
 		virtual ~Serialisable();
-		virtual const string& typeName() const;
+		virtual string typeName() const;
 		virtual T* clone() const;
 	};
 
@@ -40,9 +41,17 @@ namespace serialisation
 	}
 
 	template<class T>
-	const string& Serialisable<T>::typeName() const
+	string Serialisable<T>::TypeName()
 	{
-		return TypeNameTraits<T>::Name;
+		string name = typeid(T).name();
+		size_t i = name.find_first_of(' ') + 1;
+		return name.substr(i, name.size() - i);
+	}
+
+	template<class T>
+	string Serialisable<T>::typeName() const
+	{
+		return T::TypeName();
 	}
 
 	template<class T>	
@@ -52,8 +61,3 @@ namespace serialisation
 	}
 }
 }
-
-#define SERIALISABLE_CLASS(CLASS) \
-class CLASS; \
-REGISTER_TYPENAME(CLASS) \
-class CLASS : public glrender::serialisation::Serialisable<CLASS>

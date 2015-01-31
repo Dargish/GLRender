@@ -2,8 +2,9 @@
 
 #include <GLRender\Serialisation\Serialisable.h>
 
-SERIALISABLE_CLASS(MySerialisable)
+class MySerialisable : public glrender::serialisation::Serialisable<MySerialisable>
 {
+public:
 	virtual void serialise(Json::Value& data) const;
 	virtual void deserialise(const Json::Value& data);
 };

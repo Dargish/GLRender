@@ -14,5 +14,3 @@ void MySerialisable::deserialise(const Json::Value& data)
 		throw std::runtime_error("Incompatible serialisable type");
 	}
 }
-
-DEFINE_TYPENAME(MySerialisable)
