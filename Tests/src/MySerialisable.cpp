@@ -1,16 +1,12 @@
 #include "MySerialisable.h"
 
-#include <json/json.h>
-
-void MySerialisable::serialise(Json::Value& data) const
+MySerialisable::MySerialisable(int value) :
+	m_value(value)
 {
-	data["typeName"] = typeName();
+
 }
 
-void MySerialisable::deserialise(const Json::Value& data)
+bool MySerialisable::operator==(const MySerialisable& o) const;
 {
-	if (data["typeName"].asString() != typeName())
-	{
-		throw std::runtime_error("Incompatible serialisable type");
-	}
+	return o.m_value == m_value;
 }

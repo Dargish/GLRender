@@ -4,12 +4,13 @@ file(GLOB_RECURSE SRC *.cpp)
 file(GLOB_RECURSE HDR "src/*.h")
 
 include_directories(${JSON_INCLUDE_DIR})
+include_directories(${BOOST_INCLUDE_DIR})
 
 add_executable(${TARGET} ${SRC} ${HDR})
 
 target_link_libraries(${TARGET} glrender)
 
-target_link_libraries(${TARGET} ${JSON_LIB_DIR}/jsoncpp.lib)
+target_lib_boost_libs(${TARGET} serialization)
 
 set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")
 

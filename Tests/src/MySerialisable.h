@@ -1,10 +1,28 @@
 #pragma once
 
-#include <GLRender\Serialisation\Serialisable.h>
+namespace boost
+{
+	namespace serialization
+	{
+		class access;
+	}
+}
 
-class MySerialisable : public glrender::serialisation::Serialisable<MySerialisable>
+class MySerialisable
 {
 public:
-	virtual void serialise(Json::Value& data) const;
-	virtual void deserialise(const Json::Value& data);
+	MySerialisable(int value = -1);
+
+	bool operator==(const MySerialisable& o) const;
+
+private:
+	int m_value;
+
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive& ar, const unsigned version)
+	{
+		ar & m_value;
+	}
 };

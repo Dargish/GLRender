@@ -9,7 +9,7 @@ project(GLRender)
 if(CMAKE_COMPILER_IS_GNUCXX)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall")
 elseif(MSVC)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /wd4201")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /wd4201 /wd4251")
 endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -35,14 +35,30 @@ include_directories(${GLM_INCLUDE_DIR})  # Everything will need glm included as 
 
 
 ##########
-# JSON
+# BOOST
 ##########
 
-if(NOT DEFINED JSON_VERSION)
-  set(JSON_VERSION 1.3.0)
+if(NOT DEFINED BOOST_VERSION)
+  set(BOOST_VERSION 1.57.0)
 endif()
-set(JSON_INCLUDE_DIR "${DEPENDENCIES_DIR}/jsoncpp/jsoncpp-${JSON_VERSION}/include/")
-set(JSON_LIB_DIR "${DEPENDENCIES_DIR}/jsoncpp/jsoncpp-${JSON_VERSION}/lib/")
+
+if(NOT DEFINED BOOST_SUFFIX)
+  set(BOOST_SUFFIX 1_57)
+endif()
+
+set(BOOST_INCLUDE_DIR "${DEPENDENCIES_DIR}/boost/boost-${BOOST_VERSION}/")
+set(BOOST_LIB_DIR "${DEPENDENCIES_DIR}/boost/boost-${BOOST_VERSION}/stage/lib")
+
+function(TARGET_LINK_BOOST_LIBS TARGET)
+  std(BOOST_LIBS, ${ARGN})
+  set(DBG "")
+  if(CMAKE_BUILD_TYPE EQUAL "Debug")
+    set(DBG "-gd")
+  endif()
+  foreach(BOOST_LIB BOOST_LIBS)
+    target_link_libraries(${TARGET} "${BOOST_LIB_DIR}/libboost_${BOOST_LIB}-vc120-mt{DBG}-${BOOST_SUFFIX}.lib")
+  endforeach()
+endfunction()
 
 
 ##########

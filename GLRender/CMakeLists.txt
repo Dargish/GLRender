@@ -4,16 +4,14 @@ file(GLOB_RECURSE HDR "include/*.h")
 file(GLOB_RECURSE PVT_HDR "src/*.h")
 file(GLOB_RECURSE SRC "src/*.cpp")
 
-include_directories(${JSON_INCLUDE_DIR})
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src")
+include_directories(${BOOST_INCLUDE_DIR})
 
 add_definitions(-DGLRENDER_EXPORT)
 
 add_library(${TARGET} SHARED ${SRC} ${HDR} ${PVT_HDR})
 
 set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")
-
-target_link_libraries(${TARGET} ${JSON_LIB_DIR}/jsoncpp.lib)
 
 ADD_SOURCE_GROUP(${CMAKE_CURRENT_SOURCE_DIR})
 

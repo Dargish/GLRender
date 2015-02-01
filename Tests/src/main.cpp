@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-using namespace glrender;
+using namespace glr;
 
 int main()
 {
@@ -12,6 +12,8 @@ int main()
 
 	MyFileSerialisable f;
 	std::cerr << f.typeName() << std::endl;
+
+	f.save("Test1");
 
 	return 0;
 }

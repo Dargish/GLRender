@@ -2,7 +2,7 @@
 #include <math.h>
 #include <algorithm>
 
-namespace glrender
+namespace glr
 {
 	#define EPSILON 0.000003f
 	#define QUARTER_PI 0.78539816339f

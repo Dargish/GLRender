@@ -6,7 +6,7 @@
 // GLM
 #include <glm/glm.hpp>
 
-namespace glrender
+namespace glr
 {
 	typedef std::string string;
 	typedef unsigned char uchar;
@@ -18,15 +18,4 @@ namespace glrender
 	typedef glm::vec2 Vector2;
 	typedef glm::ivec2 Point2;
 	typedef glm::ivec3 Point3;
-}
-
-namespace Json
-{
-	class Value;
-}
-
-namespace rapidxml
-{
-	template<class Ch = char>
-	class xml_node;
 }
