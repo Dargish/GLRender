@@ -6,7 +6,7 @@ MySerialisable::MySerialisable(int value) :
 
 }
 
-bool MySerialisable::operator==(const MySerialisable& o) const;
+bool MySerialisable::operator==(const MySerialisable& o) const
 {
 	return o.m_value == m_value;
 }
