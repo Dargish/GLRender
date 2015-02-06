@@ -1,10 +1,10 @@
-set(TARGET glrender)
+set(TARGET GlRender)
 
 file(GLOB_RECURSE HDR "include/*.h")
 file(GLOB_RECURSE PVT_HDR "src/*.h")
 file(GLOB_RECURSE SRC "src/*.cpp")
 
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/src")
+include_directories("${GLRENDER_SRC_DIR}")
 
 add_definitions(-DGLRENDER_EXPORT)
 

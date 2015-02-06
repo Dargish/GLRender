@@ -1,19 +1,23 @@
-set(TARGET tests)
+if(MSVC)
+	set(VCXPROJ_FILE ${CMAKE_CURRENT_SOURCE_DIR}/tests.vcxproj.user)
+endif()
 
-file(GLOB_RECURSE SRC *.cpp)
-file(GLOB_RECURSE HDR "src/*.h")
+function(ADD_GLR_TEST TEST_NAME)
+	file(GLOB_RECURSE SRC *.cpp)
+	file(GLOB_RECURSE HDR "src/*.h")
 
-add_executable(${TARGET} ${SRC} ${HDR})
+	add_executable(${TEST_NAME} ${SRC} ${HDR})
+	message(STATUS "target_use_dependencies(${TEST_NAME} ${ARGN})")
+	target_use_dependencies(${TEST_NAME} ${ARGN})
 
-# target_link_libraries(${TARGET} glrender)
+	if(MSVC)
+		set_property(TARGET ${TEST_NAME} PROPERTY FOLDER "Tests")
+		add_source_group(${CMAKE_CURRENT_SOURCE_DIR})
+		configure_file(${VCXPROJ_FILE} ${TEST_NAME}.vcxproj.user COPYONLY)
+	endif()
 
-target_use_dependencies(${TARGET} boost_serialization)
+	add_test(${TEST_NAME} ${TEST_NAME})
+	message(STATUS "Added test ${TEST_NAME}")
+endfunction()
 
-set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")
-ADD_SOURCE_GROUP(${CMAKE_CURRENT_SOURCE_DIR})
-
-# Copy vcxproj settings file with instructions on where to run
-configure_file(${TARGET}.vcxproj.user ${TARGET}.vcxproj.user COPYONLY)
-
-install(TARGETS ${TARGET}
-  RUNTIME DESTINATION bin)
+add_subdirectory(FileArchiveTest)

@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.0)
 project(GLRender)
+enable_testing()
 
 ##########
 # Global Options
@@ -20,7 +21,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 find_package(PkgConfig REQUIRED)
 
 set(GLRENDER_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLRender/include")
-include_directories(${GLRENDER_INCLUDE_DIR})  # Everything will need glrender
+set(GLRENDER_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLRender/src")
+include_directories(${GLRENDER_INCLUDE_DIR})  # Everything will need GlRender
 
 set(GLM_INCLUDE_DIRS ${GLM_ROOT}/include)
 include_directories(${GLM_INCLUDE_DIRS})  # Everything will need glm
@@ -104,5 +106,5 @@ endfunction()
 # Include projects
 ##########
 
-# add_subdirectory(GLRender)
+add_subdirectory(GLRender)
 add_subdirectory(Tests)
