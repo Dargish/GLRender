@@ -19,7 +19,7 @@ namespace boost
 
 namespace glr
 {
-	class FileOArchive
+	class GLRENDERAPI FileOArchive
 	{
 	public:
 		FileOArchive(const string& filePath);
@@ -29,7 +29,7 @@ namespace glr
 		boost::archive::text_oarchive archive;
 	};
 
-	class FileIArchive
+	class GLRENDERAPI FileIArchive
 	{
 	public:
 		FileIArchive(const string& filePath);

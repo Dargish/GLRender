@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GLRender/GLRender.h>
+
 // STL
 #include <string>
 

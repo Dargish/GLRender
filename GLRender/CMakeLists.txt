@@ -1,22 +1,31 @@
 set(TARGET GlRender)
 
+add_definitions(-DGLRENDER_EXPORT)
+
 file(GLOB_RECURSE HDR "include/*.h")
 file(GLOB_RECURSE PVT_HDR "src/*.h")
 file(GLOB_RECURSE SRC "src/*.cpp")
 
-include_directories("${GLRENDER_SRC_DIR}")
-
-add_definitions(-DGLRENDER_EXPORT)
-
 add_library(${TARGET} SHARED ${SRC} ${HDR} ${PVT_HDR})
 
-if (BOOST_FOUND)
-  include_directories(${BOOST_INCLUDE_DIRS})
-  target_link_libraries(${TARGET} ${BOOST_LIBRARIES})
+target_include_directories(${TARGET} PUBLIC "${GLRENDER_SRC_DIR}")
+
+target_use_dependencies(
+	${TARGET}
+		boost_serialization
+	)
+
+if(MSVC)
+	set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")
+	ADD_SOURCE_GROUP(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
-set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")
-ADD_SOURCE_GROUP(${CMAKE_CURRENT_SOURCE_DIR})
-
-install(TARGETS ${TARGET} LIBRARY DESTINATION lib)
-install(DIRECTORY "include" DESTINATION include)
+install(
+	TARGETS ${TARGET}
+	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib
+	)
+install(
+	DIRECTORY "include"
+	DESTINATION include
+	)

@@ -16,7 +16,8 @@ function(ADD_GLR_TEST TEST_NAME)
 		configure_file(${VCXPROJ_FILE} ${TEST_NAME}.vcxproj.user COPYONLY)
 	endif()
 
-	add_test(${TEST_NAME} ${TEST_NAME})
+	add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME} WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/_build/GLRender/Debug")
+
 	message(STATUS "Added test ${TEST_NAME}")
 endfunction()
 
