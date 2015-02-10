@@ -6,6 +6,8 @@ mkdir _build
 cd _build
 cmake -DCMAKE_INSTALL_PREFIX=./install %* ..
 cd ..
+xcopy %CD%\..\GLRenderDependencies\bin\*.dll %CD%\_build\GLRender\Debug\ /Q
+xcopy %CD%\..\GLRenderDependencies\bin\*.dll %CD%\_build\GLRender\Release\ /Q
 if EXIST %CD%\_build\GLRender.sln (
 start /B "%VS120COMNTOOLS%\..\IDE\devenv.exe" "%CD%\_build\GLRender.sln"
 ) ELSE (

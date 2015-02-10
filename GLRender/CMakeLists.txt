@@ -1,4 +1,4 @@
-set(TARGET GlRender)
+set(TARGET GLRender)
 
 add_definitions(-DGLRENDER_EXPORT)
 
@@ -10,10 +10,14 @@ add_library(${TARGET} SHARED ${SRC} ${HDR} ${PVT_HDR})
 
 target_include_directories(${TARGET} PUBLIC "${GLRENDER_SRC_DIR}")
 
-target_use_dependencies(
-	${TARGET}
-		boost_serialization
-	)
+if(MSVC)
+	target_link_library(${TARGET} libboost_serialization-vc120-mt-1_57.lib libboost_serialization-vc120-mt-gd-1_57.lib)
+	target_link_library(${TARGET} sfml-graphics.lib sfml-graphics-d.lib)
+	target_link_library(${TARGET} sfml-window.lib sfml-window-d.lib)
+	target_link_library(${TARGET} sfml-system.lib sfml-system-d.lib)
+else()
+	target_link_libraries(${TARGET} boost_serialization sfml-graphics sfml-window sfml-system)
+endif()
 
 if(MSVC)
 	set_property(TARGET ${TARGET} PROPERTY FOLDER "Projects")

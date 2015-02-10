@@ -27,7 +27,7 @@ include_directories(${DEPENDENCIES_INCLUDE_DIR})
 
 set(GLRENDER_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLRender/include")
 set(GLRENDER_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLRender/src")
-include_directories(${GLRENDER_INCLUDE_DIR})  # Everything will need GlRender
+include_directories(${GLRENDER_INCLUDE_DIR})  # Everything will need GLRender
 
 
 ##########
@@ -70,26 +70,10 @@ macro(ADD_SOURCE_GROUP CURR_DIR)
 	SOURCE_GROUP_RECURSE(${CURR_DIR} "")
 endmacro()
 
-SET(LINK_LIBRARY Release Foo Debug Foo_d)
-function(TARGET_USE_DEPENDENCIES TARGET)
-  set(DEPENDENCIES ${ARGN})
-  foreach(DEPENDENCY ${DEPENDENCIES})
-    if(MSVC)
-      string(FIND ${DEPENDENCY} "boost_" IS_BOOST)
-      message(STATUS "IS_BOOST: ${IS_BOOST}")
-      if (${IS_BOOST} EQUAL 0)
-        set(LIB_NAME "lib${DEPENDENCY}-vc120-mt-1_57.lib")
-        set(LIBD_NAME "lib${DEPENDENCY}-vc120-mt-gd-1_57.lib")
-      else()
-        set(LIB_NAME "lib${DEPENDENCY}.lib")
-        set(LIBD_NAME "lib${DEPENDENCY}-gd.lib")
-      endif()
-    else()      
-      set(LIB_NAME "lib${DEPENDENCY}.so")
-      set(LIBD_NAME "lib${DEPENDENCY}-d.so")
-    endif()
+function(TARGET_LINK_LIBRARY TARGET LIB_NAME LIBD_NAME)
     get_filename_component(LIB_PATH "${DEPENDENCIES_LIB_DIR}/${LIB_NAME}" REALPATH)
     get_filename_component(LIBD_PATH "${DEPENDENCIES_LIB_DIR}/${LIBD_NAME}" REALPATH)
+
     if((EXISTS ${LIB_PATH}) AND (EXISTS ${LIBD_PATH}))
       message(STATUS "Linking ${TARGET} to ${LIB_PATH} with debug")
       target_link_libraries(${TARGET} optimized ${LIB_PATH} debug ${LIBD_PATH})
@@ -100,7 +84,6 @@ function(TARGET_USE_DEPENDENCIES TARGET)
       message(STATUS "Linking ${TARGET} to ${DEPENDENCY}")
       target_link_libraries(${TARGET} ${DEPENDENCY})
     endif()
-  endforeach()
 endfunction()
 
 ##########

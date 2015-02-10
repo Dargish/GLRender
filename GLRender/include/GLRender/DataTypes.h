@@ -4,6 +4,7 @@
 
 // STL
 #include <string>
+#include <memory>
 
 // GLM
 #include <glm/glm.hpp>
