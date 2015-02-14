@@ -16,10 +16,8 @@ namespace glr
 		Window();
 		virtual ~Window();
 
-		void create(
-			uint width,
-			uint height,
-			string title = "GLRender");
+		void create(uint width, uint height, string title = "GLRender");
+		void create(WindowHandle handle);
 
 		void show();
 		void hide();

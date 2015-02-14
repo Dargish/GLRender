@@ -1,15 +1,23 @@
 #include <GLRender/DataTypes.h>
 #include <GLRender/Graphics/Window.h>
+#include <GLRender/World/World.h>
 
 namespace glr
 {
 	class GLRENDERAPI Game
 	{
 	public:
-		Game();
-		virtual ~Game();
+		World& world();
+		const World& world() const;
 
-		void createWindow(Window& window, uint width, uint height, string title = "GLRender");
-		void registerWindow(Window& window);
+		Window& showWindow(uint width, uint height, string title = "GLRender");
+		Window& showWindow(WindowHandle handle);
+
+		Window& window();
+		const Window& window() const;
+
+	private:
+		World m_world;
+		Window m_window;
 	};
 }

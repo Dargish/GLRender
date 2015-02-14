@@ -11,6 +11,7 @@
 
 namespace glr
 {
+	typedef void* WindowHandle;
 	typedef std::string string;
 	typedef unsigned char uchar;
 	typedef unsigned short ushort;

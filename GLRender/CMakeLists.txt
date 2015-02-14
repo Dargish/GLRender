@@ -30,6 +30,6 @@ install(
 	LIBRARY DESTINATION lib
 	)
 install(
-	DIRECTORY "include"
-	DESTINATION include
+	DIRECTORY include
+	DESTINATION ${CMAKE_INSTALL_PREFIX}
 	)

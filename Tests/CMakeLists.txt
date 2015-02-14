@@ -4,7 +4,7 @@ endif()
 
 function(ADD_GLR_TEST TEST_NAME)
 	file(GLOB_RECURSE SRC *.cpp)
-	file(GLOB_RECURSE HDR "src/*.h")
+	file(GLOB_RECURSE HDR *.h)
 
 	add_executable(${TEST_NAME} ${SRC} ${HDR})
 	message(STATUS "target_use_dependencies(${TEST_NAME} ${ARGN})")
@@ -23,3 +23,4 @@ endfunction()
 
 add_subdirectory(FileArchiveTest)
 add_subdirectory(CreateWindowTest)
+add_subdirectory(CreateEntityTest)

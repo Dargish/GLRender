@@ -19,14 +19,18 @@ namespace glr
 		}
 	}
 
-	void Window::create(
-		uint width,
-		uint height,
-		string title /*= "GLRender"*/)
+	void Window::create(uint width, uint height, string title /*= "GLRender"*/)
 	{
 		sf::VideoMode videoMode(width, height);
-		sf::ContextSettings contextSettings(24, 8, 4, 4, 5);
+		sf::ContextSettings contextSettings(32, 0, 4, 4, 5);
 		m_internal.reset(new sf::RenderWindow(videoMode, title, sf::Style::Default, contextSettings));
+	}
+
+	void Window::create(WindowHandle handle)
+	{
+		sf::WindowHandle wHandle = (sf::WindowHandle)handle;
+		sf::ContextSettings contextSettings(32, 0, 4, 4, 5);
+		m_internal.reset(new sf::RenderWindow(wHandle, contextSettings));
 	}
 
 	void Window::show()

@@ -2,25 +2,35 @@
 
 namespace glr
 {
-	Game::Game()
+	World& Game::world()
 	{
-
+		return m_world;
 	}
 
-	Game::~Game()
+	const World& Game::world() const
 	{
-
+		return m_world;
 	}
 
-	void Game::createWindow(Window& window, uint width, uint height, string title /*= "GLRender"*/)
+	Window& Game::showWindow(uint width, uint height, string title /*= "GLRender"*/)
 	{
-		window.create(width, height, title);
-		registerWindow(window);
+		m_window.create(width, height, title);
+		return m_window;
 	}
 
-	void Game::registerWindow(Window& window)
+	Window& Game::showWindow(WindowHandle handle)
 	{
-		// Todo: Expand on this.
-		window.registerCallbacks();
+		m_window.create(handle);
+		return m_window;
+	}
+
+	Window& Game::window()
+	{
+		return m_window;
+	}
+
+	const Window& Game::window() const
+	{
+		return m_window;
 	}
 }

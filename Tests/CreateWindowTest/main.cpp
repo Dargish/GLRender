@@ -6,9 +6,9 @@ int main()
 {
 	Game game;
 
-	Window window;
+	
 
-	game.createWindow(window, 1280, 720, "CreateWindowTest");
+	Window& window = game.showWindow(1280, 720, "CreateWindowTest");
 	window.hide();
 	window.show();
 	window.destroy();
