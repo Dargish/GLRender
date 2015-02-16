@@ -1,3 +1,5 @@
+#pragma once
+
 #include <GLRender/GLRender.h>
 #include <math.h>
 #include <algorithm>
