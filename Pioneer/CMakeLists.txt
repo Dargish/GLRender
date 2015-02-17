@@ -1,3 +1,7 @@
+if(MSVC)
+  set(VCXPROJ_FILE ${CMAKE_CURRENT_SOURCE_DIR}/pioneer.vcxproj.user)
+endif()
+
 set(TARGET Pioneer)
 
 file(GLOB_RECURSE HDR src/*.cpp)

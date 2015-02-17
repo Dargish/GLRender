@@ -1,5 +1,5 @@
 if(MSVC)
-	set(VCXPROJ_FILE ${CMAKE_CURRENT_SOURCE_DIR}/tests.vcxproj.user)
+  set(VCXPROJ_FILE ${CMAKE_CURRENT_SOURCE_DIR}/tests.vcxproj.user)
 endif()
 
 function(ADD_GLR_TEST TEST_NAME)

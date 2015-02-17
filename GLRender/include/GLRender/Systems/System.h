@@ -12,6 +12,5 @@ namespace glr
 		virtual void update(float deltaTime) = 0;
 
 	private:
-		std::vector<Entity&> m_interestingEntities;
 	};
 }

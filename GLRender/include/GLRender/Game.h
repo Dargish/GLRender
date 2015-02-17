@@ -31,7 +31,7 @@ namespace glr
 		long frameTimeLimit() const;
 		void setFrameTimeLimit(long frameTimeLimit);
 
-	private:	    
+	private:
 		void initGlew();
 		bool m_glewInitted;
 

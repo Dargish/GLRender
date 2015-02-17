@@ -48,9 +48,4 @@ namespace glr
 			m_camera->frustum.corners[i] = Vector3(pos.x / pos.w, pos.y / pos.w, pos.z / pos.w);
 		}
 	}
-
-	void Camera::render(World& world, Renderer& renderer)
-	{
-
-	}
 }

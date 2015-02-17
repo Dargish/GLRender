@@ -4,6 +4,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
+// Glew
+#include <GL/glew.h>
+
 namespace glr
 {
 	Window::Window()
@@ -33,6 +36,15 @@ namespace glr
 		m_internal.reset(new sf::RenderWindow(wHandle, contextSettings));
 	}
 
+	bool Window::isOpen() const
+	{
+		if (m_internal.get() != NULL)
+		{
+			return m_internal->isOpen();
+		}
+		return false;
+	}
+
 	void Window::show()
 	{
 		if (m_internal.get() != NULL)
@@ -57,10 +69,24 @@ namespace glr
 		}
 	}
 
-	void Window::registerCallbacks()
+	void Window::pollEvents()
 	{
 		if (m_internal.get() != NULL)
 		{
+			sf::Event event;
+			while (m_internal->pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					destroy();
+				}
+				else if (event.type == sf::Event::Resized)
+				{
+					// adjust the viewport when the window is resized
+					glViewport(0, 0, event.size.width, event.size.height);
+					//world->camera()->updateProjectionMatrix(event.size.width, event.size.height);
+				}
+			}
 		}
 	}
 }

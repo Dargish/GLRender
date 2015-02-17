@@ -9,9 +9,10 @@ namespace glr
 	class GLRENDERAPI Entity
 	{
 	public:
-		// Movable
 		Entity();
 		Entity(const string& name);
+
+		// Movable
 		Entity(Entity&& o);
 		Entity& operator=(Entity&& o);
 

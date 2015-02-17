@@ -15,7 +15,7 @@ namespace glr
 	void World::update(float deltaTime)
 	{
 		SystemVector::iterator it = m_systems.begin();
-		for(; it != systems.end(); ++it)
+		for (; it != m_systems.end(); ++it)
 		{
 			(*it)->update(deltaTime);
 		}
@@ -52,9 +52,10 @@ namespace glr
 		return model;
 	}
 
-	Entity& World::addCamera(const string& name)
+	Camera World::addCamera(const string& name)
 	{
-		Entity& camera = createEntity(name);
+		Entity& cameraEntity = createEntity(name);
+		Camera camera(cameraEntity);
 		return camera;
 	}
 }

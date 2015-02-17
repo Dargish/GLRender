@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include <SFML/Graphics.hpp>
+
 namespace glr
 {
 	// Public
@@ -15,9 +17,8 @@ namespace glr
 
 	int Game::run()
 	{
-		sf::Event event;
 		sf::Clock clock;
-		while (m_window->isOpen())
+		while (m_window.isOpen())
 		{
 			// Calculate frame time
 			float deltaTime = clock.getElapsedTime().asSeconds();
@@ -25,33 +26,18 @@ namespace glr
 			clock.restart();
 
 			// Handle events
-			while (m_window->pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
-					m_window->close();
-				}
-				else if (event.type == sf::Event::Resized)
-				{
-					// adjust the viewport when the window is resized
-					glViewport(0, 0, event.size.width, event.size.height);
-					//world->camera()->updateProjectionMatrix(event.size.width, event.size.height);
-				}
-			}
+			m_window.pollEvents();
 
-			world->update(deltaTime);
+			m_world.update(deltaTime);
 
-			world->draw(deltaTime);
-
-			m_window->display();
+			//m_window.display();
 
 			// Sleep for excess time
 			sf::Int64 frameTime = clock.getElapsedTime().asMicroseconds();
-			if (frameTime < FRAMETIME_LIMIT)
+			if (frameTime < m_frameTimeLimit)
 			{
-				sf::sleep(sf::microseconds(FRAMETIME_LIMIT - frameTime));
+				sf::sleep(sf::microseconds(m_frameTimeLimit - frameTime));
 			}
-			fps = int(1000000.0f / (float(clock.getElapsedTime().asMicroseconds())));
 		}
 		return 0;
 	}
@@ -68,11 +54,11 @@ namespace glr
 
 	Window& Game::showWindow(uint width, uint height, string title /*= "GLRender"*/)
 	{
+		m_window.create(width, height, title);
 		if (!m_glewInitted)
 		{
 			initGlew();
 		}
-		m_window.create(width, height, title);
 		return m_window;
 	}
 
@@ -111,7 +97,7 @@ namespace glr
 		GLenum err = glewInit();
 		if (err != GLEW_OK)
 		{
-			throw std::runtime_error((boost::format("glewInit() failed: %s") % glewGetErrorString(err)).str());
+			throw std::runtime_error(string("glewInit() failed: ") + string((char*)glewGetErrorString(err)));
 		}
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);

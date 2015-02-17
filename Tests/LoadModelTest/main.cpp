@@ -17,7 +17,7 @@ int main()
 
 	Entity& model = world.addModel("Model1", "cerberus.fbx");
 
-	Entity& camera = world.addCamera("Camera1");
+	Camera camera = world.addCamera("Camera1");
 
 	std::shared_ptr<ControlSystem> controlSystem = game.addSystem<ControlSystem>();
 

@@ -3,6 +3,7 @@
 #include <GLRender/DataTypes.h>
 #include <GLRender/World/Entity.h>
 #include <GLRender/Systems/System.h>
+#include <GLRender/Graphics/Camera.h>
 
 #include <map>
 #include <vector>
@@ -12,8 +13,9 @@ namespace glr
 	class GLRENDERAPI World
 	{
 	public:
-		// Movable
 		World();
+
+		// Movable
 		World(World&& o);
 		World& operator=(World&& o);
 
@@ -21,13 +23,11 @@ namespace glr
 	    World(const World&) = delete;
 	    World& operator=(const World&) = delete;
 
+	    // Update all systems
 	    void update(float deltaTime);
 
 		Entity& createEntity(const string& name);
 		Entity& entity(const string& name);
-
-		Entity& addModel(const string& name, const string& modelPath);
-		Entity& addCamera(const string& name);
 
 		template<class T>
 		std::shared_ptr<T> addSystem()
@@ -36,6 +36,10 @@ namespace glr
 			m_systems.push_back(ptr);
 			return ptr;
 		}
+
+		// Helper methods
+		Entity& addModel(const string& name, const string& modelPath);
+		Camera addCamera(const string& name);
 
 	private:
 		typedef std::map<string, Entity> EntityMap;
