@@ -8,8 +8,8 @@
 
 // GLM
 #include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
+//#include <glm/gtc/quaternion.hpp>
+//#include <glm/gtx/quaternion.hpp>
 
 namespace glr
 {
@@ -24,5 +24,5 @@ namespace glr
 	typedef glm::vec2 Vector2;
 	typedef glm::ivec2 Point2;
 	typedef glm::ivec3 Point3;
-	typedef glm::quat Quaternion;
+	//typedef glm::quat Quaternion;
 }

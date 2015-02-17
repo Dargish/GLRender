@@ -9,6 +9,10 @@ namespace glr
 	class GLRENDERAPI Game
 	{
 	public:
+		Game();
+
+		int run();
+
 		World& world();
 		const World& world() const;
 
@@ -24,8 +28,16 @@ namespace glr
 			return std::shared_ptr<T>(new T);
 		}
 
-	private:
+		long frameTimeLimit() const;
+		void setFrameTimeLimit(long frameTimeLimit);
+
+	private:	    
+		void initGlew();
+		bool m_glewInitted;
+
 		World m_world;
 		Window m_window;
+
+		long m_frameTimeLimit;
 	};
 }

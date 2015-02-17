@@ -27,7 +27,12 @@ namespace glr
 
 		// Update view matrix
 		Vector3 position = m_transform->position;
-		Vector3 direction;// = ...
+		Vector3 rot = m_transform->rotation;
+		Vector3 direction(
+			std::sin(rot.x) * std::cos(rot.y),
+			-std::sin(rot.x),
+			std::cos(rot.y) * std::cos(rot.x));
+		direction = glm::normalize(direction);
 		Vector3 right = glm::cross(direction, Vector3(0, 1, 0));
 		right = glm::normalize(right);
 		Vector3 up = glm::cross(right, direction);

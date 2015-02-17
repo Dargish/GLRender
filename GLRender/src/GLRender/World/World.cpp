@@ -12,6 +12,15 @@ namespace glr
 		m_entities = std::move(o.m_entities);
 	}
 
+	void World::update(float deltaTime)
+	{
+		SystemVector::iterator it = m_systems.begin();
+		for(; it != systems.end(); ++it)
+		{
+			(*it)->update(deltaTime);
+		}
+	}
+
 	World& World::operator=(World&& o)
 	{
 		m_entities = std::move(o.m_entities);

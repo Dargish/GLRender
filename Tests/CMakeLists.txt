@@ -7,7 +7,6 @@ function(ADD_GLR_TEST TEST_NAME)
 	file(GLOB_RECURSE HDR *.h)
 
 	add_executable(${TEST_NAME} ${SRC} ${HDR})
-	message(STATUS "target_use_dependencies(${TEST_NAME} ${ARGN})")
 
 	if(MSVC)
 		set_property(TARGET ${TEST_NAME} PROPERTY FOLDER "Tests")
