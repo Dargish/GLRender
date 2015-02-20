@@ -18,7 +18,7 @@ if(MSVC)
 	target_link_library(${TARGET} glew32.lib glew32.lib)
 	target_link_libraries(${TARGET} opengl32.lib)
 else()
-	target_link_libraries(${TARGET} boost_serialization sfml-graphics sfml-window sfml-system glew32 GL)
+	target_link_libraries(${TARGET} boost_serialization sfml-graphics sfml-window sfml-system GLEW GL)
 endif()
 
 if(MSVC)

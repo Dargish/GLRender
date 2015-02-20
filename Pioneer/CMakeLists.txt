@@ -16,3 +16,5 @@ if(MSVC)
 	add_source_group(${CMAKE_CURRENT_SOURCE_DIR})
 	configure_file(${VCXPROJ_FILE} ${TARGET}.vcxproj.user COPYONLY)
 endif()
+
+install(TARGETS ${TARGET} RUNTIME DESTINATION bin)

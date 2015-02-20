@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLRender\DataTypes.h>
+#include <GLRender/DataTypes.h>
 
 namespace sf
 {
