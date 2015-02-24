@@ -15,7 +15,7 @@ namespace glr
 		}
 	}
 
-	void Camera::update(float deltaTime)
+	void Camera::update(float /*deltaTime*/)
 	{
 		// Update projection matrix
 		float near = m_camera->near;
