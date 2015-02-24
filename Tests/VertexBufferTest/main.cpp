@@ -1,4 +1,4 @@
-#include <GLRender/Graphics/VertexBuffer.h>
+#include <GLRender/Graphics/GlBuffer.h>
 
 using namespace glr;
 
@@ -13,14 +13,14 @@ struct Vertex
 	Vector3 binormal;
 };
 
-typedef VertexBuffer<Vertex> MyVertexBuffer;
+typedef GlBuffer<Vertex> VertexBuffer;
 
 int main()
 {
-	MyVertexBuffer vBuffer;
+	VertexBuffer vertexBuffer;
 
-	std::cerr << vBuffer.size() << std::endl;
-	std::cerr << vBuffer.Stride << std::endl;
+	std::cerr << vertexBuffer.size() << std::endl;
+	std::cerr << vertexBuffer.Stride << std::endl;
 
 	return 0;
 }
