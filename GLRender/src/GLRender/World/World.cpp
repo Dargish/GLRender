@@ -1,4 +1,5 @@
 #include <GLRender/World/World.h>
+#include <GLRender/Component/ModelComponent.h>
 
 namespace glr
 {
@@ -16,15 +17,6 @@ namespace glr
 	{
 		m_entities = std::move(o.m_entities);
 		return *this;
-	}
-
-	void World::update(float deltaTime)
-	{
-		SystemVector::iterator it = m_systems.begin();
-		for (; it != m_systems.end(); ++it)
-		{
-			(*it)->update(deltaTime);
-		}
 	}
 
 	Entity& World::createEntity(const string& name)
@@ -49,6 +41,8 @@ namespace glr
 	Entity& World::addModel(const string& name, const string& modelPath)
 	{
 		Entity& model = createEntity(name);
+		std::shared_ptr<ModelComponent> modelComponent = model.addComponent<ModelComponent>();
+		modelComponent->model.load(modelPath);
 		return model;
 	}
 

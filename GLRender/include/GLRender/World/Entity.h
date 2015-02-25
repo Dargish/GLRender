@@ -2,7 +2,7 @@
 
 #include <GLRender/DataTypes.h>
 
-#include <GLRender/World/Component.h>
+#include <GLRender/Component/Component.h>
 
 namespace glr
 {

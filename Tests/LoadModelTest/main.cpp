@@ -1,6 +1,6 @@
 #include <GLRender/Game.h>
 
-#include <GLRender/Systems/ControlSystem.h>
+#include <GLRender/System/ControlSystem.h>
 
 using namespace glr;
 
@@ -10,11 +10,7 @@ int main()
 
 	World& world = game.world();
 
-	/*Entity& model = */world.addModel("Model1", "cerberus.fbx");
-
-	Camera camera = world.addCamera("Camera1");
-
-	std::shared_ptr<ControlSystem> controlSystem = game.addSystem<ControlSystem>();
+	/*Entity& model = */world.addModel("Model1", "data/models/cerberus.fbx");
 
 	return 0;
 }

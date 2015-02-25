@@ -6,7 +6,7 @@
 
 namespace glr
 {
-	struct GLRENDERAPI Component
+	struct Component
 	{
 		virtual ~Component() { };
 	};

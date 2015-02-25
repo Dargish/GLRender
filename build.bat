@@ -8,7 +8,8 @@ cmake -DCMAKE_INSTALL_PREFIX=./install %* ..
 cd ..
 xcopy %CD%\..\GLRenderDependencies\bin\*.dll %CD%\_build\GLRender\Debug\ /Q
 xcopy %CD%\..\GLRenderDependencies\bin\*.dll %CD%\_build\GLRender\Release\ /Q
-xcopy %CD%\Pioneer\data %CD%\_build\Pioneer\ /Q
+xcopy %CD%\Pioneer\data %CD%\_build\Pioneer\data\ /E /Q
+xcopy %CD%\Tests\LoadModelTest\data %CD%\_build\Tests\LoadModelTest\data\ /E /Q
 if EXIST %CD%\_build\GLRender.sln (
 start /B "%VS120COMNTOOLS%\..\IDE\devenv.exe" "%CD%\_build\GLRender.sln"
 ) ELSE (

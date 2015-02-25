@@ -28,9 +28,11 @@ namespace glr
 			// Handle events
 			m_window.pollEvents();
 
-			m_world.update(deltaTime);
+			update(deltaTime);
 
-			//m_window.display();
+			draw(deltaTime);
+
+			m_window.display();
 
 			// Sleep for excess time
 			sf::Int64 frameTime = clock.getElapsedTime().asMicroseconds();
@@ -90,6 +92,23 @@ namespace glr
 
 
 	// Private
+
+	void Game::update(float deltaTime)
+	{
+		SystemVector::iterator it = m_systems.begin();
+		for (; it != m_systems.end(); ++it)
+		{
+			(*it)->update(m_world, deltaTime);
+		}
+	}
+
+	void Game::draw(float deltaTime)
+	{
+		if (m_renderer.get())
+		{
+			m_renderer->draw(m_world, deltaTime);
+		}
+	}
 
 	void Game::initGlew()
 	{		

@@ -89,4 +89,12 @@ namespace glr
 			}
 		}
 	}
+
+	void Window::display()
+	{
+		if (m_internal.get() != NULL)
+		{
+			m_internal->display();
+		}
+	}
 }

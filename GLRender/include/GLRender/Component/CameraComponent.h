@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLRender/World/Component.h>
+#include <GLRender/Component/Component.h>
 
 namespace glr
 {

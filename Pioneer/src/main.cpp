@@ -1,5 +1,6 @@
 #include <GLRender/Game.h>
 #include <GLRender/World/World.h>
+#include <GLRender/Renderer/ForwardRenderer.h>
 
 using namespace glr;
 
@@ -12,6 +13,8 @@ int main()
 	World& world = game.world();
 
 	world.addModel("cerberus", "data/models/cerberus.fbx");
+
+	/*std::shared_ptr<ForwardRenderSystem> renderSystem = */game.setRenderer<ForwardRenderer>();
 
 	return game.run();
 }

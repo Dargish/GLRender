@@ -6,7 +6,7 @@
 namespace glr
 {
 	template<class VERTEX_TYPE>
-	class Mesh
+	class GLRENDERAPI Mesh
 	{
 	public:
 		typedef GlBuffer<VERTEX_TYPE> VertexBuffer;
@@ -16,7 +16,7 @@ namespace glr
 			return m_vertexBuffer;
 		}
 
-		IndexBuffer& IndexBuffer()
+		IndexBuffer& indexBuffer()
 		{
 			return m_indexBuffer;
 		}

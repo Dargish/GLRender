@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GLRender/DataTypes.h>
+#include <GLRender/Graphics/Mesh.h>
 
 namespace glr
 {
@@ -13,13 +14,18 @@ namespace glr
 		Vector3 binormal;
 	};
 
-	class Model
+	class GLRENDERAPI Model
 	{
 	public:
 		typedef Mesh<Vertex> MeshType;
+		typedef std::vector<MeshType> Meshes;
+
 		Model();
+		Model(const string& path);
+
+		void load(const string& path);
 
 	private:
-		MeshType m_mesh;
+		Meshes m_meshes;
 	};
 }

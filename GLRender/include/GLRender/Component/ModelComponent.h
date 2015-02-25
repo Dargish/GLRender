@@ -1,5 +1,5 @@
 #pragma once
-#include <GLRender/World/Component.h>
+#include <GLRender/Component/Component.h>
 #include <GLRender/Graphics/Model.h>
 
 namespace glr

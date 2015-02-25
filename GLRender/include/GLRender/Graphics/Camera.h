@@ -2,13 +2,12 @@
 
 #include <GLRender/DataTypes.h>
 #include <GLRender/World/Entity.h>
-#include <GLRender/Graphics/Renderer.h>
-#include <GLRender/Components/CameraComponent.h>
-#include <GLRender/Components/TransformComponent.h>
+#include <GLRender/Component/CameraComponent.h>
+#include <GLRender/Component/TransformComponent.h>
 
 namespace glr
 {
-	class Camera
+	class GLRENDERAPI Camera
 	{
 	public:
 		Camera(Entity& entity);

@@ -1,6 +1,9 @@
-#include <GLRender/Systems/CameraSystem.h>
+#include <GLRender/System/CameraSystem.h>
 
 namespace glr
 {
-	
+	void CameraSystem::update(World& world, float deltaTime)
+	{
+		
+	}
 }

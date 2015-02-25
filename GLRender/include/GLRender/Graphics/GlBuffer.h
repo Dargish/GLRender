@@ -8,7 +8,11 @@ namespace glr
 {
 	class BaseGlBuffer
 	{
+	public:
+		virtual ~BaseGlBuffer()
+		{
 
+		}
 	};
 
 	template<class ELEMENT_TYPE>
@@ -21,6 +25,11 @@ namespace glr
 		static const size_t Stride = sizeof(element_type);
 
 		GlBuffer()
+		{
+
+		}
+
+		virtual ~GlBuffer()
 		{
 
 		}
@@ -43,9 +52,10 @@ namespace glr
 			return *this;
 		}
 		
+		// Commented out, needs to go in a vector
 		// Noncopyable
-	    GlBuffer(const GlBuffer&) = delete;
-	    GlBuffer& operator=(const GlBuffer&) = delete;
+	    //GlBuffer(const GlBuffer&) = delete;
+	    //GlBuffer& operator=(const GlBuffer&) = delete;
 
 		element_type* data()
 		{
@@ -57,7 +67,7 @@ namespace glr
 			return m_buffer.size();
 		}
 
-		void resize(size_type)
+		void resize(size_type size)
 		{
 			m_buffer.resize(size);
 		}
