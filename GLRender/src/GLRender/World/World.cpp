@@ -38,6 +38,31 @@ namespace glr
 		}
 	}
 
+	World::EntityMap::iterator World::begin()
+	{
+		return m_entities.begin();
+	}
+
+	World::EntityMap::const_iterator World::begin() const
+	{
+		return m_entities.begin();
+	}
+
+	World::EntityMap::iterator World::end()
+	{
+		return m_entities.end();
+	}
+
+	World::EntityMap::const_iterator World::end() const
+	{
+		return m_entities.end();
+	}
+
+	bool World::hasEntity(const string& name)
+	{
+		return m_entities.find(name) != m_entities.end();
+	}
+
 	Entity& World::addModel(const string& name, const string& modelPath)
 	{
 		Entity& model = createEntity(name);

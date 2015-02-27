@@ -46,12 +46,42 @@ namespace glr
 		}
 
 		template<class T>
+		std::shared_ptr<const T> component() const
+		{
+			ComponentVector::const_iterator it = m_components.begin();
+			for (; it != m_components.end(); ++it)
+			{
+				std::shared_ptr<const T> ptr = std::dynamic_pointer_cast<const T>(*it);
+				if (ptr)
+				{
+					return ptr;
+				}
+			}
+			return std::shared_ptr<const T>();
+		}
+
+		template<class T>
 		bool getComponent(std::shared_ptr<T> comp)
 		{
 			ComponentVector::iterator it = m_components.begin();
 			for (; it != m_components.end(); ++it)
 			{
 				comp = std::dynamic_pointer_cast<T>(*it);
+				if (comp)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		template<class T>
+		bool getComponent(std::shared_ptr<const T> comp) const
+		{
+			ComponentVector::const_iterator it = m_components.begin();
+			for (; it != m_components.end(); ++it)
+			{
+				comp = std::dynamic_pointer_cast<const T>(*it);
 				if (comp)
 				{
 					return true;

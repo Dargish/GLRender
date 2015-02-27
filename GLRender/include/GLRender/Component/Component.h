@@ -10,6 +10,7 @@ namespace glr
 	{
 		virtual ~Component() { };
 	};
+	
 
 	typedef std::vector<std::shared_ptr<Component>> ComponentVector;
 }
