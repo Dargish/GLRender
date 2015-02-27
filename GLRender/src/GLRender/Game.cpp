@@ -57,10 +57,7 @@ namespace glr
 	Window& Game::showWindow(uint width, uint height, string title /*= "GLRender"*/)
 	{
 		m_window.create(width, height, title);
-		if (!m_glewInitted)
-		{
-			initGlew();
-		}
+		initGlew();
 		return m_window;
 	}
 
@@ -111,15 +108,18 @@ namespace glr
 	}
 
 	void Game::initGlew()
-	{		
-		glewExperimental = true;
-		GLenum err = glewInit();
-		if (err != GLEW_OK)
+	{
+		if (!m_glewInitted)
 		{
-			throw std::runtime_error(string("glewInit() failed: ") + string((char*)glewGetErrorString(err)));
+			glewExperimental = true;
+			GLenum err = glewInit();
+			if (err != GLEW_OK)
+			{
+				throw std::runtime_error(string("glewInit() failed: ") + string((char*)glewGetErrorString(err)));
+			}
+			glEnable(GL_CULL_FACE);
+			glEnable(GL_DEPTH_TEST);
+			m_glewInitted = true;
 		}
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
-		m_glewInitted = true;
 	}
 }

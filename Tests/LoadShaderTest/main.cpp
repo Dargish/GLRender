@@ -1,9 +1,14 @@
+#include <GLRender/Game.h>
 #include <GLRender/Graphics/Shader.h>
 
 using namespace glr;
 
 int main()
 {
+	Game game;
+
+	game.showWindow(1280, 720, "CreateWindowTest");
+
 	Shader shader;
 	shader.addSubShader("data/shaders/basic.vert");
 	shader.addSubShader("data/shaders/basic.frag");

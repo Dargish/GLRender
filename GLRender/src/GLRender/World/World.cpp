@@ -21,8 +21,8 @@ namespace glr
 
 	Entity& World::createEntity(const string& name)
 	{
-		m_entities.insert(EntityMap::value_type(name, Entity(name)));
-		return m_entities[name];
+		auto result = m_entities.emplace(name, Entity(name));
+		return (*result.first).second;
 	}
 
 	Entity& World::entity(const string& name)

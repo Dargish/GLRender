@@ -19,6 +19,11 @@ function(ADD_GLR_TEST TEST_NAME)
 		add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 	endif()
 
+	set(TEST_DATA "${CMAKE_CURRENT_SOURCE_DIR}/data")
+	if(IS_DIRECTORY ${TEST_DATA})
+		file(COPY ${TEST_DATA} DESTINATION "${PROJECT_SOURCE_DIR}/_build/GLRender/Debug")
+	endif()
+
 	message(STATUS "Added test ${TEST_NAME}")
 endfunction()
 
