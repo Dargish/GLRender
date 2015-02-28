@@ -25,19 +25,10 @@ namespace glr
 		const Window& window() const;
 
 		template<class T>
-		std::shared_ptr<T> addSystem()
-		{
-			std::shared_ptr<T> ptr(new T);
-			m_systems.push_back(ptr);
-			return ptr;
-		}
+		std::shared_ptr<T> addSystem();
 
 		template<class T>
-		std::shared_ptr<T> setRenderer()
-		{
-			m_renderer.reset(new T);
-			return std::dynamic_pointer_cast<T>(m_renderer);
-		}
+		std::shared_ptr<T> setRenderer();
 
 		long frameTimeLimit() const;
 		void setFrameTimeLimit(long frameTimeLimit);
@@ -59,4 +50,19 @@ namespace glr
 
 		long m_frameTimeLimit;
 	};
+
+	template<class T>
+	std::shared_ptr<T> Game::addSystem()
+	{
+		std::shared_ptr<T> ptr(new T);
+		m_systems.push_back(ptr);
+		return ptr;
+	}
+
+	template<class T>
+	std::shared_ptr<T> Game::setRenderer()
+	{
+		m_renderer.reset(new T);
+		return std::dynamic_pointer_cast<T>(m_renderer);
+	}
 }

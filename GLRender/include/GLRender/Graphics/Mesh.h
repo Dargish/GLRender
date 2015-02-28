@@ -5,24 +5,32 @@
 
 namespace glr
 {
+	class GLRENDERAPI BaseMesh
+	{
+	public:
+		virtual ~BaseMesh();
+
+		IndexBuffer& indexBuffer();
+
+	protected:
+		IndexBuffer m_indexBuffer;
+	};
+
 	template<class VERTEX_TYPE>
-	class GLRENDERAPI Mesh
+	class GLRENDERAPI Mesh : public BaseMesh
 	{
 	public:
 		typedef GlBuffer<VERTEX_TYPE> VertexBuffer;
 
-		VertexBuffer& vertexBuffer()
-		{
-			return m_vertexBuffer;
-		}
+		VertexBuffer& vertexBuffer();
 
-		IndexBuffer& indexBuffer()
-		{
-			return m_indexBuffer;
-		}
-
-	private:
+	protected:
 		VertexBuffer m_vertexBuffer;
-		IndexBuffer m_indexBuffer;
 	};
+
+	template<class VERTEX_TYPE>
+	typename Mesh<VERTEX_TYPE>::VertexBuffer& Mesh<VERTEX_TYPE>::vertexBuffer()
+	{
+		return m_vertexBuffer;
+	}
 }
