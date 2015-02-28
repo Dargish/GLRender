@@ -27,7 +27,6 @@ function(ADD_GLR_TEST TEST_NAME)
 	message(STATUS "Added test ${TEST_NAME}")
 endfunction()
 
-add_subdirectory(FileArchiveTest)
 add_subdirectory(CreateWindowTest)
 add_subdirectory(CreateEntityTest)
 add_subdirectory(LoadModelTest)
