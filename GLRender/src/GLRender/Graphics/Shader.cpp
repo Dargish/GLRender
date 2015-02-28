@@ -1,6 +1,8 @@
 #include <GLRender/Graphics/Shader.h>
 #include <GL/glew.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 // Todo: remove this in the future
 #include <iostream>
 #include <fstream>
@@ -131,6 +133,57 @@ namespace glr
 		glUseProgram(0);
 		glDisable(GL_FRAGMENT_PROGRAM_ARB);
 	}
+
+	void Shader::setValue(const std::string& name, float value)
+	{
+		uint loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			glUniform1f(loc, value);
+		}
+	}
+
+	void Shader::setValue(const std::string& name, const Vector2& value)
+	{
+		uint loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			glUniform2fv(loc, 1, glm::value_ptr(value));
+		}
+	}
+
+	void Shader::setValue(const std::string& name, const Vector3& value)
+	{
+		uint loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			glUniform3fv(loc, 1, glm::value_ptr(value));
+		}
+	}
+
+	void Shader::setValue(const std::string& name, const Matrix4& value)
+	{
+		uint loc = glGetUniformLocation(m_program, name.c_str());
+		if (loc > -1)
+		{
+			glUniformMatrix4fv(loc, 1, false, glm::value_ptr(value));
+		}
+	}
+
+	//void Shader::setValue(const std::string& name, const GLBuffer_Ptr& value, int textureUnit /*= -1*/)
+	//{
+	//	uint loc = glGetUniformLocation(m_program, name.c_str());
+	//	if (loc > -1)
+	//	{
+	//		if (textureUnit < 0)
+	//		{
+	//			textureUnit = nextTextureUnit();
+	//		}
+	//		ActivateTexture activateTexture(textureUnit);
+	//		value->bind();
+	//		glUniform1i(loc, textureUnit);
+	//	}
+	//}
 
 	void Shader::compileSubShader(uint subShader)
 	{

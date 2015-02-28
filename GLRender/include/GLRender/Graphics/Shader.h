@@ -20,6 +20,12 @@ namespace glr
 		void enable();
 		void disable();
 
+		void setValue(const std::string& name, float value);
+		void setValue(const std::string& name, const Vector2& value);
+		void setValue(const std::string& name, const Vector3& value);
+		void setValue(const std::string& name, const Matrix4& value);
+		//void setValue(const std::string& name, const GLBuffer_Ptr& value, int textureUnit = -1);
+
 	private:
 		typedef std::map<uint, uint> SubShaderMap;
 		void compileSubShader(uint subShader);
