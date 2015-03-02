@@ -4,15 +4,21 @@
 
 #include <vector>
 
+#include <GL/glew.h>
+
 namespace glr
 {
-	class BaseGlBuffer
+	class GLRENDERAPI BaseGlBuffer
 	{
 	public:
-		virtual ~BaseGlBuffer()
-		{
+		BaseGlBuffer();
+		virtual ~BaseGlBuffer();
 
-		}
+		virtual void bind();
+		virtual void unbind();
+
+	private:
+		uint m_buffer;
 	};
 
 	template<class ELEMENT_TYPE>
@@ -37,6 +43,8 @@ namespace glr
 	    //GlBuffer(const GlBuffer&) = delete;
 	    //GlBuffer& operator=(const GlBuffer&) = delete;
 
+		void copyToGPU();
+
 		element_type* data();
 
 		size_type size();
@@ -46,7 +54,18 @@ namespace glr
 		const element_type& operator[](size_type i) const;
 
 	private:
-		buffer_type m_buffer;
+		buffer_type m_data;
+	};
+
+	template<class ELEMENT_TYPE>
+	class VertexBuffer : public GlBuffer<ELEMENT_TYPE>
+	{
+		VertexBuffer();
+		VertexBuffer(size_type size);
+		virtual ~VertexBuffer();
+
+		virtual void bind();
+		virtual void unbind();
 	};
 
 	template<class ELEMENT_TYPE>
@@ -57,7 +76,7 @@ namespace glr
 
 	template<class ELEMENT_TYPE>
 	GlBuffer<ELEMENT_TYPE>::GlBuffer(typename GlBuffer<ELEMENT_TYPE>::size_type size) :
-		m_buffer(size)
+		m_data(size)
 	{
 
 	}
@@ -72,44 +91,97 @@ namespace glr
 	template<class ELEMENT_TYPE>
 	GlBuffer<ELEMENT_TYPE>::GlBuffer(GlBuffer<ELEMENT_TYPE>&& o)
 	{
-		m_buffer = std::move(o.m_buffer);
+		m_data = std::move(o.m_data);
 	}
 
 	template<class ELEMENT_TYPE>
 	GlBuffer<ELEMENT_TYPE>& GlBuffer<ELEMENT_TYPE>::operator=(GlBuffer<ELEMENT_TYPE>&& o)
 	{
-		m_buffer = std::move(o.m_buffer);
+		m_data = std::move(o.m_data);
 		return *this;
+	}
+
+	template<class ELEMENT_TYPE>
+	void GlBuffer<ELEMENT_TYPE>::copyToGPU()
+	{
+		bind();
+		glBufferData(GL_ARRAY_BUFFER, m_data.size() * sizeof(ELEMENT_TYPE), (void*)data(), GL_STATIC_DRAW);
+		unbind();
 	}
 
 	template<class ELEMENT_TYPE>
 	typename GlBuffer<ELEMENT_TYPE>::element_type* GlBuffer<ELEMENT_TYPE>::data()
 	{
-		return &m_buffer.front();
+		return &m_data.front();
 	}
 
 	template<class ELEMENT_TYPE>
 	typename GlBuffer<ELEMENT_TYPE>::size_type GlBuffer<ELEMENT_TYPE>::size()
 	{
-		return m_buffer.size();
+		return m_data.size();
 	}
 
 	template<class ELEMENT_TYPE>
 	void GlBuffer<ELEMENT_TYPE>::resize(size_type size)
 	{
-		m_buffer.resize(size);
+		m_data.resize(size);
 	}
 
 	template<class ELEMENT_TYPE>
 	typename GlBuffer<ELEMENT_TYPE>::element_type& GlBuffer<ELEMENT_TYPE>::operator[](size_type i)
 	{
-		return m_buffer[i];
+		return m_data[i];
 	}
 
 	template<class ELEMENT_TYPE>
 	const typename GlBuffer<ELEMENT_TYPE>::element_type& GlBuffer<ELEMENT_TYPE>::operator[](size_type i) const
 	{
-		return m_buffer[i];
+		return m_data[i];
+	}
+
+	class VertexHandler
+	{
+	public:
+		VertexHandler(uint stride);
+
+	protected:
+		uint m_stride;
+		uint m_offset;
+		uint m_count;
+	};
+
+	class VertexEnabler : public VertexHandler
+	{
+	public:
+		VertexEnabler(uint stride);
+
+		template<class ATTRIB_TYPE>
+		VertexEnabler& attrib();
+	};
+
+	class VertexDisabler : public VertexHandler
+	{
+	public:
+		VertexDisabler(uint stride);
+
+		template<class ATTRIB_TYPE>
+		VertexDisabler& attrib();
+	};
+
+	template<class ELEMENT_TYPE>
+	void VertexBuffer<ELEMENT_TYPE>::bind()
+	{
+		GlBuffer<ELEMENT_TYPE>::bind();
+		VertexEnabler enabler;
+		ELEMENT_TYPE::Enable(enabler);
+	}
+
+	template<class ELEMENT_TYPE>
+	void VertexBuffer<ELEMENT_TYPE>::unbind()
+	{
+		VertexDisabler disabler;
+		ELEMENT_TYPE::Disable(disabler);
+		GlBuffer<ELEMENT_TYPE>::unbind();
 	}
 
 	typedef GlBuffer<uint> IndexBuffer;

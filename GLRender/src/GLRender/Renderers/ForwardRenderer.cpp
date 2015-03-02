@@ -5,7 +5,7 @@
 
 namespace glr
 {
-	void ForwardRenderer::draw(World& world, float deltaTime)
+	void ForwardRenderer::draw(World& world, float /*deltaTime*/)
 	{
 		std::shared_ptr<const ModelComponent> cModel;
 		std::shared_ptr<const TransformComponent> cTransform;
