@@ -85,4 +85,12 @@ namespace glr
 			}
 		}
 	}
+
+	void Model::draw() const
+	{
+		for (Meshes::const_iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+		{
+			it->draw();
+		}
+	}
 }

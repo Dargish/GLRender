@@ -95,8 +95,6 @@ namespace glr
 			myfile.close();
 		}
 
-		std::cerr << source << std::endl;
-
 		addSubShader(source, shaderType);
 	}
 

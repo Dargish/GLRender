@@ -1,5 +1,7 @@
 #include <GLRender/World/World.h>
 #include <GLRender/Component/ModelComponent.h>
+#include <GLRender/Component/TransformComponent.h>
+#include <GLRender/Component/MaterialComponent.h>
 
 namespace glr
 {
@@ -68,6 +70,8 @@ namespace glr
 		Entity& model = createEntity(name);
 		std::shared_ptr<ModelComponent> modelComponent = model.addComponent<ModelComponent>();
 		modelComponent->model.load(modelPath);
+		model.addComponent<TransformComponent>();
+		model.addComponent<MaterialComponent>();
 		return model;
 	}
 

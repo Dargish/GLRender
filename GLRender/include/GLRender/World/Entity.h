@@ -32,10 +32,10 @@ namespace glr
 		std::shared_ptr<const T> component() const;
 
 		template<class T>
-		bool getComponent(std::shared_ptr<T> comp);
+		bool getComponent(std::shared_ptr<T>& comp);
 
 		template<class T>
-		bool getComponent(std::shared_ptr<const T> comp) const;
+		bool getComponent(std::shared_ptr<const T>& comp) const;
 
 		template<class T>
 		ComponentVector components();
@@ -85,7 +85,7 @@ namespace glr
 	}
 
 	template<class T>
-	bool Entity::getComponent(std::shared_ptr<T> comp)
+	bool Entity::getComponent(std::shared_ptr<T>& comp)
 	{
 		ComponentVector::iterator it = m_components.begin();
 		for (; it != m_components.end(); ++it)
@@ -100,7 +100,7 @@ namespace glr
 	}
 
 	template<class T>
-	bool Entity::getComponent(std::shared_ptr<const T> comp) const
+	bool Entity::getComponent(std::shared_ptr<const T>& comp) const
 	{
 		ComponentVector::const_iterator it = m_components.begin();
 		for (; it != m_components.end(); ++it)
