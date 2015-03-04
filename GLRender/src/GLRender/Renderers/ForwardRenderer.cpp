@@ -25,6 +25,8 @@ namespace glr
 		shader.setValue("world", Matrix4());
 		shader.setValue("world_it", Matrix4());
 
+		shader.enable();
+
 		std::shared_ptr<const ModelComponent> cModel;
 		std::shared_ptr<const TransformComponent> cTransform;
 		std::shared_ptr<const MaterialComponent> cMaterial;
@@ -36,5 +38,7 @@ namespace glr
 				cModel->model.draw();
 			}
 		}
+
+		shader.disable();
 	}
 }

@@ -15,11 +15,28 @@ namespace glr
 
 	void BaseGlBuffer::bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		glBindBuffer(bufferType(), m_buffer);
 	}
 
 	void BaseGlBuffer::unbind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(bufferType(), 0);
+	}
+
+
+	IndexBuffer::IndexBuffer()
+	{
+
+	}
+
+	IndexBuffer::IndexBuffer(typename GlBuffer<uint>::size_type size) :
+		GlBuffer<uint>(size)
+	{
+		
+	}
+
+	uint IndexBuffer::bufferType() const
+	{
+		return GL_ELEMENT_ARRAY_BUFFER;
 	}
 }

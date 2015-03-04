@@ -74,6 +74,8 @@ namespace glr
 				}
 			}
 
+			vertexBuffer.copyToGPU();
+
 			for (uint f = 0; f < mesh->mNumFaces; ++f)
 			{
 				aiFace* face = &mesh->mFaces[f];
@@ -83,6 +85,8 @@ namespace glr
 				indexBuffer[baseIndex + 1] = face->mIndices[1];
 				indexBuffer[baseIndex + 2] = face->mIndices[2];
 			}
+			
+			indexBuffer.copyToGPU();
 		}
 	}
 

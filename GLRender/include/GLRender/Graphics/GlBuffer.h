@@ -16,6 +16,7 @@ namespace glr
 
 		virtual void bind() const;
 		virtual void unbind() const;
+		virtual uint bufferType() const = 0;
 
 	private:
 		uint m_buffer;
@@ -35,8 +36,8 @@ namespace glr
 		virtual ~GlBuffer();
 
 		// Movable
-		GlBuffer(GlBuffer&& o);
-		GlBuffer& operator=(GlBuffer&& o);
+		//GlBuffer(GlBuffer&& o);
+		//GlBuffer& operator=(GlBuffer&& o);
 		
 		// Commented out, needs to go in a vector
 		// Noncopyable
@@ -57,16 +58,25 @@ namespace glr
 		buffer_type m_data;
 	};
 
+	class IndexBuffer : public GlBuffer<uint>
+	{
+	public:
+		IndexBuffer();
+		IndexBuffer(typename GlBuffer<uint>::size_type size);
+
+		virtual uint bufferType() const;		
+	};
+
 	template<class VERTEX_TYPE>
 	class BaseVertexBuffer : public GlBuffer<VERTEX_TYPE>
 	{
 	public:
 		BaseVertexBuffer();
-		BaseVertexBuffer(size_type size);
-		virtual ~BaseVertexBuffer();
+		BaseVertexBuffer(typename GlBuffer<VERTEX_TYPE>::size_type size);
 
 		virtual void bind() const;
 		virtual void unbind() const;
+		virtual uint bufferType() const;
 	};
 
 	template<class ELEMENT_TYPE>
@@ -89,24 +99,24 @@ namespace glr
 	}
 
 	// Movable
-	template<class ELEMENT_TYPE>
-	GlBuffer<ELEMENT_TYPE>::GlBuffer(GlBuffer<ELEMENT_TYPE>&& o)
-	{
-		m_data = std::move(o.m_data);
-	}
+	//template<class ELEMENT_TYPE>
+	//GlBuffer<ELEMENT_TYPE>::GlBuffer(GlBuffer<ELEMENT_TYPE>&& o)
+	//{
+	//	m_data = std::move(o.m_data);
+	//}
 
-	template<class ELEMENT_TYPE>
-	GlBuffer<ELEMENT_TYPE>& GlBuffer<ELEMENT_TYPE>::operator=(GlBuffer<ELEMENT_TYPE>&& o)
-	{
-		m_data = std::move(o.m_data);
-		return *this;
-	}
+	//template<class ELEMENT_TYPE>
+	//GlBuffer<ELEMENT_TYPE>& GlBuffer<ELEMENT_TYPE>::operator=(GlBuffer<ELEMENT_TYPE>&& o)
+	//{
+	//	m_data = std::move(o.m_data);
+	//	return *this;
+	//}
 
 	template<class ELEMENT_TYPE>
 	void GlBuffer<ELEMENT_TYPE>::copyToGPU()
 	{
 		bind();
-		glBufferData(GL_ARRAY_BUFFER, m_data.size() * sizeof(ELEMENT_TYPE), (void*)data(), GL_STATIC_DRAW);
+		glBufferData(bufferType(), m_data.size() * sizeof(ELEMENT_TYPE), (void*)data(), GL_STATIC_DRAW);
 		unbind();
 	}
 
@@ -147,14 +157,8 @@ namespace glr
 	}
 
 	template<class VERTEX_TYPE>
-	BaseVertexBuffer<VERTEX_TYPE>::BaseVertexBuffer(size_type size) :
+	BaseVertexBuffer<VERTEX_TYPE>::BaseVertexBuffer(typename GlBuffer<VERTEX_TYPE>::size_type size) :
 		GlBuffer<VERTEX_TYPE>(size)
-	{
-
-	}
-
-	template<class VERTEX_TYPE>
-	BaseVertexBuffer<VERTEX_TYPE>::~BaseVertexBuffer()
 	{
 
 	}
@@ -173,5 +177,9 @@ namespace glr
 		VERTEX_TYPE::Disable();
 	}
 
-	typedef GlBuffer<uint> IndexBuffer;
+	template<class VERTEX_TYPE>
+	uint BaseVertexBuffer<VERTEX_TYPE>::bufferType() const
+	{
+		return GL_ARRAY_BUFFER;
+	}
 }
