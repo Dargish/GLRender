@@ -20,7 +20,7 @@ namespace glr
 	};
 
 	template<class VERTEX_TYPE>
-	class GLRENDERAPI Mesh : public BaseMesh
+	class Mesh : public BaseMesh
 	{
 	public:
 		typedef BaseVertexBuffer<VERTEX_TYPE> VertexBuffer;

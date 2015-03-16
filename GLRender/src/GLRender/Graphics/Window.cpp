@@ -27,6 +27,7 @@ namespace glr
 		sf::VideoMode videoMode(width, height);
 		sf::ContextSettings contextSettings(32, 0, 4, 4, 5);
 		m_internal.reset(new sf::RenderWindow(videoMode, title, sf::Style::Default, contextSettings));
+		glViewport(0, 0, width, height);
 	}
 
 	void Window::create(WindowHandle handle)

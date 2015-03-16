@@ -16,6 +16,11 @@ namespace glr
 		load(path);
 	}
 
+	Model::Model(const MeshType& mesh)
+	{
+		addMesh(mesh);
+	}
+
 	void Model::load(const string& path)
 	{
 		Assimp::Importer importer;
@@ -88,6 +93,11 @@ namespace glr
 			
 			indexBuffer.copyToGPU();
 		}
+	}
+
+	void Model::addMesh(const MeshType& mesh)
+	{
+		m_meshes.push_back(mesh);
 	}
 
 	void Model::draw() const

@@ -17,23 +17,23 @@ namespace glr
 		{
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, uv));
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, normal));
-			glEnableVertexAttribArray(3);
-			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, tangent));
-			glEnableVertexAttribArray(4);
-			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, binormal));
+			//glEnableVertexAttribArray(1);
+			//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, uv));
+			//glEnableVertexAttribArray(2);
+			//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, normal));
+			//glEnableVertexAttribArray(3);
+			//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, tangent));
+			//glEnableVertexAttribArray(4);
+			//glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(PUNTBVertex), (void*)offsetof(PUNTBVertex, binormal));
 		}
 
 		static void Disable()
 		{
 			glDisableVertexAttribArray(0);
-			glDisableVertexAttribArray(1);
-			glDisableVertexAttribArray(2);
-			glDisableVertexAttribArray(3);
-			glDisableVertexAttribArray(4);
+//			glDisableVertexAttribArray(1);
+//			glDisableVertexAttribArray(2);
+//			glDisableVertexAttribArray(3);
+//			glDisableVertexAttribArray(4);
 		}
 	};
 
@@ -45,8 +45,11 @@ namespace glr
 
 		Model();
 		Model(const string& path);
+		Model(const MeshType& mesh);
 
 		void load(const string& path);
+
+		void addMesh(const MeshType& mesh);
 
 		void draw() const;
 

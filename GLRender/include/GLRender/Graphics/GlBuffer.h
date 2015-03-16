@@ -62,7 +62,7 @@ namespace glr
 	{
 	public:
 		IndexBuffer();
-		IndexBuffer(typename GlBuffer<uint>::size_type size);
+		IndexBuffer(GlBuffer<uint>::size_type size);
 
 		virtual uint bufferType() const;		
 	};

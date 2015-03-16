@@ -29,7 +29,7 @@ namespace glr
 
 	}
 
-	IndexBuffer::IndexBuffer(typename GlBuffer<uint>::size_type size) :
+	IndexBuffer::IndexBuffer(GlBuffer<uint>::size_type size) :
 		GlBuffer<uint>(size)
 	{
 		
