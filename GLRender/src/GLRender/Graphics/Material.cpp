@@ -14,6 +14,6 @@ namespace glr
 
 	void Material::load(const string& path)
 	{
-		
+		(void)path;
 	}
 }

@@ -15,6 +15,11 @@ namespace glr
 
 	}
 
+	Game::~Game()
+	{
+		
+	}
+
 	int Game::run()
 	{
 		sf::Clock clock;
@@ -77,6 +82,11 @@ namespace glr
 		return m_window;
 	}
 
+	void Game::setRenderer(const std::shared_ptr<Renderer>& renderer)
+	{
+		m_renderer = renderer;
+	}
+
 	long Game::frameTimeLimit() const
 	{
 		return m_frameTimeLimit;
@@ -103,7 +113,8 @@ namespace glr
 	{
 		if (m_renderer.get())
 		{
-			m_renderer->draw(m_world, deltaTime);
+			Entity& camera = m_world.entity(activeCamera());
+			m_renderer->draw(camera, m_world, deltaTime);
 		}
 	}
 

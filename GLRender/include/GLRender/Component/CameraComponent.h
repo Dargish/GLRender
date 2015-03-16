@@ -11,12 +11,17 @@ namespace glr
 
 	struct CameraComponent : public Component
 	{
+		// Modified by user
 		float near;
 		float far;
 		float fieldOfView;
+
+		// Modified when window size changes
+		Vector2 viewportSize;
+
+		// Modified by camera system
 		Matrix4 projMatrix;
 		Matrix4 viewMatrix;
-		Vector2 viewportSize;
 		Frustum frustum;
 
 		CameraComponent() : near(0.01f), far(10000.0f), fieldOfView(60.0f) {}

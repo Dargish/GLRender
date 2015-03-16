@@ -1,5 +1,6 @@
 #include <GLRender/World/World.h>
 #include <GLRender/Component/ModelComponent.h>
+#include <GLRender/Component/CameraComponent.h>
 #include <GLRender/Component/TransformComponent.h>
 #include <GLRender/Component/MaterialComponent.h>
 
@@ -75,10 +76,11 @@ namespace glr
 		return model;
 	}
 
-	Camera World::addCamera(const string& name)
+	Entity& World::addCamera(const string& name)
 	{
-		Entity& cameraEntity = createEntity(name);
-		Camera camera(cameraEntity);
+		Entity& camera = createEntity(name);
+		camera.addComponent<CameraComponent>();
+		camera.addComponent<TransformComponent>();
 		return camera;
 	}
 }

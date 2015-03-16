@@ -90,5 +90,5 @@ endfunction()
 ##########
 
 add_subdirectory(GLRender)
-add_subdirectory(Tests)
+#add_subdirectory(Tests)
 add_subdirectory(Pioneer)

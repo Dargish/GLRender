@@ -12,6 +12,7 @@ namespace glr
 	{
 	public:
 		Game();
+		virtual ~Game();
 
 		int run();
 
@@ -29,9 +30,13 @@ namespace glr
 
 		template<class T>
 		std::shared_ptr<T> setRenderer();
+		void setRenderer(const std::shared_ptr<Renderer>& renderer);
 
 		long frameTimeLimit() const;
 		void setFrameTimeLimit(long frameTimeLimit);
+
+	protected:
+		virtual const string& activeCamera() const = 0;
 
 	private:
 		void update(float deltaTime);

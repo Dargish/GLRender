@@ -10,7 +10,7 @@ namespace glr
 	public:
 		ForwardRenderer();
 
-		virtual void draw(World& world, float /*deltaTime*/);
+		virtual void draw(Entity& camera, World& world, float deltaTime);
 
 	private:
 		Shader m_shader;

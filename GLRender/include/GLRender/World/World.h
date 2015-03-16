@@ -2,7 +2,6 @@
 
 #include <GLRender/DataTypes.h>
 #include <GLRender/World/Entity.h>
-#include <GLRender/Graphics/Camera.h>
 
 #include <map>
 #include <vector>
@@ -40,7 +39,7 @@ namespace glr
 
 		// Helper methods
 		Entity& addModel(const string& name, const string& modelPath);
-		Camera addCamera(const string& name);
+		Entity& addCamera(const string& name);
 
 	private:
 		EntityMap m_entities;

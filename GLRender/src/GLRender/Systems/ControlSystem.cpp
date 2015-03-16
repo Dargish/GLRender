@@ -4,6 +4,7 @@ namespace glr
 {
 	void ControlSystem::update(World& world, float deltaTime)
 	{
-		
+		(void)world;
+		(void)deltaTime;
 	}
 }

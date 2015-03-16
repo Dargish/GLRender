@@ -134,7 +134,7 @@ namespace glr
 
 	void Shader::setValue(const std::string& name, float value)
 	{
-		uint loc = glGetUniformLocation(m_program, name.c_str());
+		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
 			glUniform1f(loc, value);
@@ -143,7 +143,7 @@ namespace glr
 
 	void Shader::setValue(const std::string& name, const Vector2& value)
 	{
-		uint loc = glGetUniformLocation(m_program, name.c_str());
+		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
 			glUniform2fv(loc, 1, glm::value_ptr(value));
@@ -152,7 +152,7 @@ namespace glr
 
 	void Shader::setValue(const std::string& name, const Vector3& value)
 	{
-		uint loc = glGetUniformLocation(m_program, name.c_str());
+		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
 			glUniform3fv(loc, 1, glm::value_ptr(value));
@@ -161,7 +161,7 @@ namespace glr
 
 	void Shader::setValue(const std::string& name, const Matrix4& value)
 	{
-		uint loc = glGetUniformLocation(m_program, name.c_str());
+		int loc = glGetUniformLocation(m_program, name.c_str());
 		if (loc > -1)
 		{
 			glUniformMatrix4fv(loc, 1, false, glm::value_ptr(value));

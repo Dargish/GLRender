@@ -13,12 +13,12 @@ namespace glr
 		m_shader.link();
 	}
 
-	void ForwardRenderer::draw(World& world, float /*deltaTime*/)
+	void ForwardRenderer::draw(Entity& camera, World& world, float /*deltaTime*/)
 	{
-		//glEnable(GL_DEPTH_TEST);
-		//glDepthMask(true);
-		//glDisable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(true);
+		glDisable(GL_BLEND);
+		//glDisable(GL_CULL_FACE);
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
