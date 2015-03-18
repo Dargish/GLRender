@@ -22,5 +22,8 @@ void main(void)
 	// g_color = vec4(c, r);
 	// g_normal = vec4(f_normal, m);
 	// g_depth = vec4(d, 0.0, 0.0, 0.0);
-	fragColor = vec4(c, 1.0);
+	vec3 eye_dir = normalize(f_worldPos - eyePos);
+	float col = dot(eye_dir, f_normal);
+	fragColor = vec4(vec3(col * 0.5 + 0.5), 1.0);
+	fragColor = vec4(f_worldPos, 1.0);
 }

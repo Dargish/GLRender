@@ -1,44 +1,48 @@
 #pragma once
 
 #include <GLRender/DataTypes.h>
-
 #include <GLRender/Component/Component.h>
+
+#include <vector>
+#include <algorithm>
 
 namespace glr
 {
+	typedef std::shared_ptr<Component> Component_Ptr;
+	typedef std::vector<Component_Ptr> ComponentVector;
+	
 	class GLRENDERAPI Entity
 	{
 	public:
-		Entity();
+		typedef ComponentVector::size_type size_type;
+		typedef ComponentVector::iterator iterator;
+		typedef ComponentVector::const_iterator const_iterator;
+
 		Entity(const string& name);
-
-		// Movable
-		Entity(Entity&& o);
-		Entity& operator=(Entity&& o);
-
-		// Noncopyable
-		Entity(const Entity&) = delete;
-		Entity& operator=(const Entity&) = delete;
 
 		const string& name() const;
 
-		template<class T>
-		std::shared_ptr<T> addComponent();
+		iterator begin();
+		const_iterator begin() const;
+		iterator end();
+		const_iterator end() const;
 
-		template<class T>
-		std::shared_ptr<T> component();
+		size_type size() const;
 
-		template<class T>
-		std::shared_ptr<const T> component() const;
+		template<class COMP_TYPE>
+		std::shared_ptr<COMP_TYPE> addComponent();
 
-		template<class T>
-		bool getComponent(std::shared_ptr<T>& comp);
+		template<class COMP_TYPE>
+		std::shared_ptr<COMP_TYPE> component();
 
-		template<class T>
-		bool getComponent(std::shared_ptr<const T>& comp) const;
+		template<class COMP_TYPE>
+		std::shared_ptr<const COMP_TYPE> component() const;
 
-		template<class T>
-		ComponentVector components();
+		template<class COMP_TYPE>
+		bool getComponent(std::shared_ptr<COMP_TYPE>& ptr);
+
+		template<class COMP_TYPE>
+		bool getComponent(std::shared_ptr<const COMP_TYPE>& ptr) const;
 
 	private:
 		string m_name;
@@ -46,87 +50,55 @@ namespace glr
 		ComponentVector m_components;
 	};
 
-	template<class T>
-	std::shared_ptr<T> Entity::addComponent()
+	template<class COMP_TYPE>
+	std::shared_ptr<COMP_TYPE> Entity::addComponent()
 	{
-		std::shared_ptr<T> ptr(new T);
+		std::shared_ptr<COMP_TYPE> ptr(new COMP_TYPE);
 		m_components.push_back(ptr);
 		return ptr;
 	}
 
-	template<class T>
-	std::shared_ptr<T> Entity::component()
+	template<class COMP_TYPE>
+	std::shared_ptr<COMP_TYPE> Entity::component()
 	{
-		ComponentVector::iterator it = m_components.begin();
-		for (; it != m_components.end(); ++it)
-		{
-			std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(*it);
-			if (ptr)
+		std::shared_ptr<COMP_TYPE> ptr;
+		std::find_if(begin(), end(),
+			[&ptr](auto& c)
 			{
-				return ptr;
-			}
-		}
-		return std::shared_ptr<T>();
+				ptr = std::dynamic_pointer_cast<COMP_TYPE>(c); return bool(ptr);
+			});
+		return ptr;
 	}
 
-	template<class T>
-	std::shared_ptr<const T> Entity::component() const
+	template<class COMP_TYPE>
+	std::shared_ptr<const COMP_TYPE> Entity::component() const
 	{
-		ComponentVector::const_iterator it = m_components.begin();
-		for (; it != m_components.end(); ++it)
-		{
-			std::shared_ptr<const T> ptr = std::dynamic_pointer_cast<const T>(*it);
-			if (ptr)
+		std::shared_ptr<const COMP_TYPE> ptr;
+		std::find_if(begin(), end(),
+			[&ptr](const auto& c)
 			{
-				return ptr;
-			}
-		}
-		return std::shared_ptr<const T>();
+				ptr = std::dynamic_pointer_cast<const COMP_TYPE>(c); return bool(ptr);
+			});
+		return ptr;
 	}
 
-	template<class T>
-	bool Entity::getComponent(std::shared_ptr<T>& comp)
+	template<class COMP_TYPE>
+	bool Entity::getComponent(std::shared_ptr<COMP_TYPE>& ptr)
 	{
-		ComponentVector::iterator it = m_components.begin();
-		for (; it != m_components.end(); ++it)
-		{
-			comp = std::dynamic_pointer_cast<T>(*it);
-			if (comp)
+		return std::find_if(begin(), end(),
+			[&ptr](auto& c)
 			{
-				return true;
-			}
-		}
-		return false;
+				ptr = std::dynamic_pointer_cast<COMP_TYPE>(c); return bool(ptr);
+			}) != end();
 	}
 
-	template<class T>
-	bool Entity::getComponent(std::shared_ptr<const T>& comp) const
+	template<class COMP_TYPE>
+	bool Entity::getComponent(std::shared_ptr<const COMP_TYPE>& ptr) const
 	{
-		ComponentVector::const_iterator it = m_components.begin();
-		for (; it != m_components.end(); ++it)
-		{
-			comp = std::dynamic_pointer_cast<const T>(*it);
-			if (comp)
+		return std::find_if(begin(), end(),
+			[&ptr](const auto& c)
 			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	template<class T>
-	ComponentVector Entity::components()
-	{
-		ComponentVector ret;
-		ComponentVector::iterator it = m_components.begin();
-		for (; it != m_components.end(); ++it)
-		{
-			std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(*it);
-			if (ptr)
-			{
-				ret.push_back(ptr);
-			}
-		}
-		return ret;
+				ptr = std::dynamic_pointer_cast<const COMP_TYPE>(c); return bool(ptr);
+			}) != end();
 	}
 }

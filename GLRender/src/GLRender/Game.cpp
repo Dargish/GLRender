@@ -9,10 +9,15 @@ namespace glr
 	// Public
 
 	Game::Game() :
-		m_glewInitted(false),
 		m_frameTimeLimit(16666)
 	{
-
+		m_window.create(1280, 720, "GLRender");
+		glewExperimental = true;
+		GLenum err = glewInit();
+		if (err != GLEW_OK)
+		{
+			throw std::runtime_error(string("glewInit() failed: ") + string((char*)glewGetErrorString(err)));
+		}
 	}
 
 	Game::~Game()
@@ -49,29 +54,6 @@ namespace glr
 		return 0;
 	}
 
-	World& Game::world()
-	{
-		return m_world;
-	}
-
-	const World& Game::world() const
-	{
-		return m_world;
-	}
-
-	Window& Game::showWindow(uint width, uint height, string title /*= "GLRender"*/)
-	{
-		m_window.create(width, height, title);
-		initGlew();
-		return m_window;
-	}
-
-	Window& Game::showWindow(WindowHandle handle)
-	{
-		m_window.create(handle);
-		return m_window;
-	}
-
 	Window& Game::window()
 	{
 		return m_window;
@@ -80,11 +62,6 @@ namespace glr
 	const Window& Game::window() const
 	{
 		return m_window;
-	}
-
-	void Game::setRenderer(const std::shared_ptr<Renderer>& renderer)
-	{
-		m_renderer = renderer;
 	}
 
 	long Game::frameTimeLimit() const
@@ -98,39 +75,15 @@ namespace glr
 	}
 
 
-	// Private
+	// Protected
 
-	void Game::update(float deltaTime)
+	void Game::update(float /*deltaTime*/)
 	{
-		SystemVector::iterator it = m_systems.begin();
-		for (; it != m_systems.end(); ++it)
-		{
-			(*it)->update(m_world, deltaTime);
-		}
+		
 	}
 
-	void Game::draw(float deltaTime)
+	void Game::draw(float /*deltaTime*/)
 	{
-		if (m_renderer.get())
-		{
-			Entity& camera = m_world.entity(activeCamera());
-			m_renderer->draw(camera, m_world, deltaTime);
-		}
-	}
-
-	void Game::initGlew()
-	{
-		if (!m_glewInitted)
-		{
-			glewExperimental = true;
-			GLenum err = glewInit();
-			if (err != GLEW_OK)
-			{
-				throw std::runtime_error(string("glewInit() failed: ") + string((char*)glewGetErrorString(err)));
-			}
-			glEnable(GL_CULL_FACE);
-			glEnable(GL_DEPTH_TEST);
-			m_glewInitted = true;
-		}
+		
 	}
 }

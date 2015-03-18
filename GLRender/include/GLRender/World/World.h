@@ -4,35 +4,31 @@
 #include <GLRender/World/Entity.h>
 
 #include <map>
-#include <vector>
 
 namespace glr
 {
+	typedef std::map<string, Entity> EntityMap;
+
 	class GLRENDERAPI World
 	{
 	public:
-		typedef std::map<string, Entity> EntityMap;
+		typedef EntityMap::size_type size_type;
+		typedef EntityMap::iterator iterator;
+		typedef EntityMap::const_iterator const_iterator;
 
 		World();
-
-		// Movable
-		World(World&& o);
-		World& operator=(World&& o);
-
-		// Noncopyable
-	    World(const World&) = delete;
-	    World& operator=(const World&) = delete;
 
 		// Entity creation
 		Entity& createEntity(const string& name);
 		Entity& entity(const string& name);
 
 		// Iterator methods
-		EntityMap::iterator begin();
-		EntityMap::const_iterator begin() const;
-		
-		EntityMap::iterator end();
-		EntityMap::const_iterator end() const;
+		iterator begin();
+		const_iterator begin() const;		
+		iterator end();
+		const_iterator end() const;
+
+		size_type size() const;
 
 		// Find methods
 		bool hasEntity(const string& name);

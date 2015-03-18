@@ -16,8 +16,9 @@ namespace glr
 		Window();
 		virtual ~Window();
 
-		void create(uint width, uint height, string title = "GLRender");
-		void create(WindowHandle handle);
+		void create(uint width, uint height, string title);
+
+		void setTitle(const string& title);
 
 		bool isOpen() const;
 		void show();

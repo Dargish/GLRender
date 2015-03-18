@@ -11,17 +11,6 @@ namespace glr
 
 	}
 
-	World::World(World&& o)
-	{
-		m_entities = std::move(o.m_entities);
-	}
-
-	World& World::operator=(World&& o)
-	{
-		m_entities = std::move(o.m_entities);
-		return *this;
-	}
-
 	Entity& World::createEntity(const string& name)
 	{
 		auto result = m_entities.emplace(name, Entity(name));
@@ -30,7 +19,7 @@ namespace glr
 
 	Entity& World::entity(const string& name)
 	{
-		EntityMap::iterator it = m_entities.find(name);
+		iterator it = m_entities.find(name);
 		if (it != m_entities.end())
 		{
 			return it->second;
@@ -41,24 +30,29 @@ namespace glr
 		}
 	}
 
-	World::EntityMap::iterator World::begin()
+	World::iterator World::begin()
 	{
 		return m_entities.begin();
 	}
 
-	World::EntityMap::const_iterator World::begin() const
+	World::const_iterator World::begin() const
 	{
 		return m_entities.begin();
 	}
 
-	World::EntityMap::iterator World::end()
+	World::iterator World::end()
 	{
 		return m_entities.end();
 	}
 
-	World::EntityMap::const_iterator World::end() const
+	World::const_iterator World::end() const
 	{
 		return m_entities.end();
+	}
+
+	World::size_type World::size() const
+	{
+		return m_entities.size();
 	}
 
 	bool World::hasEntity(const string& name)

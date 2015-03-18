@@ -35,15 +35,6 @@ namespace glr
 		GlBuffer(size_type size);
 		virtual ~GlBuffer();
 
-		// Movable
-		//GlBuffer(GlBuffer&& o);
-		//GlBuffer& operator=(GlBuffer&& o);
-		
-		// Commented out, needs to go in a vector
-		// Noncopyable
-	    //GlBuffer(const GlBuffer&) = delete;
-	    //GlBuffer& operator=(const GlBuffer&) = delete;
-
 		void copyToGPU();
 
 		element_type* data();
@@ -97,20 +88,6 @@ namespace glr
 	{
 
 	}
-
-	// Movable
-	//template<class ELEMENT_TYPE>
-	//GlBuffer<ELEMENT_TYPE>::GlBuffer(GlBuffer<ELEMENT_TYPE>&& o)
-	//{
-	//	m_data = std::move(o.m_data);
-	//}
-
-	//template<class ELEMENT_TYPE>
-	//GlBuffer<ELEMENT_TYPE>& GlBuffer<ELEMENT_TYPE>::operator=(GlBuffer<ELEMENT_TYPE>&& o)
-	//{
-	//	m_data = std::move(o.m_data);
-	//	return *this;
-	//}
 
 	template<class ELEMENT_TYPE>
 	void GlBuffer<ELEMENT_TYPE>::copyToGPU()

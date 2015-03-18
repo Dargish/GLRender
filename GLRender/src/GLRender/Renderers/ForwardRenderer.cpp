@@ -1,5 +1,6 @@
 ﻿#include <GLRender/Renderer/ForwardRenderer.h>
 #include <GLRender/Component/ModelComponent.h>
+#include <GLRender/Component/CameraComponent.h>
 #include <GLRender/Component/TransformComponent.h>
 #include <GLRender/Component/MaterialComponent.h>
 #include <GL/glew.h>
@@ -13,7 +14,7 @@ namespace glr
 		m_shader.link();
 	}
 
-	void ForwardRenderer::draw(Entity& camera, World& world, float /*deltaTime*/)
+	void ForwardRenderer::draw(Entity& cameraEntity, World& world, float /*deltaTime*/)
 	{
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(true);
@@ -24,22 +25,35 @@ namespace glr
 
 		m_shader.enable();
 
-		m_shader.setValue("eyePos", Vector3(0, 0, 0));
-		m_shader.setValue("proj", Matrix4());
-		m_shader.setValue("view", Matrix4());
+		{
+			std::shared_ptr<const CameraComponent> camera;
+			std::shared_ptr<const TransformComponent> transform;
+			if (cameraEntity.getComponent(camera) &&
+				cameraEntity.getComponent(transform))
+			{
+				m_shader.setValue("eyePos", transform->position);
+				m_shader.setValue("proj", camera->projMatrix);
+				m_shader.setValue("view", camera->viewMatrix);
+			}
+		}
+		
 		m_shader.setValue("world", Matrix4());
 		m_shader.setValue("world_it", Matrix4());
 
-		std::shared_ptr<const ModelComponent> cModel;
-		std::shared_ptr<const TransformComponent> cTransform;
-		std::shared_ptr<const MaterialComponent> cMaterial;
-		for (World::EntityMap::const_iterator it = world.begin(); it != world.end(); ++it)
 		{
-			const Entity& entity = it->second;
-			if (entity.getComponent(cModel) && entity.getComponent(cTransform) && entity.getComponent(cMaterial))
-			{
-				cModel->model.draw();
-			}
+			std::shared_ptr<const ModelComponent> model;
+			std::shared_ptr<const TransformComponent> transform;
+			std::shared_ptr<const MaterialComponent> material;
+			std::for_each(world.begin(), world.end(),
+				[&model, &transform, &material](auto& p)
+				{
+					if (p.second.getComponent(model) &&
+						p.second.getComponent(transform) &&
+						p.second.getComponent(material))
+					{
+						model->model.draw();
+					}
+				} );
 		}
 
 		m_shader.disable();

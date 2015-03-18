@@ -6,6 +6,7 @@ namespace glr
 {
 	class GLRENDERAPI ControlSystem : public System
 	{
+	public:
 		virtual void update(World& world, float deltaTime);
 	};
 }

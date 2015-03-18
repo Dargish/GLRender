@@ -2,32 +2,39 @@
 
 namespace glr
 {
-	Entity::Entity()
-	{
-
-	}
-
 	Entity::Entity(const string& name) :
 		m_name(name)
 	{
 
 	}
 
-	Entity::Entity(Entity&& o) :
-		m_name(std::move(o.m_name))
-	{
-		m_components = std::move(o.m_components);
-	}
-
-	Entity& Entity::operator=(Entity&& o)
-	{
-		m_name = std::move(o.m_name);
-		m_components = std::move(o.m_components);
-		return *this;
-	}
-
 	const string& Entity::name() const
 	{
 		return m_name;
+	}
+
+	Entity::iterator Entity::begin()
+	{
+		return m_components.begin();
+	}
+
+	Entity::const_iterator Entity::begin() const
+	{
+		return m_components.begin();
+	}
+
+	Entity::iterator Entity::end()
+	{
+		return m_components.end();
+	}
+
+	Entity::const_iterator Entity::end() const
+	{
+		return m_components.end();
+	}	
+
+	Entity::size_type Entity::size() const
+	{
+		return m_components.size();
 	}
 }

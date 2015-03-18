@@ -10,6 +10,6 @@ namespace glr
 	public:
 		virtual ~Renderer();
 
-		virtual void draw(Entity& camera, World& world, float deltaTime) = 0;
+		virtual void draw(Entity& cameraEntity, World& world, float deltaTime) = 0;
 	};
 }
